@@ -33,7 +33,6 @@ public class HelloController {
         String usuario = usuarioCampoTxt.getText();
         String contrasena = contrasenaCampoTxt.getText();
 
-        // Validación simple - puedes mejorarla después
         if (usuario.isEmpty() || contrasena.isEmpty()) {
             errorTexto.setText("Complete todos los campos");
             return;
@@ -56,16 +55,18 @@ public class HelloController {
 
     private void abrirListaClientes() {
         try {
+            // Obtener el Stage actual
+            Stage stageActual = (Stage) entrarBoton.getScene().getWindow();
+
+            // Cargar la nueva vista
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("ListaClientes.fxml"));
             Parent root = loader.load();
 
-            Stage stageTabla = new Stage();
-            stageTabla.setTitle("Lista de Clientes");
-            stageTabla.setScene(new Scene(root));
-            stageTabla.show();
+            // Cambiar la escena en el mismo Stage
+            stageActual.setTitle("Lista de Clientes");
+            stageActual.setScene(new Scene(root));
+            stageActual.centerOnScreen();
 
-            Stage stageLogin = (Stage) entrarBoton.getScene().getWindow();
-            stageLogin.close();
         } catch (IOException e) {
             errorTexto.setText("Error al abrir lista de Clientes");
             e.printStackTrace();
@@ -74,16 +75,18 @@ public class HelloController {
 
     private void abrirRegistro() {
         try {
+            // Obtener el Stage actual
+            Stage stageActual = (Stage) crearCuentaBoton.getScene().getWindow();
+
+            // Cargar la nueva vista
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("registro-view.fxml"));
             Parent root = loader.load();
 
-            Stage stageRegistro = new Stage();
-            stageRegistro.setTitle("Registro de Cliente");
-            stageRegistro.setScene(new Scene(root));
-            stageRegistro.show();
+            // Cambiar la escena en el mismo Stage
+            stageActual.setTitle("Registro de Cliente");
+            stageActual.setScene(new Scene(root));
+            stageActual.centerOnScreen();
 
-            Stage stageLogin = (Stage) crearCuentaBoton.getScene().getWindow();
-            stageLogin.close();
         } catch (IOException e) {
             errorTexto.setText("Error al abrir registro");
             e.printStackTrace();

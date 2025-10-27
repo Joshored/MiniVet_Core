@@ -1,48 +1,21 @@
 // Cliente.java
 package com.example.loginapp;
 
-/**
- * Modelo simple que representa un cliente.
- *
- * Campos:
- * - nombre: nombre(s) del cliente (no se inicializa en el constructor actual)
- * - apellidoPaterno, apellidoMaterno: apellidos utilizados por la vista para mostrar
- * - telefono, email, direccion: datos de contacto
- *
- * Observaciones:
- * - El constructor actual inicializa solo apellidos y datos de contacto; si necesitas
- *   incluir el nombre, añade un parámetro al constructor o usa setNombre().
- * - Este POJO (plain old Java object) se usa en la TableView del controlador para
- *   mostrar propiedades mediante PropertyValueFactory.
- */
 public class Cliente {
-    // Nombre del cliente (puede estar vacío/null si no se usa)
     private String nombre;
-
-    // Apellidos (usados para mostrar en la tabla)
     private String apellidoPaterno;
     private String apellidoMaterno;
-
-    // Datos de contacto
     private String telefono;
     private String email;
-
-    // Dirección completa (puede ser una cadena con calle, número, ciudad, etc.)
     private String direccion;
 
-    /**
-     * Constructor sin argumentos necesario para crear instancias vacías
-     * (por ejemplo cuando el formulario crea un nuevo cliente).
-     */
     public Cliente() {
     }
 
-    /**
-     * Constructor principal usado en el prototipo.
-     * Actualmente toma: apellido paterno, apellido materno, teléfono, email y dirección.
-     * Nota: no inicializa el campo "nombre".
-     */
-    public Cliente(String apellidoPaterno, String apellidoMaterno, String telefono, String email, String direccion) {
+    // Constructor actualizado que incluye el nombre
+    public Cliente(String nombre, String apellidoPaterno, String apellidoMaterno,
+                   String telefono, String email, String direccion) {
+        this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.telefono = telefono;
@@ -50,9 +23,7 @@ public class Cliente {
         this.direccion = direccion;
     }
 
-    // -------------------- Getters y Setters --------------------
-    // Se exponen para que PropertyValueFactory y otras partes de la UI puedan acceder a los valores.
-
+    // Getters y Setters
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
@@ -71,13 +42,7 @@ public class Cliente {
     public String getDireccion() { return direccion; }
     public void setDireccion(String direccion) { this.direccion = direccion; }
 
-    /**
-     * Método auxiliar que devuelve la dirección completa.
-     * Actualmente retorna exactamente el valor de "direccion"; si quieres
-     * formatearla (por ejemplo incluir ciudad, código postal) puedes cambiar
-     * esta implementación aquí sin afectar a las vistas que la consumen.
-     */
     public String getDireccionCompleta() {
-        return direccion; // Se puede formatear o construir a partir de varios campos
+        return direccion;
     }
 }

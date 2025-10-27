@@ -20,7 +20,7 @@
                 </TextField>
             </children>
         </HBox>
-        <TableView fx:id="tableView" prefHeight="248.0" prefWidth="600.0" style="-fx-background-color: #ffffff;">
+        <TableView fx:id="tablaClientes" prefHeight="248.0" prefWidth="600.0" style="-fx-background-color: #ffffff;">
             <columns>
                 <TableColumn fx:id="ColumnaApellidoP" prefWidth="94.66659545898438" text="Apellido P" />
                 <TableColumn fx:id="ColumnaApellidoM" prefWidth="92.0" text="Apellido M" />
@@ -34,8 +34,8 @@
                 <ButtonBar prefHeight="40.0" prefWidth="200.0">
                     <buttons>
                         <Button fx:id="nuevoCliente" mnemonicParsing="false" onAction="#nuevoClienteOnAction" style="-fx-background-color: #9f2d5b;" text="Nuevo" textFill="WHITE" />
-                        <Button fx:id="editarCliente" layoutX="125.0" layoutY="48.0" mnemonicParsing="false" onAction="#editarClienteOnAction" style="-fx-background-color: #9f2d5b;" text="Editar" textFill="WHITE" />
-                        <Button fx:id="eliminarCliente" layoutX="30.0" layoutY="47.0" mnemonicParsing="false" onAction="#eliminarClienteOnAction" style="-fx-background-color: #9f2d5b;" text="Eliminar" textFill="WHITE" />
+                        <Button fx:id="editarCliente" mnemonicParsing="false" onAction="#editarClienteOnAction" style="-fx-background-color: #9f2d5b;" text="Editar" textFill="WHITE" />
+                        <Button fx:id="eliminarCliente" mnemonicParsing="false" onAction="#eliminarClienteOnAction" style="-fx-background-color: #9f2d5b;" text="Eliminar" textFill="WHITE" />
                     </buttons>
                 </ButtonBar>
             </children>
