@@ -13,9 +13,19 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 520, 400);
+
         stage.initStyle(StageStyle.UNIFIED);
-        //stage.setTitle("Hello!");
+        stage.setTitle("MiniVet - Sistema de Gestión");
+
+        // Establecer tamaños mínimos para evitar que se vea mal
+        stage.setMinWidth(520);
+        stage.setMinHeight(400);
+
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static void main(String[] args) {
+        launch();
     }
 }
