@@ -13,7 +13,7 @@
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="63.0" prefWidth="600.0" style="-fx-background-color: #9f2d5b;">
          <children>
-            <TextField alignment="CENTER" promptText="Busqueda" style="-fx-background-color: #ffffff;">
+            <TextField fx:id="busquedaClientes" alignment="CENTER" promptText="Busqueda" style="-fx-background-color: #ffffff;">
                <font>
                   <Font name="Noto Sans Condensed Bold" size="13.0" />
                </font>
@@ -22,19 +22,20 @@
       </HBox>
       <TableView prefHeight="248.0" prefWidth="600.0" style="-fx-background-color: #ffffff;">
         <columns>
-          <TableColumn prefWidth="94.66659545898438" text="Apellido P" />
-          <TableColumn prefWidth="92.0" text="Apellido M" />
-            <TableColumn prefWidth="75.0" text="Telefono" />
-            <TableColumn prefWidth="136.6666259765625" text="e-mail" />
-            <TableColumn prefWidth="197.33334350585938" text="Direccion" />
+          <TableColumn fx:id="ColumnaApellidoP" prefWidth="94.66659545898438" text="Apellido P" />
+          <TableColumn fx:id="ColumnaApellidoM" prefWidth="92.0" text="Apellido M" />
+            <TableColumn fx:id="ColumnaTelefono" prefWidth="75.0" text="Telefono" />
+            <TableColumn fx:id="ColumnaEmail" prefWidth="136.6666259765625" text="e-mail" />
+            <TableColumn fx:id="ColumnaDireccion" prefWidth="197.33334350585938" text="Direccion" />
         </columns>
       </TableView>
       <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #f6cbd6;">
          <children>
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
-                  <Button mnemonicParsing="false" style="-fx-background-color: #9f2d5b;" text="Guardar" textFill="WHITE" />
-                  <Button layoutX="125.0" layoutY="48.0" mnemonicParsing="false" style="-fx-background-color: #9f2d5b;" text="Cancelar" textFill="WHITE" />
+                  <Button fx:id="nuevoCliente" mnemonicParsing="false" style="-fx-background-color: #9f2d5b;" text="Nuevo" textFill="WHITE" />
+                  <Button fx:id="editarCliente" layoutX="125.0" layoutY="48.0" mnemonicParsing="false" style="-fx-background-color: #9f2d5b;" text="Editar" textFill="WHITE" />
+                  <Button fx:id="eliminarCliente" layoutX="30.0" layoutY="47.0" mnemonicParsing="false" style="-fx-background-color: #9f2d5b;" text="Eliminar" textFill="WHITE" />
               </buttons>
             </ButtonBar>
          </children>
