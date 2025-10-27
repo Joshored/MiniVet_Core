@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane minHeight="600.0" minWidth="500.0" prefHeight="700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.loginapp.RegistroController">
     <top>
-        <HBox alignment="CENTER_LEFT" style="-fx-background-color: #9f2d5b;" BorderPane.alignment="CENTER" minHeight="75">
+        <HBox alignment="CENTER_LEFT" minHeight="75" style="-fx-background-color: #f2a1ae;" BorderPane.alignment="CENTER">
             <padding>
-                <Insets top="15" bottom="15" left="20" right="20"/>
+                <Insets bottom="15" left="20" right="20" top="15" />
             </padding>
             <children>
                 <Label text="Ingrese los datos del cliente" textFill="WHITE" wrapText="true" HBox.hgrow="ALWAYS">
@@ -26,34 +35,39 @@
                         </DropShadow>
                     </effect>
                 </Label>
+            <ImageView fitHeight="46.0" fitWidth="152.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Imagenes/MiniVet/2copia.png" />
+               </image>
+            </ImageView>
             </children>
         </HBox>
     </top>
 
     <center>
-        <ScrollPane fitToWidth="true" fitToHeight="true" BorderPane.alignment="CENTER" style="-fx-background: white; -fx-background-color: white;">
+        <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background: white; -fx-background-color: white;" BorderPane.alignment="CENTER">
             <content>
-                <VBox spacing="12" alignment="TOP_CENTER" style="-fx-background-color: white;">
+                <VBox alignment="TOP_CENTER" spacing="12" style="-fx-background-color: white;">
                     <padding>
-                        <Insets top="25" bottom="25" left="30" right="30"/>
+                        <Insets bottom="25" left="30" right="30" top="25" />
                     </padding>
                     <children>
                         <!-- Apellidos y Nombre -->
-                        <VBox spacing="8" maxWidth="500">
+                        <VBox maxWidth="500" spacing="8">
                             <children>
-                                <TextField fx:id="ApellidoPaterno" promptText="Apellido Paterno" focusTraversable="true">
+                                <TextField fx:id="ApellidoPaterno" focusTraversable="true" promptText="Apellido Paterno">
                                     <font>
                                         <Font name="Noto Sans Condensed" size="14.0" />
                                     </font>
                                 </TextField>
 
-                                <TextField fx:id="ApellidoMaterno" promptText="Apellido Materno" focusTraversable="true">
+                                <TextField fx:id="ApellidoMaterno" focusTraversable="true" promptText="Apellido Materno">
                                     <font>
                                         <Font name="Noto Sans Condensed" size="14.0" />
                                     </font>
                                 </TextField>
 
-                                <TextField fx:id="NombreCliente" promptText="Nombre" focusTraversable="true">
+                                <TextField fx:id="NombreCliente" focusTraversable="true" promptText="Nombre">
                                     <font>
                                         <Font name="Noto Sans Condensed" size="14.0" />
                                     </font>
@@ -62,7 +76,7 @@
                         </VBox>
 
                         <!-- Fecha de Nacimiento -->
-                        <VBox spacing="8" maxWidth="500">
+                        <VBox maxWidth="500" spacing="8">
                             <children>
                                 <Label text="Fecha de Nacimiento" textFill="#9f2d5b">
                                     <font>
@@ -71,13 +85,13 @@
                                 </Label>
                                 <HBox spacing="8">
                                     <children>
-                                        <TextField fx:id="Dia" promptText="Día" prefWidth="80" focusTraversable="true" HBox.hgrow="NEVER">
+                                        <TextField fx:id="Dia" focusTraversable="true" prefWidth="80" promptText="Día" HBox.hgrow="NEVER">
                                             <font>
                                                 <Font name="Noto Sans Condensed" size="14.0" />
                                             </font>
                                         </TextField>
-                                        <ComboBox fx:id="Mes" promptText="Mes" style="-fx-background-color: #f6cbd6;" focusTraversable="true" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
-                                        <TextField fx:id="Ano" promptText="Año" prefWidth="80" focusTraversable="true" HBox.hgrow="NEVER">
+                                        <ComboBox fx:id="Mes" focusTraversable="true" maxWidth="Infinity" promptText="Mes" style="-fx-background-color: #f6cbd6;" HBox.hgrow="ALWAYS" />
+                                        <TextField fx:id="Ano" focusTraversable="true" prefWidth="80" promptText="Año" HBox.hgrow="NEVER">
                                             <font>
                                                 <Font name="Noto Sans Condensed" size="14.0" />
                                             </font>
@@ -88,15 +102,15 @@
                         </VBox>
 
                         <!-- Contacto -->
-                        <VBox spacing="8" maxWidth="500">
+                        <VBox maxWidth="500" spacing="8">
                             <children>
-                                <TextField fx:id="NumeroTel" promptText="Número de Teléfono" focusTraversable="true">
+                                <TextField fx:id="NumeroTel" focusTraversable="true" promptText="Número de Teléfono">
                                     <font>
                                         <Font name="Noto Sans Condensed" size="14.0" />
                                     </font>
                                 </TextField>
 
-                                <TextField fx:id="eMail" promptText="E-mail" focusTraversable="true">
+                                <TextField fx:id="eMail" focusTraversable="true" promptText="E-mail">
                                     <font>
                                         <Font name="Noto Sans Condensed" size="14.0" />
                                     </font>
@@ -105,14 +119,14 @@
                         </VBox>
 
                         <!-- Dirección -->
-                        <VBox spacing="8" maxWidth="500">
+                        <VBox maxWidth="500" spacing="8">
                             <children>
                                 <Label text="Dirección" textFill="#9f2d5b">
                                     <font>
                                         <Font size="13.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="Calle" promptText="Calle" focusTraversable="true">
+                                <TextField fx:id="Calle" focusTraversable="true" promptText="Calle">
                                     <font>
                                         <Font name="Noto Sans Condensed" size="14.0" />
                                     </font>
@@ -120,12 +134,12 @@
 
                                 <HBox spacing="8">
                                     <children>
-                                        <TextField fx:id="numCalle" promptText="Número" prefWidth="100" focusTraversable="true" HBox.hgrow="NEVER">
+                                        <TextField fx:id="numCalle" focusTraversable="true" prefWidth="100" promptText="Número" HBox.hgrow="NEVER">
                                             <font>
                                                 <Font name="Noto Sans Condensed" size="14.0" />
                                             </font>
                                         </TextField>
-                                        <TextField fx:id="Colonia" promptText="Colonia" focusTraversable="true" HBox.hgrow="ALWAYS">
+                                        <TextField fx:id="Colonia" focusTraversable="true" promptText="Colonia" HBox.hgrow="ALWAYS">
                                             <font>
                                                 <Font name="Noto Sans Condensed" size="14.0" />
                                             </font>
@@ -136,26 +150,26 @@
                         </VBox>
 
                         <!-- Usuario y Contraseña -->
-                        <VBox spacing="8" maxWidth="500">
+                        <VBox maxWidth="500" spacing="8">
                             <children>
                                 <Label text="Usuario y Contraseña" textFill="#9f2d5b">
                                     <font>
                                         <Font size="13.0" />
                                     </font>
                                 </Label>
-                                <TextField fx:id="username" promptText="Usuario" focusTraversable="true">
+                                <TextField fx:id="username" focusTraversable="true" promptText="Usuario">
                                     <font>
                                         <Font name="Noto Sans Condensed" size="14.0" />
                                     </font>
                                 </TextField>
 
-                                <PasswordField fx:id="contrasena" promptText="Contraseña" focusTraversable="true">
+                                <PasswordField fx:id="contrasena" focusTraversable="true" promptText="Contraseña">
                                     <font>
                                         <Font name="Noto Sans Condensed" size="14.0" />
                                     </font>
                                 </PasswordField>
 
-                                <PasswordField fx:id="contrasenaConfirmacion" promptText="Confirma Contraseña" focusTraversable="true">
+                                <PasswordField fx:id="contrasenaConfirmacion" focusTraversable="true" promptText="Confirma Contraseña">
                                     <font>
                                         <Font name="Noto Sans Condensed" size="14.0" />
                                     </font>
@@ -164,13 +178,11 @@
                         </VBox>
 
                         <!-- Mensaje y Botón -->
-                        <VBox spacing="10" alignment="CENTER" maxWidth="500">
+                        <VBox alignment="CENTER" maxWidth="500" spacing="10">
                             <children>
-                                <Label fx:id="MensajeAvisoRegistro" alignment="CENTER" maxWidth="Infinity" textFill="#f22b2b" wrapText="true" minHeight="20"/>
+                                <Label fx:id="MensajeAvisoRegistro" alignment="CENTER" maxWidth="Infinity" minHeight="20" textFill="#f22b2b" wrapText="true" />
 
-                                <Button fx:id="GuardarRegistro" mnemonicParsing="false" onAction="#guardarRegistroOnAction"
-                                        style="-fx-background-color: #9f2d5b;" text="Guardar" textFill="#f6cbd6"
-                                        focusTraversable="true" prefWidth="150">
+                                <Button fx:id="GuardarRegistro" focusTraversable="true" mnemonicParsing="false" onAction="#guardarRegistroOnAction" prefWidth="150" style="-fx-background-color: #9f2d5b;" text="Guardar" textFill="#f6cbd6">
                                     <font>
                                         <Font size="14.0" />
                                     </font>
