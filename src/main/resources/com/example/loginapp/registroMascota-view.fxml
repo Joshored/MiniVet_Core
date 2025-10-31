@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane minHeight="600.0" minWidth="500.0" prefHeight="700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.loginapp.RegistroController">
+    <top>
+        <HBox alignment="CENTER_LEFT" minHeight="75" style="-fx-background-color: #f2a1ae;" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="15" left="20" right="20" top="15" />
+            </padding>
+            <children>
+                <Label text="Ingrese los datos de  la Mascota" textFill="WHITE" wrapText="true" HBox.hgrow="ALWAYS">
+                    <font>
+                        <Font name="Noto Sans Condensed ExtraBold" size="35.0" />
+                    </font>
+                    <effect>
+                        <DropShadow>
+                            <color>
+                                <Color red="1.0" green="0.7623456716537476" blue="0.7623456716537476" />
+                            </color>
+                        </DropShadow>
+                    </effect>
+                </Label>
+            <ImageView fitHeight="46.0" fitWidth="152.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Imagenes/MiniVet/2copia.png" />
+               </image>
+            </ImageView>
+            </children>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background: white; -fx-background-color: white;" BorderPane.alignment="CENTER">
+            <content>
+                <VBox alignment="TOP_CENTER" spacing="12" style="-fx-background-color: white;">
+                    <padding>
+                        <Insets bottom="25" left="30" right="30" top="25" />
+                    </padding>
+                    <children>
+                        <!-- Apellidos y Nombre -->
+                        <VBox maxWidth="500" spacing="8">
+                            <children>
+                                <TextField fx:id="nombreMascota" focusTraversable="true" promptText="Nombre de la Mascota">
+                                    <font>
+                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                    </font>
+                                </TextField>
+
+                                <TextField fx:id="Especie" focusTraversable="true" promptText="Especie">
+                                    <font>
+                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                    </font>
+                                </TextField>
+
+                                <TextField fx:id="Raza" focusTraversable="true" promptText="Raza (si aplica)">
+                                    <font>
+                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                    </font>
+                                </TextField>
+                        <TextField fx:id="SexoMascota" focusTraversable="true" promptText="Sexo">
+                           <font>
+                              <Font name="Noto Sans Condensed" size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="ColorMascota" focusTraversable="true" promptText="Color">
+                           <font>
+                              <Font name="Noto Sans Condensed" size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="numeroChip" focusTraversable="true" layoutX="10.0" layoutY="159.0" promptText="Numero de microchip (si aplica)">
+                           <font>
+                              <Font name="Noto Sans Condensed" size="14.0" />
+                           </font>
+                        </TextField>
+                            </children>
+                        </VBox>
+
+                        <!-- Fecha de Nacimiento -->
+                        <VBox maxWidth="500" spacing="8">
+                            <children>
+                                <Label text="Esterilizado/a (si/no)" textFill="#9f2d5b">
+                                    <font>
+                                        <Font size="13.0" />
+                                    </font>
+                                </Label>
+                                <HBox spacing="8">
+                                    <children>
+                                        <ComboBox fx:id="esterilizado" focusTraversable="true" maxWidth="Infinity" promptText="Mes" style="-fx-background-color: #f6cbd6;" HBox.hgrow="ALWAYS" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <!-- Contacto -->
+                        <VBox maxWidth="500" spacing="8" />
+
+                        <!-- Dirección -->
+                        <VBox maxWidth="500" spacing="8">
+                            <children>
+                                <Label text="Sintomas" textFill="#9f2d5b">
+                                    <font>
+                                        <Font size="13.0" />
+                                    </font>
+                                </Label>
+                        <TextArea fx:id="sintomas" prefHeight="200.0" prefWidth="200.0" />
+
+                                <HBox spacing="8" />
+                        <Label fx:id="dueno" layoutX="10.0" layoutY="10.0" text="Dueño" textFill="#9f2d5b">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="NombreDueno" focusTraversable="true" maxWidth="Infinity" promptText="Nombre del dueño" style="-fx-background-color: #f6cbd6;" />
+                            </children>
+                        </VBox>
+
+                        <!-- Usuario y Contraseña -->
+                        <VBox maxWidth="500" spacing="8" />
+
+                        <!-- Mensaje y Botón -->
+                        <VBox alignment="CENTER" maxWidth="500" spacing="10">
+                            <children>
+                                <Label fx:id="MensajeAvisoRegistro" alignment="CENTER" maxWidth="Infinity" minHeight="20" textFill="#f22b2b" wrapText="true" />
+
+                                <Button fx:id="GuardarRegistroM" focusTraversable="true" mnemonicParsing="false" onAction="#guardarRegistroOnAction" prefWidth="150" style="-fx-background-color: #9f2d5b;" text="Guardar" textFill="#f6cbd6">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </Button>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>
