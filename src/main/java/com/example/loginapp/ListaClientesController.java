@@ -1,4 +1,3 @@
-// ListaClientesController.java
 package com.example.loginapp;
 
 import javafx.collections.FXCollections;
@@ -28,6 +27,7 @@ public class ListaClientesController {
     @FXML private Button nuevoCliente;
     @FXML private Button editarCliente;
     @FXML private Button eliminarCliente;
+    @FXML private Button verMascotas; // Nuevo botón
 
     private ObservableList<Cliente> listaClientes = FXCollections.observableArrayList();
 
@@ -73,7 +73,7 @@ public class ListaClientesController {
         sortedData.comparatorProperty().bind(tablaClientes.comparatorProperty());
         tablaClientes.setItems(sortedData);
 
-        // Los manejadores ya están en el FXML pero los agregamos aquí también
+        // Configurar botones
         if (nuevoCliente != null) {
             nuevoCliente.setOnAction(e -> nuevoClienteOnAction());
         }
@@ -82,6 +82,9 @@ public class ListaClientesController {
         }
         if (eliminarCliente != null) {
             eliminarCliente.setOnAction(e -> eliminarClienteOnAction());
+        }
+        if (verMascotas != null) {
+            verMascotas.setOnAction(e -> verMascotasOnAction());
         }
     }
 
@@ -93,7 +96,6 @@ public class ListaClientesController {
                 "martinez@email.com", "Av. Central 456, Norte"));
     }
 
-    // Métodos llamados desde el FXML
     @FXML
     public void nuevoClienteOnAction() {
         abrirFormularioRegistro(null);
@@ -109,6 +111,46 @@ public class ListaClientesController {
         eliminarClienteSeleccionado();
     }
 
+    /**
+     * Abre la ventana de mascotas del cliente seleccionado
+     */
+    @FXML
+    public void verMascotasOnAction() {
+        Cliente clienteSeleccionado = tablaClientes.getSelectionModel().getSelectedItem();
+        if (clienteSeleccionado != null) {
+            abrirListaMascotas(clienteSeleccionado);
+        } else {
+            mostrarAlerta("Advertencia", "Por favor seleccione un cliente para ver sus mascotas");
+        }
+    }
+
+    // Abre la ventana de lista de mascotas, opcionalmente filtrando por cliente
+    private void abrirListaMascotas(Cliente cliente) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    HelloApplication.class.getResource("ListaMascotas.fxml"));
+            Parent root = loader.load();
+
+            ListaMascotasController controller = loader.getController();
+            controller.setListaClientes(listaClientes);
+
+            if (cliente != null) {
+                controller.setClienteFiltro(cliente);
+            }
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle(cliente != null ?
+                    "Mascotas de " + cliente.getNombreCompleto() : "Todas las Mascotas");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            mostrarAlerta("Error", "No se pudo abrir la lista de mascotas: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     private void abrirFormularioRegistro(Cliente cliente) {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -121,7 +163,7 @@ public class ListaClientesController {
             }
 
             Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL); // Modal
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle(cliente == null ? "Nuevo Cliente" : "Editar Cliente");
             stage.setScene(new Scene(root));
             stage.showAndWait();
@@ -156,7 +198,8 @@ public class ListaClientesController {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmar eliminación");
             alert.setHeaderText("¿Está seguro de eliminar al cliente?");
-            alert.setContentText("Esta acción no se puede deshacer");
+            alert.setContentText("Esta acción también eliminará sus " +
+                    clienteSeleccionado.getCantidadMascotas() + " mascota(s)");
 
             Optional<ButtonType> resultado = alert.showAndWait();
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
