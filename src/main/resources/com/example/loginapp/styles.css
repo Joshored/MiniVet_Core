@@ -1,0 +1,36 @@
+/* Cambiar el fondo del encabezado */
+.table-view .column-header-background {
+    -fx-background-color: #c45a7d;   /* azul, cámbialo a tu gusto */
+}
+
+.table-view .column-header {
+    -fx-background-color: #c45a7d;
+}
+
+
+/* Cambiar el color de texto de los títulos */
+.table-view .column-header .label {
+    -fx-text-fill: #f6cbd6;           /* texto blanco */
+    -fx-font-weight: bold;          /* opcional, negritas */
+}
+
+/* Opcional: color de fondo de las filas */
+.table-row-cell {
+    -fx-background-color: #f5f5f5;
+}
+
+/* Alternar color de filas */
+.table-row-cell:odd {
+    -fx-background-color: #f6cbd6;
+}
+
+/* Evitar texto blanco al seleccionar */
+.table-row-cell:selected {
+    -fx-background-color: #e27e8d;  /* el color que prefieras para la selección */
+    -fx-text-fill: #f6cbd6;           /* color de texto visible */
+}
+
+/* Asegurar que las celdas hereden el color de texto correcto */
+.table-row-cell:selected .text {
+    -fx-fill: black;
+}
