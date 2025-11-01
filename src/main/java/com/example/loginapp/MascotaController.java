@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-// Controlador para la ventana de registro/edición de mascotas
+// Controlador para la ventana de registro y edición de mascotas
 public class MascotaController {
 
     @FXML private TextField nombreMascota;
@@ -24,7 +24,7 @@ public class MascotaController {
     private Mascota mascotaEdicion;
     private ObservableList<Cliente> listaClientes;
 
-    // Inicializa el controlador y configura los componentes del formulario
+    // Inicialización del controlador
     @FXML
     public void initialize() {
         // Configurar ComboBox de sexo
@@ -52,7 +52,28 @@ public class MascotaController {
     // Establece la lista de clientes para el ComboBox
     public void setListaClientes(ObservableList<Cliente> clientes) {
         this.listaClientes = clientes;
-        NombreDueno.setItems(clientes);
+        if (NombreDueno != null && listaClientes != null) {
+            // Asignar la lista al ComboBox
+            NombreDueno.setItems(listaClientes);
+
+            // Configurar cómo se muestran los clientes en el dropdown
+            NombreDueno.setCellFactory(lv -> new ListCell<Cliente>() {
+                @Override
+                protected void updateItem(Cliente item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty || item == null ? "" : item.getNombreCompleto());
+                }
+            });
+
+            // Configurar cómo se muestra el cliente seleccionado
+            NombreDueno.setButtonCell(new ListCell<Cliente>() {
+                @Override
+                protected void updateItem(Cliente item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty || item == null ? "" : item.getNombreCompleto());
+                }
+            });
+        }
     }
 
     // Establece un cliente preseleccionado en el ComboBox
@@ -62,7 +83,7 @@ public class MascotaController {
         }
     }
 
-    // Configura el formulario para editar una mascota existente
+    // Establece la mascota para editar y llena el formulario con sus datos
     public void setMascotaParaEditar(Mascota mascota) {
         this.mascotaEdicion = mascota;
         if (mascota != null) {
@@ -84,7 +105,7 @@ public class MascotaController {
         }
     }
 
-    // Maneja la acción del botón guardar
+    // Maneja el evento de guardar registro de mascota
     @FXML
     public void guardarRegistroMascotaOnAction() {
         guardarMascota();
