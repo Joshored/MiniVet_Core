@@ -18,7 +18,7 @@
 
     <!-- Header con búsqueda -->
     <top>
-        <HBox alignment="CENTER" spacing="15" style="-fx-background-color: #f2a1ae;" BorderPane.alignment="CENTER">
+        <HBox fx:id="MostrarListaClientes" alignment="CENTER" spacing="15" style="-fx-background-color: #f2a1ae;" BorderPane.alignment="CENTER">
             <padding>
                 <Insets bottom="15" left="20" right="20" top="15" />
             </padding>
@@ -87,6 +87,11 @@
                 </Button>
 
                 <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="MostrarListaClientes" layoutX="280.0" layoutY="25.0" mnemonicParsing="false" onAction="#nuevaMascotaOnAction" prefWidth="130" style="-fx-background-color: #9f2d5b;" text="Clientes" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Button>
             </children>
         </HBox>
     </bottom>
