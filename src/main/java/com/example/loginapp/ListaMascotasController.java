@@ -16,7 +16,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Optional;
 
-// Controlador para la ventana de lista de mascotas
+/**
+ * Controlador para la ventana de lista de mascotas.
+ * Permite ver, crear, editar y eliminar mascotas.
+ */
 public class ListaMascotasController {
 
     @FXML private TableView<Mascota> tablaMascotas;
@@ -30,13 +33,13 @@ public class ListaMascotasController {
     @FXML private Button nuevaMascota;
     @FXML private Button editarMascota;
     @FXML private Button eliminarMascota;
+    @FXML private Button volverClientes;
     @FXML private Label tituloVentana;
 
     private ObservableList<Mascota> listaMascotas = FXCollections.observableArrayList();
     private ObservableList<Cliente> listaClientes;
-    private Cliente clienteFiltro; // Si no es null, muestra solo mascotas de este cliente
+    private Cliente clienteFiltro;
 
-    // Inicializa el controlador configurando la tabla y los botones
     @FXML
     public void initialize() {
         // Configurar columnas
@@ -84,15 +87,16 @@ public class ListaMascotasController {
         if (eliminarMascota != null) {
             eliminarMascota.setOnAction(e -> eliminarMascotaOnAction());
         }
+        if (volverClientes != null) {
+            volverClientes.setOnAction(e -> volverClientesOnAction());
+        }
     }
 
-    // Establece la lista de clientes para obtener sus mascotas
     public void setListaClientes(ObservableList<Cliente> clientes) {
         this.listaClientes = clientes;
         cargarMascotasDeClientes();
     }
 
-    // Establece un cliente para filtrar las mascotas mostradas
     public void setClienteFiltro(Cliente cliente) {
         this.clienteFiltro = cliente;
         if (tituloVentana != null) {
@@ -101,16 +105,13 @@ public class ListaMascotasController {
         cargarMascotasDeClientes();
     }
 
-    // Carga las mascotas de los clientes en la lista observable
     private void cargarMascotasDeClientes() {
         listaMascotas.clear();
 
         if (listaClientes != null) {
             if (clienteFiltro != null) {
-                // Mostrar solo mascotas del cliente filtrado
                 listaMascotas.addAll(clienteFiltro.getMascotas());
             } else {
-                // Mostrar todas las mascotas
                 for (Cliente cliente : listaClientes) {
                     listaMascotas.addAll(cliente.getMascotas());
                 }
@@ -118,13 +119,11 @@ public class ListaMascotasController {
         }
     }
 
-    // Abre el formulario para registrar una nueva mascota
     @FXML
     public void nuevaMascotaOnAction() {
         abrirFormularioMascota(null);
     }
 
-    // Abre el formulario para editar la mascota seleccionada
     @FXML
     public void editarMascotaOnAction() {
         Mascota mascotaSeleccionada = tablaMascotas.getSelectionModel().getSelectedItem();
@@ -135,7 +134,6 @@ public class ListaMascotasController {
         }
     }
 
-    // Elimina la mascota seleccionada
     @FXML
     public void eliminarMascotaOnAction() {
         Mascota mascotaSeleccionada = tablaMascotas.getSelectionModel().getSelectedItem();
@@ -147,11 +145,9 @@ public class ListaMascotasController {
 
             Optional<ButtonType> resultado = alert.showAndWait();
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-                // Eliminar de la lista del dueño
                 if (mascotaSeleccionada.getDueno() != null) {
                     mascotaSeleccionada.getDueno().eliminarMascota(mascotaSeleccionada);
                 }
-                // Eliminar de la lista local
                 listaMascotas.remove(mascotaSeleccionada);
                 mostrarAlerta("Éxito", "Mascota eliminada correctamente");
             }
@@ -160,7 +156,15 @@ public class ListaMascotasController {
         }
     }
 
-    // Abre el formulario de registro/edición de mascota
+    /**
+     * Cierra la ventana actual y vuelve a la lista de clientes
+     */
+    @FXML
+    public void volverClientesOnAction() {
+        Stage stage = (Stage) volverClientes.getScene().getWindow();
+        stage.close();
+    }
+
     private void abrirFormularioMascota(Mascota mascota) {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -170,7 +174,6 @@ public class ListaMascotasController {
             MascotaController controller = loader.getController();
             controller.setListaClientes(listaClientes);
 
-            // Si hay filtro de cliente, pre-seleccionarlo
             if (clienteFiltro != null && mascota == null) {
                 controller.setClientePreseleccionado(clienteFiltro);
             }
@@ -187,7 +190,6 @@ public class ListaMascotasController {
 
             Mascota resultado = controller.getMascotaResultado();
             if (resultado != null) {
-                // Recargar la lista
                 cargarMascotasDeClientes();
                 tablaMascotas.refresh();
             }
@@ -198,7 +200,6 @@ public class ListaMascotasController {
         }
     }
 
-    // Muestra una alerta con el título y mensaje especificados
     private void mostrarAlerta(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
