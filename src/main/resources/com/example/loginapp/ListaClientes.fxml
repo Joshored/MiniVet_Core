@@ -95,6 +95,12 @@
                     </font>
                 </Button>
 
+                <Button fx:id="verCitas" mnemonicParsing="false" onAction="#verCitasOnAction" prefWidth="120" style="-fx-background-color: #e27e8d;" text="Ver Citas" textFill="WHITE">
+                    <font>
+                        <Font size="13.0" />
+                    </font>
+                </Button>
+
                 <Region HBox.hgrow="ALWAYS" />
             </children>
         </HBox>

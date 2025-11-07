@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane minHeight="650.0" minWidth="550.0" prefHeight="750.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.loginapp.CitaController">
+    <top>
+        <HBox alignment="CENTER_LEFT" minHeight="75" style="-fx-background-color: #f2a1ae;" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="15" left="20" right="20" top="15" />
+            </padding>
+            <children>
+                <Label text="Registro de Cita Veterinaria" textFill="WHITE" wrapText="true" HBox.hgrow="ALWAYS">
+                    <font>
+                        <Font name="Noto Sans Condensed ExtraBold" size="35.0" />
+                    </font>
+                    <effect>
+                        <DropShadow>
+                            <color>
+                                <Color red="1.0" green="0.7623456716537476" blue="0.7623456716537476" />
+                            </color>
+                        </DropShadow>
+                    </effect>
+                </Label>
+                <ImageView fitHeight="46.0" fitWidth="152.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../Imagenes/MiniVet/2copia.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background: white; -fx-background-color: white;" BorderPane.alignment="CENTER">
+            <content>
+                <VBox alignment="TOP_CENTER" spacing="15" style="-fx-background-color: white;">
+                    <padding>
+                        <Insets bottom="25" left="30" right="30" top="25" />
+                    </padding>
+                    <children>
+                        <!-- Selección de Cliente y Mascota -->
+                        <VBox maxWidth="550" spacing="10">
+                            <children>
+                                <Label text="Cliente y Mascota" textFill="#9f2d5b">
+                                    <font>
+                                        <Font name="Noto Sans Condensed Bold" size="16.0" />
+                                    </font>
+                                </Label>
+
+                                <VBox spacing="5">
+                                    <children>
+                                        <Label text="Cliente *" textFill="#9f2d5b">
+                                            <font>
+                                                <Font size="13.0" />
+                                            </font>
+                                        </Label>
+                                        <ComboBox fx:id="comboCliente" focusTraversable="true" maxWidth="Infinity" promptText="Seleccione el cliente" style="-fx-background-color: #f6cbd6;" />
+                                    </children>
+                                </VBox>
+
+                                <VBox spacing="5">
+                                    <children>
+                                        <Label text="Mascota *" textFill="#9f2d5b">
+                                            <font>
+                                                <Font size="13.0" />
+                                            </font>
+                                        </Label>
+                                        <ComboBox fx:id="comboMascota" focusTraversable="true" maxWidth="Infinity" promptText="Seleccione la mascota" style="-fx-background-color: #f6cbd6;" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+
+                        <!-- Información de la Cita -->
+                        <VBox maxWidth="550" spacing="10">
+                            <children>
+                                <Label text="Información de la Cita" textFill="#9f2d5b">
+                                    <font>
+                                        <Font name="Noto Sans Condensed Bold" size="16.0" />
+                                    </font>
+                                </Label>
+
+                                <VBox spacing="5">
+                                    <children>
+                                        <Label text="Tipo de Servicio *" textFill="#9f2d5b">
+                                            <font>
+                                                <Font size="13.0" />
+                                            </font>
+                                        </Label>
+                                        <ComboBox fx:id="comboTipoServicio" focusTraversable="true" maxWidth="Infinity" promptText="Seleccione el tipo de servicio" style="-fx-background-color: #f6cbd6;" />
+                                    </children>
+                                </VBox>
+
+                                <HBox spacing="10">
+                                    <children>
+                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label text="Fecha *" textFill="#9f2d5b">
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+                                                <DatePicker fx:id="fechaCita" focusTraversable="true" maxWidth="Infinity" promptText="Seleccione fecha" style="-fx-background-color: #f6cbd6;" />
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="5" HBox.hgrow="NEVER">
+                                            <children>
+                                                <Label text="Hora Inicio *" textFill="#9f2d5b">
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+                                                <TextField fx:id="horaInicio" focusTraversable="true" prefWidth="100" promptText="HH:MM">
+                                                    <font>
+                                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="5" HBox.hgrow="NEVER">
+                                            <children>
+                                                <Label text="Hora Fin" textFill="#9f2d5b">
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+                                                <TextField fx:id="horaFin" focusTraversable="true" prefWidth="100" promptText="HH:MM">
+                                                    <font>
+                                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <!-- Síntomas y Descripción -->
+                        <VBox maxWidth="550" spacing="10">
+                            <children>
+                                <Label text="Motivo de Consulta" textFill="#9f2d5b">
+                                    <font>
+                                        <Font name="Noto Sans Condensed Bold" size="16.0" />
+                                    </font>
+                                </Label>
+
+                                <VBox spacing="5">
+                                    <children>
+                                        <Label text="Síntomas o Motivo" textFill="#9f2d5b">
+                                            <font>
+                                                <Font size="13.0" />
+                                            </font>
+                                        </Label>
+                                        <TextArea fx:id="sintomas" prefHeight="100.0" promptText="Describa los síntomas o motivo de la consulta..." wrapText="true">
+                                            <font>
+                                                <Font name="Noto Sans Condensed" size="13.0" />
+                                            </font>
+                                        </TextArea>
+                                    </children>
+                                </VBox>
+
+                                <VBox spacing="5">
+                                    <children>
+                                        <Label text="Descripción Adicional" textFill="#9f2d5b">
+                                            <font>
+                                                <Font size="13.0" />
+                                            </font>
+                                        </Label>
+                                        <TextArea fx:id="descripcion" prefHeight="80.0" promptText="Información adicional relevante (opcional)..." wrapText="true">
+                                            <font>
+                                                <Font name="Noto Sans Condensed" size="13.0" />
+                                            </font>
+                                        </TextArea>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+
+                        <!-- Veterinario y Estado -->
+                        <VBox maxWidth="550" spacing="10">
+                            <children>
+                                <Label text="Asignación" textFill="#9f2d5b">
+                                    <font>
+                                        <Font name="Noto Sans Condensed Bold" size="16.0" />
+                                    </font>
+                                </Label>
+
+                                <VBox spacing="5">
+                                    <children>
+                                        <Label text="Veterinario *" textFill="#9f2d5b">
+                                            <font>
+                                                <Font size="13.0" />
+                                            </font>
+                                        </Label>
+                                        <ComboBox fx:id="comboVeterinario" focusTraversable="true" maxWidth="Infinity" promptText="Seleccione el veterinario" style="-fx-background-color: #f6cbd6;" />
+                                    </children>
+                                </VBox>
+
+                                <VBox spacing="5">
+                                    <children>
+                                        <Label text="Estado de la Cita" textFill="#9f2d5b">
+                                            <font>
+                                                <Font size="13.0" />
+                                            </font>
+                                        </Label>
+                                        <ComboBox fx:id="comboEstado" focusTraversable="true" maxWidth="Infinity" promptText="Estado" style="-fx-background-color: #f6cbd6;" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+
+                        <!-- Mensaje y Botón Guardar -->
+                        <VBox alignment="CENTER" maxWidth="550" spacing="15">
+                            <children>
+                                <Label fx:id="mensajeAviso" alignment="CENTER" maxWidth="Infinity" minHeight="20" textFill="#f22b2b" wrapText="true" />
+
+                                <Button fx:id="btnGuardar" focusTraversable="true" mnemonicParsing="false" onAction="#guardarCita" prefWidth="180" style="-fx-background-color: #9f2d5b;" text="Guardar Cita" textFill="#f6cbd6">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font>
+                                </Button>
+
+                                <Label text="* Campos obligatorios" textFill="#999999">
+                                    <font>
+                                        <Font size="11.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

@@ -124,6 +124,33 @@ public class ListaClientesController {
         }
     }
 
+    @FXML
+    public void verCitasOnAction() {
+        abrirListaCitas();
+    }
+
+    // Abre la ventana de lista de citas
+    private void abrirListaCitas() {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    HelloApplication.class.getResource("ListaCitas.fxml"));
+            Parent root = loader.load();
+
+            ListaCitasController controller = loader.getController();
+            controller.setListaClientes(listaClientes);
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Lista de Citas Veterinarias");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            mostrarAlerta("Error", "No se pudo abrir la lista de citas: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     // Abre la ventana de lista de mascotas, opcionalmente filtrando por cliente
     private void abrirListaMascotas(Cliente cliente) {
         try {
