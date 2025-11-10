@@ -12,7 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
+import javafx.scene.control.Alert;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -27,22 +27,33 @@ public class ListaClientesController {
     @FXML private Button nuevoCliente;
     @FXML private Button editarCliente;
     @FXML private Button eliminarCliente;
-    @FXML private Button verMascotas; // Nuevo botón
+    @FXML private Button verMascotas;
 
     private ObservableList<Cliente> listaClientes = FXCollections.observableArrayList();
+    private ClienteDAO clienteDAO = new ClienteDAO();
 
     @FXML
     public void initialize() {
-        // Configurar columnas
+        configurarColumnas();
+        cargarDatosDesdeBD();
+        configurarBusqueda();
+        configurarBotones();
+    }
+
+    private void configurarColumnas() {
         ColumnaApellidoP.setCellValueFactory(new PropertyValueFactory<>("apellidoPaterno"));
         ColumnaApellidoM.setCellValueFactory(new PropertyValueFactory<>("apellidoMaterno"));
         ColumnaTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
         ColumnaEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         ColumnaDireccion.setCellValueFactory(new PropertyValueFactory<>("direccionCompleta"));
+    }
 
-        cargarDatosEjemplo();
+    private void cargarDatosDesdeBD() {
+        listaClientes.clear();
+        listaClientes.addAll(clienteDAO.obtenerTodos());
+    }
 
-        // Configurar búsqueda
+    private void configurarBusqueda() {
         FilteredList<Cliente> filteredData = new FilteredList<>(listaClientes, p -> true);
 
         if (busquedaClientes != null) {
@@ -72,48 +83,24 @@ public class ListaClientesController {
         SortedList<Cliente> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(tablaClientes.comparatorProperty());
         tablaClientes.setItems(sortedData);
-
-        // Configurar botones
-        if (nuevoCliente != null) {
-            nuevoCliente.setOnAction(e -> nuevoClienteOnAction());
-        }
-        if (editarCliente != null) {
-            editarCliente.setOnAction(e -> editarClienteOnAction());
-        }
-        if (eliminarCliente != null) {
-            eliminarCliente.setOnAction(e -> eliminarClienteOnAction());
-        }
-        if (verMascotas != null) {
-            verMascotas.setOnAction(e -> verMascotasOnAction());
-        }
     }
 
-    private void cargarDatosEjemplo() {
-        listaClientes.clear();
-        listaClientes.add(new Cliente("Juan", "García", "López", "555-1234",
-                "garcia@email.com", "Calle Primavera 123, Centro"));
-        listaClientes.add(new Cliente("María", "Martínez", "Rodríguez", "555-5678",
-                "martinez@email.com", "Av. Central 456, Norte"));
+    private void configurarBotones() {
+        if (nuevoCliente != null) nuevoCliente.setOnAction(e -> nuevoClienteOnAction());
+        if (editarCliente != null) editarCliente.setOnAction(e -> editarClienteOnAction());
+        if (eliminarCliente != null) eliminarCliente.setOnAction(e -> eliminarClienteOnAction());
+        if (verMascotas != null) verMascotas.setOnAction(e -> verMascotasOnAction());
     }
 
     @FXML
-    public void nuevoClienteOnAction() {
-        abrirFormularioRegistro(null);
-    }
+    public void nuevoClienteOnAction() { abrirFormularioRegistro(null); }
 
     @FXML
-    public void editarClienteOnAction() {
-        editarClienteSeleccionado();
-    }
+    public void editarClienteOnAction() { editarClienteSeleccionado(); }
 
     @FXML
-    public void eliminarClienteOnAction() {
-        eliminarClienteSeleccionado();
-    }
+    public void eliminarClienteOnAction() { eliminarClienteSeleccionado(); }
 
-    /**
-     * Abre la ventana de mascotas del cliente seleccionado
-     */
     @FXML
     public void verMascotasOnAction() {
         Cliente clienteSeleccionado = tablaClientes.getSelectionModel().getSelectedItem();
@@ -125,15 +112,11 @@ public class ListaClientesController {
     }
 
     @FXML
-    public void verCitasOnAction() {
-        abrirListaCitas();
-    }
+    public void verCitasOnAction() { abrirListaCitas(); }
 
-    // Abre la ventana de lista de citas
     private void abrirListaCitas() {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    HelloApplication.class.getResource("ListaCitas.fxml"));
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("ListaCitas.fxml"));
             Parent root = loader.load();
 
             ListaCitasController controller = loader.getController();
@@ -151,26 +134,22 @@ public class ListaClientesController {
         }
     }
 
-    // Abre la ventana de lista de mascotas, opcionalmente filtrando por cliente
     private void abrirListaMascotas(Cliente cliente) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    HelloApplication.class.getResource("ListaMascotas.fxml"));
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("ListaMascotas.fxml"));
             Parent root = loader.load();
 
             ListaMascotasController controller = loader.getController();
             controller.setListaClientes(listaClientes);
 
-            if (cliente != null) {
-                controller.setClienteFiltro(cliente);
-            }
+            if (cliente != null) controller.setClienteFiltro(cliente);
 
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle(cliente != null ?
-                    "Mascotas de " + cliente.getNombreCompleto() : "Todas las Mascotas");
+            stage.setTitle(cliente != null ? "Mascotas de " + cliente.getNombreCompleto() : "Todas las Mascotas");
             stage.setScene(new Scene(root));
             stage.showAndWait();
+            cargarDatosDesdeBD(); // Recargar datos después de cerrar
 
         } catch (IOException e) {
             mostrarAlerta("Error", "No se pudo abrir la lista de mascotas: " + e.getMessage());
@@ -180,14 +159,11 @@ public class ListaClientesController {
 
     private void abrirFormularioRegistro(Cliente cliente) {
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    HelloApplication.class.getResource("registro-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("registro-view.fxml"));
             Parent root = loader.load();
 
             RegistroController controller = loader.getController();
-            if (cliente != null) {
-                controller.setClienteParaEditar(cliente);
-            }
+            if (cliente != null) controller.setClienteParaEditar(cliente);
 
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -198,8 +174,13 @@ public class ListaClientesController {
             Cliente resultado = controller.getClienteResultado();
             if (resultado != null) {
                 if (cliente == null) {
+                    // Nuevo cliente
+                    int nuevoId = clienteDAO.guardar(resultado);
+                    resultado.setId(nuevoId);
                     listaClientes.add(resultado);
                 } else {
+                    // Editar cliente existente
+                    clienteDAO.actualizar(resultado);
                     tablaClientes.refresh();
                 }
             }
@@ -230,6 +211,7 @@ public class ListaClientesController {
 
             Optional<ButtonType> resultado = alert.showAndWait();
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+                clienteDAO.eliminar(clienteSeleccionado.getId());
                 listaClientes.remove(clienteSeleccionado);
                 mostrarAlerta("Éxito", "Cliente eliminado correctamente");
             }

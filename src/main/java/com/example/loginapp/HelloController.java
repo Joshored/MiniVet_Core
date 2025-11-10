@@ -4,29 +4,37 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.io.IOException;
+import javafx.scene.control.Alert;
 
 public class HelloController {
-    @FXML
-    private TextField usuarioCampoTxt;
+    private static final Logger logger = LoggerFactory.getLogger(HelloController.class);
+
+    @FXML private TextField usuarioCampoTxt;
+    @FXML private PasswordField contrasenaCampoTxt;
+    @FXML private Button entrarBoton;
+    @FXML private Button crearCuentaBoton;
+    @FXML private Label errorTexto;
+
+    private UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     @FXML
-    private PasswordField contrasenaCampoTxt;
+    public void initialize() {
+        logger.info("Inicializando controlador de login");
 
-    @FXML
-    private Button entrarBoton;
-
-    @FXML
-    private Button crearCuentaBoton;
-
-    @FXML
-    private Label errorTexto;
+        // Verificar conexión a la base de datos al inicio
+        if (!usuarioDAO.verificarConexionBD()) {
+            errorTexto.setText("Error de conexión a BD. Usando modo de emergencia.");
+            logger.warn("Modo de emergencia activado - BD no disponible");
+        } else {
+            logger.info("Conexión a BD verificada correctamente");
+        }
+    }
 
     @FXML
     public void entrarBotonOnAction(ActionEvent event) {
@@ -38,13 +46,26 @@ public class HelloController {
             return;
         }
 
-        // Por ahora, cualquier usuario/contraseña es válido
-        boolean loginValido = true;
+        try {
+            // Validar usuario en la base de datos
+            boolean loginValido = usuarioDAO.validarUsuario(usuario, contrasena);
 
-        if (loginValido) {
-            abrirListaClientes();
-        } else {
-            errorTexto.setText("Contraseña incorrecta o Usuario incorrecto");
+            if (loginValido) {
+                logger.info("Login exitoso para usuario: {}", usuario);
+                abrirListaClientes();
+            } else {
+                logger.warn("Intento de login fallido para usuario: {}", usuario);
+                errorTexto.setText("Contraseña incorrecta o Usuario incorrecto");
+            }
+        } catch (Exception e) {
+            logger.error("Error durante el login", e);
+            // Modo de emergencia: permitir acceso con credenciales por defecto
+            if ("admin".equals(usuario) && "admin123".equals(contrasena)) {
+                logger.warn("Acceso de emergencia concedido con credenciales por defecto");
+                abrirListaClientes();
+            } else {
+                errorTexto.setText("Error del sistema. Intente con admin/admin123");
+            }
         }
     }
 
@@ -55,41 +76,52 @@ public class HelloController {
 
     private void abrirListaClientes() {
         try {
-            // Obtener el Stage actual
             Stage stageActual = (Stage) entrarBoton.getScene().getWindow();
-
-            // Cargar la nueva vista
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("ListaClientes.fxml"));
             Parent root = loader.load();
 
-            // Cambiar la escena en el mismo Stage
-            stageActual.setTitle("Lista de Clientes");
+            // Verificar que el controlador se cargó correctamente
+            ListaClientesController controller = loader.getController();
+            if (controller == null) {
+                throw new IOException("No se pudo cargar el controlador ListaClientesController");
+            }
+
+            stageActual.setTitle("Lista de Clientes - MiniVet");
             stageActual.setScene(new Scene(root));
             stageActual.centerOnScreen();
 
+            logger.info("Ventana de lista de clientes abierta exitosamente");
+
         } catch (IOException e) {
-            errorTexto.setText("Error al abrir lista de Clientes");
-            e.printStackTrace();
+            logger.error("Error al abrir lista de Clientes", e);
+            errorTexto.setText("Error al abrir lista de Clientes: " + e.getMessage());
+
+            // Mostrar alerta de error
+            javafx.application.Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("No se pudo abrir la ventana");
+                alert.setContentText("Error: " + e.getMessage());
+                alert.showAndWait();
+            });
+        } catch (Exception e) {
+            logger.error("Error inesperado al abrir lista de clientes", e);
+            errorTexto.setText("Error inesperado: " + e.getMessage());
         }
     }
 
     private void abrirRegistro() {
         try {
-            // Obtener el Stage actual
             Stage stageActual = (Stage) crearCuentaBoton.getScene().getWindow();
-
-            // Cargar la nueva vista
             FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("registro-view.fxml"));
             Parent root = loader.load();
-
-            // Cambiar la escena en el mismo Stage
-            stageActual.setTitle("Registro de Cliente");
+            stageActual.setTitle("Registro de Cliente - MiniVet");
             stageActual.setScene(new Scene(root));
             stageActual.centerOnScreen();
-
+            logger.info("Ventana de registro abierta exitosamente");
         } catch (IOException e) {
-            errorTexto.setText("Error al abrir registro");
-            e.printStackTrace();
+            logger.error("Error al abrir registro", e);
+            errorTexto.setText("Error al abrir registro: " + e.getMessage());
         }
     }
 }

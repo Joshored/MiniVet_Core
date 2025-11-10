@@ -1,4 +1,3 @@
-// RegistroController.java
 package com.example.loginapp;
 
 import javafx.fxml.FXML;
@@ -27,38 +26,21 @@ public class RegistroController {
 
     @FXML
     public void initialize() {
-        // Configurar combo box de meses
         Mes.getItems().addAll("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
                 "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
 
-        // El evento se maneja desde el FXML con onAction="#guardarRegistroOnAction"
-        // pero agregamos el manejador aquí también por si acaso
-        if (GuardarRegistro != null) {
-            GuardarRegistro.setOnAction(e -> guardarCliente());
-        }
+        if (GuardarRegistro != null) GuardarRegistro.setOnAction(e -> guardarCliente());
     }
 
     public void setClienteParaEditar(Cliente cliente) {
         this.clienteEdicion = cliente;
         if (cliente != null) {
-            // Llenar todos los campos con los datos del cliente
-            if (cliente.getApellidoPaterno() != null) {
-                ApellidoPaterno.setText(cliente.getApellidoPaterno());
-            }
-            if (cliente.getApellidoMaterno() != null) {
-                ApellidoMaterno.setText(cliente.getApellidoMaterno());
-            }
-            if (cliente.getNombre() != null) {
-                NombreCliente.setText(cliente.getNombre());
-            }
-            if (cliente.getTelefono() != null) {
-                NumeroTel.setText(cliente.getTelefono());
-            }
-            if (cliente.getEmail() != null) {
-                eMail.setText(cliente.getEmail());
-            }
+            if (cliente.getApellidoPaterno() != null) ApellidoPaterno.setText(cliente.getApellidoPaterno());
+            if (cliente.getApellidoMaterno() != null) ApellidoMaterno.setText(cliente.getApellidoMaterno());
+            if (cliente.getNombre() != null) NombreCliente.setText(cliente.getNombre());
+            if (cliente.getTelefono() != null) NumeroTel.setText(cliente.getTelefono());
+            if (cliente.getEmail() != null) eMail.setText(cliente.getEmail());
             if (cliente.getDireccion() != null) {
-                // Intentar separar la dirección (esto es simplificado)
                 String dir = cliente.getDireccion();
                 String[] partes = dir.split(",");
                 if (partes.length > 0) {
@@ -66,85 +48,56 @@ public class RegistroController {
                     if (calleNum.length > 1) {
                         Calle.setText(calleNum[0]);
                         numCalle.setText(calleNum[calleNum.length - 1]);
-                    } else {
-                        Calle.setText(partes[0].trim());
-                    }
+                    } else Calle.setText(partes[0].trim());
                 }
-                if (partes.length > 1) {
-                    Colonia.setText(partes[1].trim());
-                }
+                if (partes.length > 1) Colonia.setText(partes[1].trim());
             }
         }
     }
 
-    // Método que se llama desde el botón (onAction en FXML)
     @FXML
-    public void guardarRegistroOnAction() {
-        guardarCliente();
-    }
+    public void guardarRegistroOnAction() { guardarCliente(); }
 
     private void guardarCliente() {
         if (validarFormulario()) {
-            if (clienteEdicion == null) {
-                clienteEdicion = new Cliente();
-            }
+            if (clienteEdicion == null) clienteEdicion = new Cliente();
+            else clienteEdicion.setId(clienteEdicion.getId()); // Mantener ID existente
 
-            // Asignar todos los valores
             clienteEdicion.setApellidoPaterno(ApellidoPaterno.getText().trim());
             clienteEdicion.setApellidoMaterno(ApellidoMaterno.getText().trim());
             clienteEdicion.setNombre(NombreCliente.getText().trim());
             clienteEdicion.setTelefono(NumeroTel.getText().trim());
             clienteEdicion.setEmail(eMail.getText().trim());
 
-            // Construir dirección
-            String direccion = Calle.getText().trim() + " " +
-                    numCalle.getText().trim() + ", " +
-                    Colonia.getText().trim();
+            String direccion = Calle.getText().trim() + " " + numCalle.getText().trim() + ", " + Colonia.getText().trim();
             clienteEdicion.setDireccion(direccion);
 
-            // Informar éxito
             MensajeAvisoRegistro.setText("Cliente guardado correctamente");
             MensajeAvisoRegistro.setStyle("-fx-text-fill: green;");
 
-            // Cerrar ventana después de un breve delay
             javafx.application.Platform.runLater(() -> {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
+                try { Thread.sleep(500); } catch (InterruptedException ex) { ex.printStackTrace(); }
                 Stage stage = (Stage) GuardarRegistro.getScene().getWindow();
                 stage.close();
             });
         }
     }
 
-    public Cliente getClienteResultado() {
-        return clienteEdicion;
-    }
+    public Cliente getClienteResultado() { return clienteEdicion; }
 
     private boolean validarFormulario() {
         if (ApellidoPaterno.getText().trim().isEmpty()) {
-            mostrarError("El apellido paterno es obligatorio");
-            return false;
+            mostrarError("El apellido paterno es obligatorio"); return false;
         }
-
         if (NombreCliente.getText().trim().isEmpty()) {
-            mostrarError("El nombre es obligatorio");
-            return false;
+            mostrarError("El nombre es obligatorio"); return false;
         }
-
         if (NumeroTel.getText().trim().isEmpty()) {
-            mostrarError("El teléfono es obligatorio");
-            return false;
+            mostrarError("El teléfono es obligatorio"); return false;
         }
-
-        // Validar email solo si no está vacío
         if (!eMail.getText().trim().isEmpty() && !validarEmail(eMail.getText().trim())) {
-            mostrarError("El formato del email no es válido");
-            return false;
+            mostrarError("El formato del email no es válido"); return false;
         }
-
         return true;
     }
 

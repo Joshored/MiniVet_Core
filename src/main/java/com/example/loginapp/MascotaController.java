@@ -5,9 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-// Controlador para la ventana de registro y edición de mascotas
 public class MascotaController {
-
     @FXML private TextField nombreMascota;
     @FXML private TextField Especie;
     @FXML private TextField EdadMascota;
@@ -24,51 +22,31 @@ public class MascotaController {
     private Mascota mascotaEdicion;
     private ObservableList<Cliente> listaClientes;
 
-    // Inicialización del controlador
     @FXML
     public void initialize() {
-        // Configurar ComboBox de sexo
         SexoMascota.getItems().addAll("Macho", "Hembra");
-
-        // Configurar ComboBox de esterilizado
         esterilizado.getItems().addAll("Sí", "No");
 
-        // Validar que edad solo acepte números
         EdadMascota.textProperty().addListener((obs, oldVal, newVal) -> {
-            if (!newVal.matches("\\d*")) {
-                EdadMascota.setText(newVal.replaceAll("[^\\d]", ""));
-            }
-            if (newVal.length() > 3) {
-                EdadMascota.setText(newVal.substring(0, 3));
-            }
+            if (!newVal.matches("\\d*")) EdadMascota.setText(newVal.replaceAll("\\D", ""));
+            if (newVal.length() > 3) EdadMascota.setText(newVal.substring(0, 3));
         });
 
-        // Configurar botón guardar
-        if (GuardarRegistroM != null) {
-            GuardarRegistroM.setOnAction(e -> guardarMascota());
-        }
+        if (GuardarRegistroM != null) GuardarRegistroM.setOnAction(e -> guardarMascota());
     }
 
-    // Establece la lista de clientes para el ComboBox
     public void setListaClientes(ObservableList<Cliente> clientes) {
         this.listaClientes = clientes;
         if (NombreDueno != null && listaClientes != null) {
-            // Asignar la lista al ComboBox
             NombreDueno.setItems(listaClientes);
-
-            // Configurar cómo se muestran los clientes en el dropdown
             NombreDueno.setCellFactory(lv -> new ListCell<Cliente>() {
-                @Override
-                protected void updateItem(Cliente item, boolean empty) {
+                @Override protected void updateItem(Cliente item, boolean empty) {
                     super.updateItem(item, empty);
                     setText(empty || item == null ? "" : item.getNombreCompleto());
                 }
             });
-
-            // Configurar cómo se muestra el cliente seleccionado
             NombreDueno.setButtonCell(new ListCell<Cliente>() {
-                @Override
-                protected void updateItem(Cliente item, boolean empty) {
+                @Override protected void updateItem(Cliente item, boolean empty) {
                     super.updateItem(item, empty);
                     setText(empty || item == null ? "" : item.getNombreCompleto());
                 }
@@ -76,14 +54,10 @@ public class MascotaController {
         }
     }
 
-    // Establece un cliente preseleccionado en el ComboBox
     public void setClientePreseleccionado(Cliente cliente) {
-        if (cliente != null) {
-            NombreDueno.setValue(cliente);
-        }
+        if (cliente != null) NombreDueno.setValue(cliente);
     }
 
-    // Establece la mascota para editar y llena el formulario con sus datos
     public void setMascotaParaEditar(Mascota mascota) {
         this.mascotaEdicion = mascota;
         if (mascota != null) {
@@ -96,76 +70,43 @@ public class MascotaController {
             numeroChip.setText(mascota.getNumeroChip());
             esterilizado.setValue(mascota.isEsterilizado() ? "Sí" : "No");
             sintomas.setText(mascota.getSintomas());
-
-            if (mascota.getDueno() != null) {
-                NombreDueno.setValue(mascota.getDueno());
-            }
-
+            if (mascota.getDueno() != null) NombreDueno.setValue(mascota.getDueno());
             GuardarRegistroM.setText("Actualizar");
         }
     }
 
-    // Maneja el evento de guardar registro de mascota
     @FXML
-    public void guardarRegistroMascotaOnAction() {
-        guardarMascota();
-    }
+    public void guardarRegistroMascotaOnAction() { guardarMascota(); }
 
     private void guardarMascota() {
-        if (!validarFormulario()) {
-            return;
-        }
+        if (!validarFormulario()) return;
 
         try {
-            // Crear nueva mascota o usar la existente
-            if (mascotaEdicion == null) {
-                mascotaEdicion = new Mascota();
-            }
+            if (mascotaEdicion == null) mascotaEdicion = new Mascota();
+            else mascotaEdicion.setId(mascotaEdicion.getId()); // Mantener ID existente
 
-            // Asignar valores básicos
             mascotaEdicion.setNombre(nombreMascota.getText().trim());
             mascotaEdicion.setEspecie(Especie.getText().trim());
 
-            // Convertir edad a entero
             int edad = 0;
-            if (!EdadMascota.getText().trim().isEmpty()) {
-                edad = Integer.parseInt(EdadMascota.getText().trim());
-            }
+            if (!EdadMascota.getText().trim().isEmpty()) edad = Integer.parseInt(EdadMascota.getText().trim());
             mascotaEdicion.setEdad(edad);
 
             mascotaEdicion.setRaza(Raza.getText().trim());
             mascotaEdicion.setSexo(SexoMascota.getValue());
             mascotaEdicion.setColor(ColorMascota.getText().trim());
             mascotaEdicion.setNumeroChip(numeroChip.getText().trim());
-
-            // Convertir esterilizado a boolean
-            mascotaEdicion.setEsterilizado(
-                    esterilizado.getValue() != null && esterilizado.getValue().equals("Sí")
-            );
-
+            mascotaEdicion.setEsterilizado(esterilizado.getValue() != null && esterilizado.getValue().equals("Sí"));
             mascotaEdicion.setSintomas(sintomas.getText().trim());
 
-            // Asignar dueño y establecer relación
             Cliente duenoSeleccionado = NombreDueno.getValue();
-            if (duenoSeleccionado != null) {
-                mascotaEdicion.setDueno(duenoSeleccionado);
-                // Agregar mascota a la lista del cliente si es nueva
-                if (!duenoSeleccionado.getMascotas().contains(mascotaEdicion)) {
-                    duenoSeleccionado.agregarMascota(mascotaEdicion);
-                }
-            }
+            if (duenoSeleccionado != null) mascotaEdicion.setDueno(duenoSeleccionado);
 
-            // Mostrar mensaje de éxito
             MensajeAvisoRegistro.setText("Mascota guardada correctamente");
             MensajeAvisoRegistro.setStyle("-fx-text-fill: green;");
 
-            // Cerrar ventana después de un delay
             javafx.application.Platform.runLater(() -> {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
+                try { Thread.sleep(1000); } catch (InterruptedException ex) { ex.printStackTrace(); }
                 cerrarVentana();
             });
 
@@ -177,53 +118,35 @@ public class MascotaController {
         }
     }
 
-    // Obtiene la mascota resultante después de guardar/editar
-    public Mascota getMascotaResultado() {
-        return mascotaEdicion;
-    }
+    public Mascota getMascotaResultado() { return mascotaEdicion; }
 
-    // Valida los campos del formulario
     private boolean validarFormulario() {
         if (nombreMascota.getText().trim().isEmpty()) {
-            mostrarError("El nombre de la mascota es obligatorio");
-            return false;
+            mostrarError("El nombre de la mascota es obligatorio"); return false;
         }
-
         if (Especie.getText().trim().isEmpty()) {
-            mostrarError("La especie es obligatoria");
-            return false;
+            mostrarError("La especie es obligatoria"); return false;
         }
-
         if (EdadMascota.getText().trim().isEmpty()) {
-            mostrarError("La edad es obligatoria");
-            return false;
+            mostrarError("La edad es obligatoria"); return false;
         }
-
         if (SexoMascota.getValue() == null) {
-            mostrarError("Debe seleccionar el sexo");
-            return false;
+            mostrarError("Debe seleccionar el sexo"); return false;
         }
-
         if (esterilizado.getValue() == null) {
-            mostrarError("Debe indicar si está esterilizado");
-            return false;
+            mostrarError("Debe indicar si está esterilizado"); return false;
         }
-
         if (NombreDueno.getValue() == null) {
-            mostrarError("Debe seleccionar un dueño");
-            return false;
+            mostrarError("Debe seleccionar un dueño"); return false;
         }
-
         return true;
     }
 
-    // Muestra un mensaje de error en el formulario
     private void mostrarError(String mensaje) {
         MensajeAvisoRegistro.setText(mensaje);
         MensajeAvisoRegistro.setStyle("-fx-text-fill: red;");
     }
 
-    // Cierra la ventana actual
     private void cerrarVentana() {
         Stage stage = (Stage) GuardarRegistroM.getScene().getWindow();
         stage.close();
