@@ -8,7 +8,7 @@ public class Launcher {
         System.out.println("Inicializando base de datos...");
 
         // Esta línea inicializará la base de datos automáticamente
-        // a través del bloque static en DatabaseConfig
+        // a través del bloque static en DatabaseConfigtg
 
         Application.launch(HelloApplication.class, args);
     }
