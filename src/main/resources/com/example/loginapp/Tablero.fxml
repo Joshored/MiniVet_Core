@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Imagenes/MiniVet/2copia.png" />
+               </image>
+            </ImageView>
+            <Button mnemonicParsing="false" prefHeight="24.0" prefWidth="200.0" text="Clientes" />
+            <Button layoutX="10.0" layoutY="78.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="200.0" text="Citas" />
+            <Button layoutX="10.0" layoutY="102.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="200.0" text="Medicamentos" />
+            <Button layoutX="10.0" layoutY="126.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="200.0" text="Facturas" />
+            <Region prefHeight="371.0" prefWidth="200.0" />
+            <Button alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Salir" />
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
