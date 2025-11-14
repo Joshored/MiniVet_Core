@@ -82,6 +82,7 @@ public class DashboardHomeController {
                 super.updateItem(cita, empty);
                 if (empty || cita == null) {
                     setText(null);
+                    setStyle("");
                 } else {
                     String texto = String.format("%s - %s (%s) - %s",
                             cita.getHoraInicio(),
@@ -90,19 +91,22 @@ public class DashboardHomeController {
                             cita.getTipoServicio());
                     setText(texto);
 
+                    // Aumentar tamaño de fuente
+                    setStyle("-fx-font-size: 14px; -fx-padding: 8;");
+
                     // Colorear según el estado
                     switch (cita.getEstado()) {
                         case "Completada":
-                            setStyle("-fx-background-color: #c8e6c9; -fx-text-fill: #2e7d32;");
+                            setStyle("-fx-background-color: #c8e6c9; -fx-text-fill: #2e7d32; -fx-font-size: 14px; -fx-padding: 8;");
                             break;
                         case "En Proceso":
-                            setStyle("-fx-background-color: #fff9c4; -fx-text-fill: #f57f17;");
+                            setStyle("-fx-background-color: #fff9c4; -fx-text-fill: #f57f17; -fx-font-size: 14px; -fx-padding: 8;");
                             break;
                         case "Cancelada":
-                            setStyle("-fx-background-color: #ffcdd2; -fx-text-fill: #c62828;");
+                            setStyle("-fx-background-color: #ffcdd2; -fx-text-fill: #c62828; -fx-font-size: 14px; -fx-padding: 8;");
                             break;
                         default: // Programada
-                            setStyle("-fx-background-color: #e3f2fd; -fx-text-fill: #1565c0;");
+                            setStyle("-fx-background-color: #e3f2fd; -fx-text-fill: #1565c0; -fx-font-size: 14px; -fx-padding: 8;");
                     }
                 }
             }
@@ -112,23 +116,51 @@ public class DashboardHomeController {
     private void cargarNotas() {
         // Notas de ejemplo para veterinario
         ObservableList<String> notasVet = FXCollections.observableArrayList(
-                "🐕 Perro en observación - Sala 2",
-                "💉 Verificar inventario de vacunas",
-                "📋 Revisar resultados de análisis - Max (Cliente: García)",
-                "⚠️ Gato en recuperación post-cirugía"
+                "🐕 [EJEMPLO] Perro en observación - Sala 2",
+                "💉 [EJEMPLO] Verificar inventario de vacunas",
+                "📋 [EJEMPLO] Revisar resultados de análisis - Max (Cliente: García)",
+                "⚠️ [EJEMPLO] Gato en recuperación post-cirugía"
         );
         listaNotasVeterinario.setItems(notasVet);
 
+        // Aplicar estilo a las notas del veterinario
+        listaNotasVeterinario.setCellFactory(lv -> new ListCell<String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item);
+                    setStyle("-fx-font-size: 14px; -fx-padding: 8;");
+                }
+            }
+        });
+
         // Notas de ejemplo para recepción
         ObservableList<String> notasRecep = FXCollections.observableArrayList(
-                "📞 Llamar a cliente Pérez - confirmar cita",
-                "📦 Pedido de alimento llegará mañana",
-                "💰 Revisar pagos pendientes",
-                "🔔 Recordatorios de vacunas por enviar"
+                "📞 [EJEMPLO] Llamar a cliente Pérez - confirmar cita",
+                "📦 [EJEMPLO] Pedido de alimento llegará mañana",
+                "💰 [EJEMPLO] Revisar pagos pendientes",
+                "🔔 [EJEMPLO] Recordatorios de vacunas por enviar"
         );
         listaNotasRecepcion.setItems(notasRecep);
 
-        logger.info("Notas cargadas");
+        // Aplicar estilo a las notas de recepción
+        listaNotasRecepcion.setCellFactory(lv -> new ListCell<String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item);
+                    setStyle("-fx-font-size: 14px; -fx-padding: 8;");
+                }
+            }
+        });
+
+        logger.info("Notas de ejemplo cargadas");
     }
 
     public void refrescar() {

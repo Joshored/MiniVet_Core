@@ -10,7 +10,6 @@ import javafx.event.ActionEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
-import javafx.scene.control.Alert;
 
 public class HelloController {
     private static final Logger logger = LoggerFactory.getLogger(HelloController.class);
@@ -52,7 +51,7 @@ public class HelloController {
 
             if (loginValido) {
                 logger.info("Login exitoso para usuario: {}", usuario);
-                abrirListaClientes();
+                abrirDashboard();
             } else {
                 logger.warn("Intento de login fallido para usuario: {}", usuario);
                 errorTexto.setText("Contraseña incorrecta o Usuario incorrecto");
@@ -62,7 +61,7 @@ public class HelloController {
             // Modo de emergencia: permitir acceso con credenciales por defecto
             if ("admin".equals(usuario) && "admin123".equals(contrasena)) {
                 logger.warn("Acceso de emergencia concedido con credenciales por defecto");
-                abrirListaClientes();
+                abrirDashboard();
             } else {
                 errorTexto.setText("Error del sistema. Intente con admin/admin123");
             }
@@ -74,38 +73,39 @@ public class HelloController {
         abrirRegistro();
     }
 
-    private void abrirListaClientes() {
+    private void abrirDashboard() {
         try {
             Stage stageActual = (Stage) entrarBoton.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("ListaClientes.fxml"));
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("Dashboard.fxml"));
             Parent root = loader.load();
 
             // Verificar que el controlador se cargó correctamente
-            ListaClientesController controller = loader.getController();
+            DashboardController controller = loader.getController();
             if (controller == null) {
-                throw new IOException("No se pudo cargar el controlador ListaClientesController");
+                throw new IOException("No se pudo cargar el controlador DashboardController");
             }
 
-            stageActual.setTitle("Lista de Clientes - MiniVet");
-            stageActual.setScene(new Scene(root));
+            stageActual.setTitle("MiniVet - Dashboard");
+            stageActual.setScene(new Scene(root, 1200, 700));
+            stageActual.setMaximized(true);
             stageActual.centerOnScreen();
 
-            logger.info("Ventana de lista de clientes abierta exitosamente");
+            logger.info("Dashboard abierto exitosamente");
 
         } catch (IOException e) {
-            logger.error("Error al abrir lista de Clientes", e);
-            errorTexto.setText("Error al abrir lista de Clientes: " + e.getMessage());
+            logger.error("Error al abrir Dashboard", e);
+            errorTexto.setText("Error al abrir Dashboard: " + e.getMessage());
 
             // Mostrar alerta de error
             javafx.application.Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
-                alert.setHeaderText("No se pudo abrir la ventana");
+                alert.setHeaderText("No se pudo abrir el dashboard");
                 alert.setContentText("Error: " + e.getMessage());
                 alert.showAndWait();
             });
         } catch (Exception e) {
-            logger.error("Error inesperado al abrir lista de clientes", e);
+            logger.error("Error inesperado al abrir dashboard", e);
             errorTexto.setText("Error inesperado: " + e.getMessage());
         }
     }
