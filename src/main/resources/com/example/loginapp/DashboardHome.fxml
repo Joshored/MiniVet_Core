@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/24.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.loginapp.DashboardHomeController"
+            fitToWidth="true" fitToHeight="true"
+            style="-fx-background: #f5f5f5; -fx-background-color: #f5f5f5;">
+
+    <content>
+        <VBox spacing="20" style="-fx-background-color: #f5f5f5;">
+            <padding>
+                <Insets top="30" right="30" bottom="30" left="30" />
+            </padding>
+
+            <children>
+                <!-- Título -->
+                <Label text="Bienvenido a MiniVet" textFill="#9f2d5b">
+                    <font>
+                        <Font name="Noto Sans Condensed Bold" size="32.0" />
+                    </font>
+                </Label>
+
+                <!-- Tarjetas de resumen -->
+                <HBox spacing="20">
+                    <children>
+                        <!-- Tarjeta: Citas del día -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);"
+                              spacing="10" prefWidth="250" HBox.hgrow="ALWAYS">
+                            <padding>
+                                <Insets top="20" right="20" bottom="20" left="20" />
+                            </padding>
+                            <children>
+                                <Label text="Citas de Hoy" textFill="#9f2d5b">
+                                    <font>
+                                        <Font name="Noto Sans Condensed Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="lblCantidadCitas" text="0" textFill="#333333">
+                                    <font>
+                                        <Font name="Noto Sans Condensed Bold" size="36.0" />
+                                    </font>
+                                </Label>
+                                <Label text="citas programadas" textFill="#666666">
+                                    <font>
+                                        <Font size="13.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+
+                        <!-- Tarjeta: Clientes -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);"
+                              spacing="10" prefWidth="250" HBox.hgrow="ALWAYS">
+                            <padding>
+                                <Insets top="20" right="20" bottom="20" left="20" />
+                            </padding>
+                            <children>
+                                <Label text="Total Clientes" textFill="#9f2d5b">
+                                    <font>
+                                        <Font name="Noto Sans Condensed Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="lblTotalClientes" text="0" textFill="#333333">
+                                    <font>
+                                        <Font name="Noto Sans Condensed Bold" size="36.0" />
+                                    </font>
+                                </Label>
+                                <Label text="clientes registrados" textFill="#666666">
+                                    <font>
+                                        <Font size="13.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+
+                        <!-- Tarjeta: Mascotas -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);"
+                              spacing="10" prefWidth="250" HBox.hgrow="ALWAYS">
+                            <padding>
+                                <Insets top="20" right="20" bottom="20" left="20" />
+                            </padding>
+                            <children>
+                                <Label text="Total Mascotas" textFill="#9f2d5b">
+                                    <font>
+                                        <Font name="Noto Sans Condensed Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="lblTotalMascotas" text="0" textFill="#333333">
+                                    <font>
+                                        <Font name="Noto Sans Condensed Bold" size="36.0" />
+                                    </font>
+                                </Label>
+                                <Label text="mascotas en sistema" textFill="#666666">
+                                    <font>
+                                        <Font size="13.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+                <!-- Sección: Citas del día -->
+                <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);"
+                      spacing="15" VBox.vgrow="ALWAYS">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20" />
+                    </padding>
+                    <children>
+                        <Label text="📅 Citas de Hoy" textFill="#9f2d5b">
+                            <font>
+                                <Font name="Noto Sans Condensed Bold" size="20.0" />
+                            </font>
+                        </Label>
+
+                        <ListView fx:id="listaCitasHoy" prefHeight="300" style="-fx-background-color: #f9f9f9; -fx-border-color: #e0e0e0; -fx-border-radius: 5;" />
+                    </children>
+                </VBox>
+
+                <!-- Sección: Notas rápidas -->
+                <HBox spacing="20">
+                    <children>
+                        <!-- Notas para Veterinario -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);"
+                              spacing="10" HBox.hgrow="ALWAYS">
+                            <padding>
+                                <Insets top="20" right="20" bottom="20" left="20" />
+                            </padding>
+                            <children>
+                                <Label text="📝 Notas - Veterinario" textFill="#9f2d5b">
+                                    <font>
+                                        <Font name="Noto Sans Condensed Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <ListView fx:id="listaNotasVeterinario" prefHeight="150" style="-fx-background-color: #fffde7; -fx-border-color: #e0e0e0; -fx-border-radius: 5;" />
+                            </children>
+                        </VBox>
+
+                        <!-- Notas para Recepción -->
+                        <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);"
+                              spacing="10" HBox.hgrow="ALWAYS">
+                            <padding>
+                                <Insets top="20" right="20" bottom="20" left="20" />
+                            </padding>
+                            <children>
+                                <Label text="📋 Notas - Recepción" textFill="#9f2d5b">
+                                    <font>
+                                        <Font name="Noto Sans Condensed Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <ListView fx:id="listaNotasRecepcion" prefHeight="150" style="-fx-background-color: #e3f2fd; -fx-border-color: #e0e0e0; -fx-border-radius: 5;" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+            </children>
+        </VBox>
+    </content>
+
+</ScrollPane>
