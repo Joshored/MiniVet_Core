@@ -21,13 +21,13 @@
             <Insets bottom="20" left="30" right="30" top="20" />
         </padding>
         <children>
-            <Label text="Facturación y Ventas" textFill="WHITE" HBox.hgrow="ALWAYS">
+            <Label text="FacturaciÃ³n y Ventas" textFill="WHITE" HBox.hgrow="ALWAYS">
                 <font>
                     <Font name="Noto Sans Condensed Bold" size="27.0" />
                 </font>
             </Label>
 
-            <TextField promptText="🔍 Buscar venta..." prefWidth="280" style="-fx-background-color: white; -fx-prompt-text-fill: #999;">
+            <TextField fx:id="busquedaFacturas" promptText="ðŸ” Buscar factura..." prefWidth="280" style="-fx-background-color: white; -fx-prompt-text-fill: #999;">
                 <font>
                     <Font size="16.0" />
                 </font>
@@ -35,7 +35,7 @@
         </children>
     </HBox>
 
-    <!-- Filtros y estadísticas -->
+    <!-- Filtros y estadÃ­sticas -->
     <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: #e899a8;">
         <padding>
             <Insets bottom="12" left="30" right="30" top="12" />
@@ -48,26 +48,26 @@
             </Label>
 
             <VBox spacing="2">
-                <Label text="Período" textFill="WHITE" style="-fx-font-size: 13px;" />
+                <Label text="PerÃ­odo" textFill="WHITE" style="-fx-font-size: 13px;" />
                 <ComboBox fx:id="filtroPeriodo" promptText="Este mes" prefWidth="130" style="-fx-background-color: white; -fx-font-size: 15px;" />
             </VBox>
 
             <VBox spacing="2">
                 <Label text="Desde" textFill="WHITE" style="-fx-font-size: 13px;" />
-                <DatePicker prefWidth="140" style="-fx-background-color: white; -fx-font-size: 15px;" />
+                <DatePicker fx:id="filtroDesde" prefWidth="140" style="-fx-background-color: white; -fx-font-size: 15px;" />
             </VBox>
 
             <VBox spacing="2">
                 <Label text="Hasta" textFill="WHITE" style="-fx-font-size: 13px;" />
-                <DatePicker prefWidth="140" style="-fx-background-color: white; -fx-font-size: 15px;" />
+                <DatePicker fx:id="filtroHasta" prefWidth="140" style="-fx-background-color: white; -fx-font-size: 15px;" />
             </VBox>
 
             <Region HBox.hgrow="ALWAYS" />
 
-            <!-- Estadísticas del día -->
+            <!-- EstadÃ­sticas del dÃ­a -->
             <VBox alignment="CENTER" spacing="3" style="-fx-background-color: #c45a7d; -fx-padding: 10 18; -fx-background-radius: 5;">
                 <Label text="Ventas Hoy" textFill="WHITE" style="-fx-font-size: 13px;" />
-                <Label text="2,450.00" textFill="WHITE">
+                <Label fx:id="lblVentasHoy" text="0.00" textFill="WHITE">
                     <font>
                         <Font name="Noto Sans Condensed Bold" size="19.0" />
                     </font>
@@ -76,7 +76,7 @@
 
             <VBox alignment="CENTER" spacing="3" style="-fx-background-color: #9f2d5b; -fx-padding: 10 18; -fx-background-radius: 5;">
                 <Label text="Total Mes" textFill="WHITE" style="-fx-font-size: 13px;" />
-                <Label text="15,830.00" textFill="WHITE">
+                <Label fx:id="lblTotalMes" text="0.00" textFill="WHITE">
                     <font>
                         <Font name="Noto Sans Condensed Bold" size="19.0" />
                     </font>
@@ -85,26 +85,26 @@
         </children>
     </HBox>
 
-    <!-- Tabla de ventas -->
-    <TableView style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+    <!-- Tabla de facturas -->
+    <TableView fx:id="tablaFacturas" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn text="Folio" minWidth="80" prefWidth="90" />
-            <TableColumn text="Fecha" minWidth="100" prefWidth="120" />
-            <TableColumn text="Hora" minWidth="70" prefWidth="80" />
-            <TableColumn text="Cliente" minWidth="150" prefWidth="180" />
-            <TableColumn text="Productos" minWidth="80" prefWidth="100" />
-            <TableColumn text="Subtotal" minWidth="100" prefWidth="110" />
-            <TableColumn text="Descuento" minWidth="90" prefWidth="100" />
-            <TableColumn text="Total" minWidth="100" prefWidth="110" />
-            <TableColumn text="Método Pago" minWidth="120" prefWidth="130" />
-            <TableColumn text="Estado" minWidth="90" prefWidth="100" />
+            <TableColumn fx:id="columnaFolio" text="Folio" minWidth="80" prefWidth="90" />
+            <TableColumn fx:id="columnaFecha" text="Fecha" minWidth="100" prefWidth="120" />
+            <TableColumn fx:id="columnaHora" text="Hora" minWidth="70" prefWidth="80" />
+            <TableColumn fx:id="columnaCliente" text="Cliente" minWidth="150" prefWidth="180" />
+            <TableColumn fx:id="columnaProductos" text="Productos" minWidth="80" prefWidth="100" />
+            <TableColumn fx:id="columnaSubtotal" text="Subtotal" minWidth="100" prefWidth="110" />
+            <TableColumn fx:id="columnaDescuento" text="Descuento" minWidth="90" prefWidth="100" />
+            <TableColumn fx:id="columnaTotal" text="Total" minWidth="100" prefWidth="110" />
+            <TableColumn fx:id="columnaMetodoPago" text="MÃ©todo Pago" minWidth="120" prefWidth="130" />
+            <TableColumn fx:id="columnaEstado" text="Estado" minWidth="90" prefWidth="100" />
         </columns>
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
     </TableView>
 
-    <!-- Botones de acción -->
+    <!-- Botones de acciÃ³n -->
     <HBox alignment="CENTER" spacing="15" style="-fx-background-color: #f6cbd6;">
         <padding>
             <Insets bottom="15" left="30" right="30" top="15" />
@@ -112,15 +112,15 @@
         <children>
             <Region HBox.hgrow="ALWAYS" />
 
-            <Button text="🛒 Nueva Venta" prefWidth="150" style="-fx-background-color: #9f2d5b; -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold;" />
+            <Button text="ðŸ›’ Nueva Venta" onAction="#nuevaVenta" prefWidth="150" style="-fx-background-color: #9f2d5b; -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold;" />
 
-            <Button text="👁️ Ver Detalle" prefWidth="130" style="-fx-background-color: #9f2d5b; -fx-text-fill: white; -fx-font-size: 16;" />
+            <Button text="ðŸ‘ï¸ Ver Detalle" onAction="#verDetalle" prefWidth="130" style="-fx-background-color: #9f2d5b; -fx-text-fill: white; -fx-font-size: 16;" />
 
-            <Button text="🖨️ Imprimir Ticket" prefWidth="150" style="-fx-background-color: #c45a7d; -fx-text-fill: white; -fx-font-size: 16;" />
+            <Button text="ðŸ–¨ï¸ Imprimir Ticket" onAction="#imprimirTicket" prefWidth="150" style="-fx-background-color: #c45a7d; -fx-text-fill: white; -fx-font-size: 16;" />
 
-            <Button text="📊 Reporte" prefWidth="120" style="-fx-background-color: #c45a7d; -fx-text-fill: white; -fx-font-size: 16;" />
+            <Button text="ðŸ“Š Reporte" onAction="#generarReporte" prefWidth="120" style="-fx-background-color: #c45a7d; -fx-text-fill: white; -fx-font-size: 16;" />
 
-            <Button text="❌ Cancelar Venta" prefWidth="140" style="-fx-background-color: #e27e8d; -fx-text-fill: white; -fx-font-size: 16;" />
+            <Button text="âŒ Cancelar Venta" onAction="#cancelarVenta" prefWidth="140" style="-fx-background-color: #e27e8d; -fx-text-fill: white; -fx-font-size: 16;" />
 
             <Region HBox.hgrow="ALWAYS" />
         </children>
