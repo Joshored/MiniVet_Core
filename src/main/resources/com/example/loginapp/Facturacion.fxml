@@ -67,7 +67,7 @@
             <!-- Estadísticas del día -->
             <VBox alignment="CENTER" spacing="3" style="-fx-background-color: #c45a7d; -fx-padding: 10 18; -fx-background-radius: 5;">
                 <Label text="Ventas Hoy" textFill="WHITE" style="-fx-font-size: 13px;" />
-                <Label text="💵 2,450.00" textFill="WHITE">
+                <Label text="2,450.00" textFill="WHITE">
                     <font>
                         <Font name="Noto Sans Condensed Bold" size="19.0" />
                     </font>
@@ -76,7 +76,7 @@
 
             <VBox alignment="CENTER" spacing="3" style="-fx-background-color: #9f2d5b; -fx-padding: 10 18; -fx-background-radius: 5;">
                 <Label text="Total Mes" textFill="WHITE" style="-fx-font-size: 13px;" />
-                <Label text="💵 15,830.00" textFill="WHITE">
+                <Label text="15,830.00" textFill="WHITE">
                     <font>
                         <Font name="Noto Sans Condensed Bold" size="19.0" />
                     </font>
