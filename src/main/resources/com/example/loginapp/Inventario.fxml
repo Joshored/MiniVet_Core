@@ -92,15 +92,15 @@
         <children>
             <Region HBox.hgrow="ALWAYS" />
 
-            <Button text="âž• Nuevo Producto" onAction="#nuevoProducto" prefWidth="150" style="-fx-background-color: #9f2d5b; -fx-text-fill: white; -fx-font-size: 13; -fx-font-weight: bold;" />
+            <Button text="Nuevo Producto" onAction="#nuevoProducto" prefWidth="150" style="-fx-background-color: #9f2d5b; -fx-text-fill: white; -fx-font-size: 13; -fx-font-weight: bold;" />
 
-            <Button text="âœï¸ Editar" onAction="#editarProducto" prefWidth="100" style="-fx-background-color: #9f2d5b; -fx-text-fill: white; -fx-font-size: 13;" />
+            <Button text="Editar" onAction="#editarProducto" prefWidth="100" style="-fx-background-color: #9f2d5b; -fx-text-fill: white; -fx-font-size: 13;" />
 
-            <Button text="ðŸ“‹ Ver Detalles" onAction="#verDetalles" prefWidth="120" style="-fx-background-color: #9f2d5b; -fx-text-fill: white; -fx-font-size: 13;" />
+            <Button text="Ver Detalles" onAction="#verDetalles" prefWidth="120" style="-fx-background-color: #9f2d5b; -fx-text-fill: white; -fx-font-size: 13;" />
 
-            <Button text="ðŸ“Š Ajustar Stock" onAction="#ajustarStock" prefWidth="130" style="-fx-background-color: #c45a7d; -fx-text-fill: white; -fx-font-size: 13;" />
+            <Button text="Ajustar Stock" onAction="#ajustarStock" prefWidth="130" style="-fx-background-color: #c45a7d; -fx-text-fill: white; -fx-font-size: 13;" />
 
-            <Button text="ðŸ—‘ï¸ Eliminar" onAction="#eliminarProducto" prefWidth="100" style="-fx-background-color: #e27e8d; -fx-text-fill: white; -fx-font-size: 13;" />
+            <Button text="Eliminar" onAction="#eliminarProducto" prefWidth="100" style="-fx-background-color: #e27e8d; -fx-text-fill: white; -fx-font-size: 13;" />
 
             <Region HBox.hgrow="ALWAYS" />
         </children>
