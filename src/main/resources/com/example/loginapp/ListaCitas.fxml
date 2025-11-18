@@ -147,13 +147,19 @@
                     </font>
                 </Button>
 
+                <Button mnemonicParsing="false" onAction="#cambiarEstadoCita" prefWidth="130" style="-fx-background-color: #c45a7d;" text="Cambiar Estado" textFill="WHITE">
+                    <font>
+                        <Font size="13.0" />
+                    </font>
+                </Button>
+
                 <Button fx:id="verDetalles" mnemonicParsing="false" onAction="#verDetallesOnAction" prefWidth="120" style="-fx-background-color: #9f2d5b;" text="Ver Detalles" textFill="WHITE">
                     <font>
                         <Font size="13.0" />
                     </font>
                 </Button>
 
-                <Button fx:id="eliminarCita" mnemonicParsing="false" onAction="#eliminarCitaOnAction" prefWidth="100" style="-fx-background-color: #9f2d5b;" text="Eliminar" textFill="WHITE">
+                <Button fx:id="eliminarCita" mnemonicParsing="false" onAction="#eliminarCitaOnAction" prefWidth="100" style="-fx-background-color: #e27e8d;" text="Eliminar" textFill="WHITE">
                     <font>
                         <Font size="13.0" />
                     </font>

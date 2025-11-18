@@ -20,13 +20,13 @@
             <Insets bottom="20" left="30" right="30" top="20" />
         </padding>
         <children>
-            <Label text="GestiÃ³n de Inventario" textFill="WHITE" HBox.hgrow="ALWAYS">
+            <Label text="Gestión de Inventario" textFill="WHITE" HBox.hgrow="ALWAYS">
                 <font>
                     <Font name="Noto Sans Condensed Bold" size="27.0" />
                 </font>
             </Label>
 
-            <TextField fx:id="busquedaProductos" promptText="ðŸ” Buscar producto..." prefWidth="280" style="-fx-background-color: white; -fx-prompt-text-fill: #999;">
+            <TextField fx:id="busquedaProductos" promptText="🔍 Buscar producto..." prefWidth="280" style="-fx-background-color: white; -fx-prompt-text-fill: #999;">
                 <font>
                     <Font size="16.0" />
                 </font>
@@ -34,7 +34,7 @@
         </children>
     </HBox>
 
-    <!-- Filtros y acciones rÃ¡pidas -->
+    <!-- Filtros y acciones rápidas -->
     <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: #e899a8;">
         <padding>
             <Insets bottom="12" left="30" right="30" top="12" />
@@ -47,7 +47,7 @@
             </Label>
 
             <VBox spacing="2">
-                <Label text="CategorÃ­a" textFill="WHITE" style="-fx-font-size: 10px;" />
+                <Label text="Categoría" textFill="WHITE" style="-fx-font-size: 10px;" />
                 <ComboBox fx:id="filtroCategoria" promptText="Todas" prefWidth="140" style="-fx-background-color: white; -fx-font-size: 12px;" />
             </VBox>
 
@@ -58,7 +58,7 @@
 
             <Region HBox.hgrow="ALWAYS" />
 
-            <Label fx:id="lblStockBajo" text="ðŸ“¦ Productos con stock bajo: 5" textFill="WHITE" style="-fx-background-color: #c45a7d; -fx-padding: 8 15; -fx-background-radius: 5;">
+            <Label fx:id="lblStockBajo" text="📦 Productos con stock bajo: 5" textFill="WHITE" style="-fx-background-color: #c45a7d; -fx-padding: 8 15; -fx-background-radius: 5;">
                 <font>
                     <Font name="Noto Sans Condensed Bold" size="12.0" />
                 </font>
@@ -69,11 +69,11 @@
     <!-- Tabla de productos -->
     <TableView fx:id="tablaProductos" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="columnaCodigo" text="CÃ³digo" minWidth="80" prefWidth="80" />
+            <TableColumn fx:id="columnaCodigo" text="Código" minWidth="80" prefWidth="80" />
             <TableColumn fx:id="columnaNombre" text="Producto" minWidth="180" prefWidth="200" />
-            <TableColumn fx:id="columnaCategoria" text="CategorÃ­a" minWidth="120" prefWidth="130" />
+            <TableColumn fx:id="columnaCategoria" text="Categoría" minWidth="120" prefWidth="130" />
             <TableColumn fx:id="columnaStock" text="Stock" minWidth="80" prefWidth="90" />
-            <TableColumn fx:id="columnaStockMinimo" text="Stock MÃ­nimo" minWidth="100" prefWidth="110" />
+            <TableColumn fx:id="columnaStockMinimo" text="Stock Mínimo" minWidth="100" prefWidth="110" />
             <TableColumn fx:id="columnaPrecioCompra" text="Precio Compra" minWidth="110" prefWidth="120" />
             <TableColumn fx:id="columnaPrecioVenta" text="Precio Venta" minWidth="110" prefWidth="120" />
             <TableColumn fx:id="columnaEstado" text="Estado" minWidth="100" prefWidth="110" />
@@ -84,7 +84,7 @@
         </columnResizePolicy>
     </TableView>
 
-    <!-- Botones de acciÃ³n -->
+    <!-- Botones de acción -->
     <HBox alignment="CENTER" spacing="15" style="-fx-background-color: #f6cbd6;">
         <padding>
             <Insets bottom="15" left="30" right="30" top="15" />

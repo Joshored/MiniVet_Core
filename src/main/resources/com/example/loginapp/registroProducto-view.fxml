@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane minHeight="600.0" minWidth="500.0" prefHeight="650.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.loginapp.ProductoController">
+    <top>
+        <HBox alignment="CENTER_LEFT" minHeight="75" style="-fx-background-color: #f2a1ae;" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="15" left="20" right="20" top="15" />
+            </padding>
+            <children>
+                <Label text="Registro de Producto" textFill="WHITE" wrapText="true" HBox.hgrow="ALWAYS">
+                    <font>
+                        <Font name="Noto Sans Condensed ExtraBold" size="35.0" />
+                    </font>
+                    <effect>
+                        <DropShadow>
+                            <color>
+                                <Color red="1.0" green="0.7623456716537476" blue="0.7623456716537476" />
+                            </color>
+                        </DropShadow>
+                    </effect>
+                </Label>
+                <ImageView fitHeight="46.0" fitWidth="152.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../Imagenes/MiniVet/2copia.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background: white; -fx-background-color: white;" BorderPane.alignment="CENTER">
+            <content>
+                <VBox alignment="TOP_CENTER" spacing="12" style="-fx-background-color: white;">
+                    <padding>
+                        <Insets bottom="25" left="30" right="30" top="25" />
+                    </padding>
+                    <children>
+                        <!-- Información Básica -->
+                        <VBox maxWidth="500" spacing="8">
+                            <children>
+                                <Label text="Información Básica" textFill="#9f2d5b">
+                                    <font>
+                                        <Font name="Noto Sans Condensed Bold" size="15.0" />
+                                    </font>
+                                </Label>
+
+                                <TextField fx:id="codigo" focusTraversable="true" promptText="Código del Producto *">
+                                    <font>
+                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                    </font>
+                                </TextField>
+
+                                <TextField fx:id="nombre" focusTraversable="true" promptText="Nombre del Producto *">
+                                    <font>
+                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                    </font>
+                                </TextField>
+
+                                <VBox spacing="5">
+                                    <children>
+                                        <Label text="Descripción" textFill="#9f2d5b">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </Label>
+                                        <TextArea fx:id="descripcion" prefHeight="80.0" promptText="Descripción del producto (opcional)" wrapText="true">
+                                            <font>
+                                                <Font name="Noto Sans Condensed" size="13.0" />
+                                            </font>
+                                        </TextArea>
+                                    </children>
+                                </VBox>
+
+                                <VBox spacing="5">
+                                    <children>
+                                        <Label text="Categoría *" textFill="#9f2d5b">
+                                            <font>
+                                                <Font size="12.0" />
+                                            </font>
+                                        </Label>
+                                        <ComboBox fx:id="categoria" focusTraversable="true" maxWidth="Infinity" promptText="Seleccione categoría" style="-fx-background-color: #f6cbd6;" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+
+                        <!-- Stock -->
+                        <VBox maxWidth="500" spacing="8">
+                            <children>
+                                <Label text="Control de Stock" textFill="#9f2d5b">
+                                    <font>
+                                        <Font name="Noto Sans Condensed Bold" size="15.0" />
+                                    </font>
+                                </Label>
+
+                                <HBox spacing="8">
+                                    <children>
+                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label text="Stock Actual *" textFill="#9f2d5b">
+                                                    <font>
+                                                        <Font size="12.0" />
+                                                    </font>
+                                                </Label>
+                                                <TextField fx:id="stock" focusTraversable="true" promptText="Cantidad">
+                                                    <font>
+                                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label text="Stock Mínimo *" textFill="#9f2d5b">
+                                                    <font>
+                                                        <Font size="12.0" />
+                                                    </font>
+                                                </Label>
+                                                <TextField fx:id="stockMinimo" focusTraversable="true" promptText="Mínimo">
+                                                    <font>
+                                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <!-- Precios -->
+                        <VBox maxWidth="500" spacing="8">
+                            <children>
+                                <Label text="Precios" textFill="#9f2d5b">
+                                    <font>
+                                        <Font name="Noto Sans Condensed Bold" size="15.0" />
+                                    </font>
+                                </Label>
+
+                                <HBox spacing="8">
+                                    <children>
+                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label text="Precio de Compra *" textFill="#9f2d5b">
+                                                    <font>
+                                                        <Font size="12.0" />
+                                                    </font>
+                                                </Label>
+                                                <TextField fx:id="precioCompra" focusTraversable="true" promptText="0.00">
+                                                    <font>
+                                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label text="Precio de Venta *" textFill="#9f2d5b">
+                                                    <font>
+                                                        <Font size="12.0" />
+                                                    </font>
+                                                </Label>
+                                                <TextField fx:id="precioVenta" focusTraversable="true" promptText="0.00">
+                                                    <font>
+                                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                                    </font>
+                                                </TextField>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <!-- Proveedor -->
+                        <VBox maxWidth="500" spacing="8">
+                            <children>
+                                <Label text="Proveedor" textFill="#9f2d5b">
+                                    <font>
+                                        <Font name="Noto Sans Condensed Bold" size="15.0" />
+                                    </font>
+                                </Label>
+
+                                <TextField fx:id="proveedor" focusTraversable="true" promptText="Nombre del proveedor">
+                                    <font>
+                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                    </font>
+                                </TextField>
+                            </children>
+                        </VBox>
+
+                        <!-- Mensaje y Botón -->
+                        <VBox alignment="CENTER" maxWidth="500" spacing="10">
+                            <children>
+                                <Label fx:id="mensajeAviso" alignment="CENTER" maxWidth="Infinity" minHeight="20" textFill="#f22b2b" wrapText="true" />
+
+                                <Button fx:id="btnGuardar" focusTraversable="true" mnemonicParsing="false" prefWidth="150" style="-fx-background-color: #9f2d5b;" text="Guardar" textFill="#f6cbd6">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </Button>
+
+                                <Label text="* Campos obligatorios" textFill="#999999">
+                                    <font>
+                                        <Font size="11.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>
