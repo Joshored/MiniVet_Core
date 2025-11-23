@@ -33,7 +33,7 @@
                         </ImageView>
                         <Label text="Tu veterinaria" textFill="WHITE">
                             <font>
-                                <Font name="Noto Sans Condensed Bold" size="22.0" />
+                                <Font name="Noto Sans Condensed Bold" size="30.0" />
                             </font>
                         </Label>
                     </children>
@@ -46,37 +46,46 @@
                             <graphic>
                                 <Label text="🏠 Inicio" textFill="WHITE">
                                     <font>
-                                        <Font size="14.0" />
+                                        <Font size="20.0" />
                                     </font>
                                 </Label>
                             </graphic>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
                         </Button>
 
                         <Button fx:id="btnClientes" onAction="#mostrarClientes" prefWidth="200" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-alignment: CENTER-LEFT; -fx-padding: 12px 20px;">
                             <graphic>
                                 <Label text="👥 Clientes" textFill="WHITE">
                                     <font>
-                                        <Font size="14.0" />
+                                        <Font size="20.0" />
                                     </font>
                                 </Label>
                             </graphic>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
                         </Button>
 
                         <Button fx:id="btnCitas" onAction="#mostrarCitas" prefWidth="200" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-alignment: CENTER-LEFT; -fx-padding: 12px 20px;">
                             <graphic>
                                 <Label text="📅 Citas" textFill="WHITE">
                                     <font>
-                                        <Font size="14.0" />
+                                        <Font size="20.0" />
                                     </font>
                                 </Label>
                             </graphic>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
                         </Button>
 
                         <Button fx:id="btnInventario" onAction="#mostrarInventario" prefWidth="200" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-alignment: CENTER-LEFT; -fx-padding: 12px 20px;">
                             <graphic>
                                 <Label text="💊 Inventario" textFill="WHITE">
                                     <font>
-                                        <Font size="14.0" />
+                                        <Font size="20.0" />
                                     </font>
                                 </Label>
                             </graphic>
@@ -86,10 +95,13 @@
                             <graphic>
                                 <Label text="💰 Facturación" textFill="WHITE">
                                     <font>
-                                        <Font size="14.0" />
+                                        <Font size="20.0" />
                                     </font>
                                 </Label>
                             </graphic>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
                         </Button>
 
                         <Region VBox.vgrow="ALWAYS" />
@@ -99,7 +111,7 @@
                             <graphic>
                                 <Label text="🚪 Cerrar Sesión" textFill="WHITE">
                                     <font>
-                                        <Font size="14.0" />
+                                        <Font size="20.0" />
                                     </font>
                                 </Label>
                             </graphic>

@@ -25,7 +25,7 @@
                     <children>
                         <Label alignment="CENTER" maxWidth="Infinity" prefHeight="62.0" prefWidth="201.0" text="Tu veterinaria" textFill="WHITE">
                             <font>
-                                <Font name="Noto Sans Condensed Bold" size="33.0" />
+                                <Font name="Noto Sans Condensed Bold" size="39.0" />
                             </font>
                             <effect>
                                 <DropShadow />
@@ -57,32 +57,41 @@
             <children>
                 <Label alignment="CENTER" maxWidth="Infinity" text="Acceder" textFill="#0d0d0d">
                     <font>
-                        <Font name="NimbusMonoPS-Regular" size="21.0" />
+                        <Font size="27.0" />
                     </font>
                 </Label>
 
                 <VBox alignment="CENTER" spacing="10" VBox.vgrow="ALWAYS">
                     <children>
-                        <TextField fx:id="usuarioCampoTxt" maxWidth="250" prefWidth="250" promptText="Nombre de Usuario" />
-                        <PasswordField fx:id="contrasenaCampoTxt" maxWidth="250" prefWidth="250" promptText="Contraseña" />
+                        <TextField fx:id="usuarioCampoTxt" maxWidth="250" prefWidth="250" promptText="Nombre de Usuario">
+                     <font>
+                        <Font size="19.0" />
+                     </font></TextField>
+                        <PasswordField fx:id="contrasenaCampoTxt" maxWidth="250" prefWidth="250" promptText="Contraseña">
+                     <font>
+                        <Font size="19.0" />
+                     </font></PasswordField>
                         <Label fx:id="errorTexto" alignment="CENTER" maxWidth="250" prefWidth="250" textFill="#f22424" wrapText="true" />
                     </children>
                 </VBox>
 
                 <VBox alignment="CENTER" prefHeight="53.0" prefWidth="249.0" spacing="8">
                     <children>
-                        <Button fx:id="entrarBoton" maxWidth="250" mnemonicParsing="false" onAction="#entrarBotonOnAction" prefWidth="250" style="-fx-background-color: #9f2d5b;" text="ENTRAR" textFill="WHITE" />
+                        <Button fx:id="entrarBoton" maxWidth="250" mnemonicParsing="false" onAction="#entrarBotonOnAction" prefWidth="250" style="-fx-background-color: #9f2d5b;" text="ENTRAR" textFill="WHITE">
+                     <font>
+                        <Font size="19.0" />
+                     </font></Button>
 
                         <HBox alignment="CENTER" prefHeight="21.0" prefWidth="251.0" spacing="10">
                             <children>
                                 <Button fx:id="crearCuentaBoton" mnemonicParsing="false" onAction="#crearCuentaBotonOnAction" prefWidth="120" style="-fx-background-color: #ffffff;" text="Crear Cuenta" textFill="#c45a7d">
                                     <font>
-                                        <Font size="10.0" />
+                                        <Font size="16.0" />
                                     </font>
                                 </Button>
                                 <Button fx:id="olvideContrasenaBoton" mnemonicParsing="false" prefWidth="117.0" style="-fx-background-color: #ffffff;" text="Olvide mi Contraseña" textFill="#c45a7d">
                                     <font>
-                                        <Font size="10.0" />
+                                        <Font size="16.0" />
                                     </font>
                                 </Button>
                             </children>

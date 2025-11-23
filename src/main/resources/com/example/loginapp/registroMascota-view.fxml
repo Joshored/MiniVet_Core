@@ -57,19 +57,19 @@
                             <children>
                                 <Label text="Información Básica" textFill="#9f2d5b">
                                     <font>
-                                        <Font name="Noto Sans Condensed Bold" size="15.0" />
+                                        <Font name="Noto Sans Condensed Bold" size="20.0" />
                                     </font>
                                 </Label>
 
                                 <TextField fx:id="nombreMascota" focusTraversable="true" promptText="Nombre de la Mascota *">
                                     <font>
-                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                        <Font name="Noto Sans Condensed" size="20.0" />
                                     </font>
                                 </TextField>
 
                                 <TextField fx:id="Especie" focusTraversable="true" promptText="Especie (ej: Perro, Gato, Ave) *">
                                     <font>
-                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                        <Font name="Noto Sans Condensed" size="20.0" />
                                     </font>
                                 </TextField>
 
@@ -77,13 +77,13 @@
                                     <children>
                                         <TextField fx:id="EdadMascota" focusTraversable="true" prefWidth="100" promptText="Edad *" HBox.hgrow="NEVER">
                                             <font>
-                                                <Font name="Noto Sans Condensed" size="14.0" />
+                                                <Font name="Noto Sans Condensed" size="20.0" />
                                             </font>
                                         </TextField>
 
                                         <TextField fx:id="Raza" focusTraversable="true" promptText="Raza (opcional)" HBox.hgrow="ALWAYS">
                                             <font>
-                                                <Font name="Noto Sans Condensed" size="14.0" />
+                                                <Font name="Noto Sans Condensed" size="20.0" />
                                             </font>
                                         </TextField>
                                     </children>
@@ -96,7 +96,7 @@
                             <children>
                                 <Label text="Características Físicas" textFill="#9f2d5b">
                                     <font>
-                                        <Font name="Noto Sans Condensed Bold" size="15.0" />
+                                        <Font name="Noto Sans Condensed Bold" size="20.0" />
                                     </font>
                                 </Label>
 
@@ -106,7 +106,7 @@
                                             <children>
                                                 <Label text="Sexo *" textFill="#9f2d5b">
                                                     <font>
-                                                        <Font size="12.0" />
+                                                        <Font size="18.0" />
                                                     </font>
                                                 </Label>
                                                 <ComboBox fx:id="SexoMascota" focusTraversable="true" maxWidth="Infinity" promptText="Seleccione" style="-fx-background-color: #f6cbd6;" />
@@ -117,12 +117,12 @@
                                             <children>
                                                 <Label text="Color" textFill="#9f2d5b">
                                                     <font>
-                                                        <Font size="12.0" />
+                                                        <Font size="18.0" />
                                                     </font>
                                                 </Label>
                                                 <TextField fx:id="ColorMascota" focusTraversable="true" promptText="Color del pelaje">
                                                     <font>
-                                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                                        <Font name="Noto Sans Condensed" size="20.0" />
                                                     </font>
                                                 </TextField>
                                             </children>
@@ -137,13 +137,13 @@
                             <children>
                                 <Label text="Información Médica" textFill="#9f2d5b">
                                     <font>
-                                        <Font name="Noto Sans Condensed Bold" size="15.0" />
+                                        <Font name="Noto Sans Condensed Bold" size="20.0" />
                                     </font>
                                 </Label>
 
                                 <TextField fx:id="numeroChip" focusTraversable="true" promptText="Número de Microchip (opcional)">
                                     <font>
-                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                        <Font name="Noto Sans Condensed" size="20.0" />
                                     </font>
                                 </TextField>
 
@@ -151,7 +151,7 @@
                                     <children>
                                         <Label text="¿Esterilizado/a? *" textFill="#9f2d5b">
                                             <font>
-                                                <Font size="13.0" />
+                                                <Font size="19.0" />
                                             </font>
                                         </Label>
                                         <ComboBox fx:id="esterilizado" focusTraversable="true" prefWidth="150" promptText="Seleccione" style="-fx-background-color: #f6cbd6;" />
@@ -162,12 +162,12 @@
                                     <children>
                                         <Label text="Síntomas o Condiciones Médicas" textFill="#9f2d5b">
                                             <font>
-                                                <Font size="13.0" />
+                                                <Font size="19.0" />
                                             </font>
                                         </Label>
                                         <TextArea fx:id="sintomas" prefHeight="120.0" promptText="Describa cualquier síntoma, alergia o condición médica relevante..." wrapText="true">
                                             <font>
-                                                <Font name="Noto Sans Condensed" size="13.0" />
+                                                <Font name="Noto Sans Condensed" size="19.0" />
                                             </font>
                                         </TextArea>
                                     </children>
@@ -180,7 +180,7 @@
                             <children>
                                 <Label text="Información del Dueño" textFill="#9f2d5b">
                                     <font>
-                                        <Font name="Noto Sans Condensed Bold" size="15.0" />
+                                        <Font name="Noto Sans Condensed Bold" size="20.0" />
                                     </font>
                                 </Label>
 
@@ -188,7 +188,7 @@
                                     <children>
                                         <Label text="Dueño *" textFill="#9f2d5b">
                                             <font>
-                                                <Font size="12.0" />
+                                                <Font size="18.0" />
                                             </font>
                                         </Label>
                                         <ComboBox fx:id="NombreDueno" focusTraversable="true" maxWidth="Infinity" promptText="Seleccione el dueño" style="-fx-background-color: #f6cbd6;" />

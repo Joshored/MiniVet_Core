@@ -43,8 +43,7 @@
             </children>
         </HBox>
     </top>
-
-    <center>
+   <bottom>
         <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background: white; -fx-background-color: white;" BorderPane.alignment="CENTER">
             <content>
                 <VBox alignment="TOP_CENTER" spacing="12" style="-fx-background-color: white;">
@@ -57,19 +56,19 @@
                             <children>
                                 <TextField fx:id="ApellidoPaterno" focusTraversable="true" promptText="Apellido Paterno">
                                     <font>
-                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                        <Font name="Noto Sans Condensed" size="20.0" />
                                     </font>
                                 </TextField>
 
                                 <TextField fx:id="ApellidoMaterno" focusTraversable="true" promptText="Apellido Materno">
                                     <font>
-                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                        <Font name="Noto Sans Condensed" size="20.0" />
                                     </font>
                                 </TextField>
 
                                 <TextField fx:id="NombreCliente" focusTraversable="true" promptText="Nombre">
                                     <font>
-                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                        <Font name="Noto Sans Condensed" size="20.0" />
                                     </font>
                                 </TextField>
                             </children>
@@ -80,20 +79,20 @@
                             <children>
                                 <Label text="Fecha de Nacimiento" textFill="#9f2d5b">
                                     <font>
-                                        <Font size="13.0" />
+                                        <Font size="19.0" />
                                     </font>
                                 </Label>
                                 <HBox spacing="8">
                                     <children>
                                         <TextField fx:id="Dia" focusTraversable="true" prefWidth="80" promptText="Día" HBox.hgrow="NEVER">
                                             <font>
-                                                <Font name="Noto Sans Condensed" size="14.0" />
+                                                <Font name="Noto Sans Condensed" size="20.0" />
                                             </font>
                                         </TextField>
                                         <ComboBox fx:id="Mes" focusTraversable="true" maxWidth="Infinity" promptText="Mes" style="-fx-background-color: #f6cbd6;" HBox.hgrow="ALWAYS" />
                                         <TextField fx:id="Ano" focusTraversable="true" prefWidth="80" promptText="Año" HBox.hgrow="NEVER">
                                             <font>
-                                                <Font name="Noto Sans Condensed" size="14.0" />
+                                                <Font name="Noto Sans Condensed" size="20.0" />
                                             </font>
                                         </TextField>
                                     </children>
@@ -106,13 +105,13 @@
                             <children>
                                 <TextField fx:id="NumeroTel" focusTraversable="true" promptText="Número de Teléfono">
                                     <font>
-                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                        <Font name="Noto Sans Condensed" size="20.0" />
                                     </font>
                                 </TextField>
 
                                 <TextField fx:id="eMail" focusTraversable="true" promptText="E-mail">
                                     <font>
-                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                        <Font name="Noto Sans Condensed" size="20.0" />
                                     </font>
                                 </TextField>
                             </children>
@@ -123,12 +122,12 @@
                             <children>
                                 <Label text="Dirección" textFill="#9f2d5b">
                                     <font>
-                                        <Font size="13.0" />
+                                        <Font size="19.0" />
                                     </font>
                                 </Label>
                                 <TextField fx:id="Calle" focusTraversable="true" promptText="Calle">
                                     <font>
-                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                        <Font name="Noto Sans Condensed" size="20.0" />
                                     </font>
                                 </TextField>
 
@@ -136,12 +135,12 @@
                                     <children>
                                         <TextField fx:id="numCalle" focusTraversable="true" prefWidth="100" promptText="Número" HBox.hgrow="NEVER">
                                             <font>
-                                                <Font name="Noto Sans Condensed" size="14.0" />
+                                                <Font name="Noto Sans Condensed" size="20.0" />
                                             </font>
                                         </TextField>
                                         <TextField fx:id="Colonia" focusTraversable="true" promptText="Colonia" HBox.hgrow="ALWAYS">
                                             <font>
-                                                <Font name="Noto Sans Condensed" size="14.0" />
+                                                <Font name="Noto Sans Condensed" size="20.0" />
                                             </font>
                                         </TextField>
                                     </children>
@@ -154,18 +153,18 @@
                             <children>
                                 <Label text="Usuario y Contraseña" textFill="#9f2d5b">
                                     <font>
-                                        <Font size="13.0" />
+                                        <Font size="19.0" />
                                     </font>
                                 </Label>
                                 <TextField fx:id="username" focusTraversable="true" promptText="Usuario">
                                     <font>
-                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                        <Font name="Noto Sans Condensed" size="20.0" />
                                     </font>
                                 </TextField>
 
                                 <PasswordField fx:id="contrasena" focusTraversable="true" promptText="Contraseña">
                                     <font>
-                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                        <Font name="Noto Sans Condensed" size="20.0" />
                                     </font>
                                 </PasswordField>
 
@@ -193,5 +192,5 @@
                 </VBox>
             </content>
         </ScrollPane>
-    </center>
+   </bottom>
 </BorderPane>

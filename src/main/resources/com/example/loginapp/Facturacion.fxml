@@ -27,9 +27,9 @@
                 </font>
             </Label>
 
-            <TextField fx:id="busquedaFacturas" promptText="🔍 Buscar factura..." prefWidth="280" style="-fx-background-color: white; -fx-prompt-text-fill: #999;">
+            <TextField fx:id="busquedaFacturas" prefWidth="280" promptText="🔍 Buscar factura..." style="-fx-background-color: white; -fx-prompt-text-fill: #999;">
                 <font>
-                    <Font size="16.0" />
+                    <Font size="22.0" />
                 </font>
             </TextField>
         </children>
@@ -43,22 +43,31 @@
         <children>
             <Label text="Filtrar:" textFill="WHITE">
                 <font>
-                    <Font name="Noto Sans Condensed Bold" size="16.0" />
+                    <Font name="Noto Sans Condensed Bold" size="22.0" />
                 </font>
             </Label>
 
             <VBox spacing="2">
-                <Label text="Período" textFill="WHITE" style="-fx-font-size: 13px;" />
-                <ComboBox fx:id="filtroPeriodo" promptText="Este mes" prefWidth="130" style="-fx-background-color: white; -fx-font-size: 15px;" />
+                <Label style="-fx-font-size: 13px;" text="Período" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font></Label>
+                <ComboBox fx:id="filtroPeriodo" prefWidth="130" promptText="Este mes" style="-fx-background-color: white; -fx-font-size: 15px;" />
             </VBox>
 
             <VBox spacing="2">
-                <Label text="Desde" textFill="WHITE" style="-fx-font-size: 13px;" />
+                <Label style="-fx-font-size: 13px;" text="Desde" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font></Label>
                 <DatePicker fx:id="filtroDesde" prefWidth="140" style="-fx-background-color: white; -fx-font-size: 15px;" />
             </VBox>
 
             <VBox spacing="2">
-                <Label text="Hasta" textFill="WHITE" style="-fx-font-size: 13px;" />
+                <Label style="-fx-font-size: 13px;" text="Hasta" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font></Label>
                 <DatePicker fx:id="filtroHasta" prefWidth="140" style="-fx-background-color: white; -fx-font-size: 15px;" />
             </VBox>
 
@@ -66,7 +75,10 @@
 
             <!-- Estadísticas del día -->
             <VBox alignment="CENTER" spacing="3" style="-fx-background-color: #c45a7d; -fx-padding: 10 18; -fx-background-radius: 5;">
-                <Label text="Ventas Hoy" textFill="WHITE" style="-fx-font-size: 13px;" />
+                <Label style="-fx-font-size: 13px;" text="Ventas Hoy" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font></Label>
                 <Label fx:id="lblVentasHoy" text="0.00" textFill="WHITE">
                     <font>
                         <Font name="Noto Sans Condensed Bold" size="19.0" />
@@ -75,7 +87,10 @@
             </VBox>
 
             <VBox alignment="CENTER" spacing="3" style="-fx-background-color: #9f2d5b; -fx-padding: 10 18; -fx-background-radius: 5;">
-                <Label text="Total Mes" textFill="WHITE" style="-fx-font-size: 13px;" />
+                <Label style="-fx-font-size: 13px;" text="Total Mes" textFill="WHITE">
+               <font>
+                  <Font size="19.0" />
+               </font></Label>
                 <Label fx:id="lblTotalMes" text="0.00" textFill="WHITE">
                     <font>
                         <Font name="Noto Sans Condensed Bold" size="19.0" />
@@ -88,16 +103,16 @@
     <!-- Tabla de facturas -->
     <TableView fx:id="tablaFacturas" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="columnaFolio" text="Folio" minWidth="80" prefWidth="90" />
-            <TableColumn fx:id="columnaFecha" text="Fecha" minWidth="100" prefWidth="120" />
-            <TableColumn fx:id="columnaHora" text="Hora" minWidth="70" prefWidth="80" />
-            <TableColumn fx:id="columnaCliente" text="Cliente" minWidth="150" prefWidth="180" />
-            <TableColumn fx:id="columnaProductos" text="Productos" minWidth="80" prefWidth="100" />
-            <TableColumn fx:id="columnaSubtotal" text="Subtotal" minWidth="100" prefWidth="110" />
-            <TableColumn fx:id="columnaDescuento" text="Descuento" minWidth="90" prefWidth="100" />
-            <TableColumn fx:id="columnaTotal" text="Total" minWidth="100" prefWidth="110" />
-            <TableColumn fx:id="columnaMetodoPago" text="Método Pago" minWidth="120" prefWidth="130" />
-            <TableColumn fx:id="columnaEstado" text="Estado" minWidth="90" prefWidth="100" />
+            <TableColumn fx:id="columnaFolio" minWidth="80" prefWidth="90" text="Folio" />
+            <TableColumn fx:id="columnaFecha" minWidth="100" prefWidth="120" text="Fecha" />
+            <TableColumn fx:id="columnaHora" minWidth="70" prefWidth="80" text="Hora" />
+            <TableColumn fx:id="columnaCliente" minWidth="150" prefWidth="180" text="Cliente" />
+            <TableColumn fx:id="columnaProductos" minWidth="80" prefWidth="100" text="Productos" />
+            <TableColumn fx:id="columnaSubtotal" minWidth="100" prefWidth="110" text="Subtotal" />
+            <TableColumn fx:id="columnaDescuento" minWidth="90" prefWidth="100" text="Descuento" />
+            <TableColumn fx:id="columnaTotal" minWidth="100" prefWidth="110" text="Total" />
+            <TableColumn fx:id="columnaMetodoPago" minWidth="120" prefWidth="130" text="Método Pago" />
+            <TableColumn fx:id="columnaEstado" minWidth="90" prefWidth="100" text="Estado" />
         </columns>
         <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -112,15 +127,30 @@
         <children>
             <Region HBox.hgrow="ALWAYS" />
 
-            <Button text="Nueva Venta" onAction="#nuevaVenta" prefWidth="150" style="-fx-background-color: #9f2d5b; -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold;" />
+            <Button onAction="#nuevaVenta" prefWidth="150" style="-fx-background-color: #9f2d5b; -fx-text-fill: white; -fx-font-size: 17; -fx-font-weight: bold;" text="Nueva Venta">
+            <font>
+               <Font size="19.0" />
+            </font></Button>
 
-            <Button text="Ver Detalle" onAction="#verDetalle" prefWidth="130" style="-fx-background-color: #9f2d5b; -fx-text-fill: white; -fx-font-size: 16;" />
+            <Button onAction="#verDetalle" prefWidth="130" style="-fx-background-color: #9f2d5b; -fx-text-fill: white; -fx-font-size: 16;" text="Ver Detalle">
+            <font>
+               <Font size="19.0" />
+            </font></Button>
 
-            <Button text="Imprimir Ticket" onAction="#imprimirTicket" prefWidth="150" style="-fx-background-color: #c45a7d; -fx-text-fill: white; -fx-font-size: 16;" />
+            <Button onAction="#imprimirTicket" prefWidth="150" style="-fx-background-color: #c45a7d; -fx-text-fill: white; -fx-font-size: 16;" text="Imprimir Ticket">
+            <font>
+               <Font size="19.0" />
+            </font></Button>
 
-            <Button text="Reporte" onAction="#generarReporte" prefWidth="120" style="-fx-background-color: #c45a7d; -fx-text-fill: white; -fx-font-size: 16;" />
+            <Button onAction="#generarReporte" prefWidth="120" style="-fx-background-color: #c45a7d; -fx-text-fill: white; -fx-font-size: 16;" text="Reporte">
+            <font>
+               <Font size="19.0" />
+            </font></Button>
 
-            <Button text="Cancelar Venta" onAction="#cancelarVenta" prefWidth="140" style="-fx-background-color: #e27e8d; -fx-text-fill: white; -fx-font-size: 16;" />
+            <Button onAction="#cancelarVenta" prefWidth="140" style="-fx-background-color: #e27e8d; -fx-text-fill: white; -fx-font-size: 16;" text="Cancelar Venta">
+            <font>
+               <Font size="19.0" />
+            </font></Button>
 
             <Region HBox.hgrow="ALWAYS" />
         </children>

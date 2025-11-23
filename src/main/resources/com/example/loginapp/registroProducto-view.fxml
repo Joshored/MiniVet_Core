@@ -57,19 +57,19 @@
                             <children>
                                 <Label text="Información Básica" textFill="#9f2d5b">
                                     <font>
-                                        <Font name="Noto Sans Condensed Bold" size="15.0" />
+                                        <Font name="Noto Sans Condensed Bold" size="20.0" />
                                     </font>
                                 </Label>
 
                                 <TextField fx:id="codigo" focusTraversable="true" promptText="Código del Producto *">
                                     <font>
-                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                        <Font name="Noto Sans Condensed" size="20.0" />
                                     </font>
                                 </TextField>
 
                                 <TextField fx:id="nombre" focusTraversable="true" promptText="Nombre del Producto *">
                                     <font>
-                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                        <Font name="Noto Sans Condensed" size="20.0" />
                                     </font>
                                 </TextField>
 
@@ -77,7 +77,7 @@
                                     <children>
                                         <Label text="Descripción" textFill="#9f2d5b">
                                             <font>
-                                                <Font size="12.0" />
+                                                <Font size="18.0" />
                                             </font>
                                         </Label>
                                         <TextArea fx:id="descripcion" prefHeight="80.0" promptText="Descripción del producto (opcional)" wrapText="true">
@@ -92,7 +92,7 @@
                                     <children>
                                         <Label text="Categoría *" textFill="#9f2d5b">
                                             <font>
-                                                <Font size="12.0" />
+                                                <Font size="18.0" />
                                             </font>
                                         </Label>
                                         <ComboBox fx:id="categoria" focusTraversable="true" maxWidth="Infinity" promptText="Seleccione categoría" style="-fx-background-color: #f6cbd6;" />
@@ -106,7 +106,7 @@
                             <children>
                                 <Label text="Control de Stock" textFill="#9f2d5b">
                                     <font>
-                                        <Font name="Noto Sans Condensed Bold" size="15.0" />
+                                        <Font name="Noto Sans Condensed Bold" size="20.0" />
                                     </font>
                                 </Label>
 
@@ -116,12 +116,12 @@
                                             <children>
                                                 <Label text="Stock Actual *" textFill="#9f2d5b">
                                                     <font>
-                                                        <Font size="12.0" />
+                                                        <Font size="18.0" />
                                                     </font>
                                                 </Label>
                                                 <TextField fx:id="stock" focusTraversable="true" promptText="Cantidad">
                                                     <font>
-                                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                                        <Font name="Noto Sans Condensed" size="20.0" />
                                                     </font>
                                                 </TextField>
                                             </children>
@@ -131,12 +131,12 @@
                                             <children>
                                                 <Label text="Stock Mínimo *" textFill="#9f2d5b">
                                                     <font>
-                                                        <Font size="12.0" />
+                                                        <Font size="18.0" />
                                                     </font>
                                                 </Label>
                                                 <TextField fx:id="stockMinimo" focusTraversable="true" promptText="Mínimo">
                                                     <font>
-                                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                                        <Font name="Noto Sans Condensed" size="20.0" />
                                                     </font>
                                                 </TextField>
                                             </children>
@@ -151,7 +151,7 @@
                             <children>
                                 <Label text="Precios" textFill="#9f2d5b">
                                     <font>
-                                        <Font name="Noto Sans Condensed Bold" size="15.0" />
+                                        <Font name="Noto Sans Condensed Bold" size="20.0" />
                                     </font>
                                 </Label>
 
@@ -161,12 +161,12 @@
                                             <children>
                                                 <Label text="Precio de Compra *" textFill="#9f2d5b">
                                                     <font>
-                                                        <Font size="12.0" />
+                                                        <Font size="18.0" />
                                                     </font>
                                                 </Label>
                                                 <TextField fx:id="precioCompra" focusTraversable="true" promptText="0.00">
                                                     <font>
-                                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                                        <Font name="Noto Sans Condensed" size="20.0" />
                                                     </font>
                                                 </TextField>
                                             </children>
@@ -176,12 +176,12 @@
                                             <children>
                                                 <Label text="Precio de Venta *" textFill="#9f2d5b">
                                                     <font>
-                                                        <Font size="12.0" />
+                                                        <Font size="18.0" />
                                                     </font>
                                                 </Label>
                                                 <TextField fx:id="precioVenta" focusTraversable="true" promptText="0.00">
                                                     <font>
-                                                        <Font name="Noto Sans Condensed" size="14.0" />
+                                                        <Font name="Noto Sans Condensed" size="20.0" />
                                                     </font>
                                                 </TextField>
                                             </children>

@@ -5,11 +5,17 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class InventarioController {
@@ -112,10 +118,10 @@ public class InventarioController {
                 } else {
                     switch (producto.getEstado()) {
                         case "Agotado":
-                            setStyle("-fx-background-color: #ffcdd2;"); // Rojo claro
+                            setStyle("-fx-background-color: #ffcdd2;");
                             break;
                         case "Stock Bajo":
-                            setStyle("-fx-background-color: #fff9c4;"); // Amarillo claro
+                            setStyle("-fx-background-color: #fff9c4;");
                             break;
                         default:
                             setStyle("");
@@ -157,7 +163,7 @@ public class InventarioController {
                 return false;
             }
 
-            // Filtro por estado de stock - adaptado a tus opciones
+            // Filtro por estado de stock
             if (!"Todos".equals(estadoFiltro)) {
                 switch (estadoFiltro) {
                     case "Stock Bajo":
@@ -202,18 +208,74 @@ public class InventarioController {
 
     @FXML
     private void nuevoProducto() {
-        // TODO: Implementar formulario de nuevo producto
-        mostrarAlerta("Información", "Funcionalidad de nuevo producto en desarrollo");
-        logger.info("Solicitado nuevo producto");
+        try {
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("registroProducto-view.fxml"));
+            Parent root = loader.load();
+
+            ProductoController controller = loader.getController();
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Nuevo Producto");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            Producto resultado = controller.getProductoResultado();
+            if (resultado != null) {
+                try {
+                    int nuevoId = productoDAO.guardar(resultado);
+                    resultado.setId(nuevoId);
+                    listaProductos.add(resultado);
+                    actualizarContadorStockBajo();
+                    mostrarAlerta("Éxito", "Producto guardado correctamente");
+                    logger.info("Nuevo producto creado: {}", resultado.getNombre());
+                } catch (Exception e) {
+                    logger.error("Error guardando producto", e);
+                    mostrarAlerta("Error", "No se pudo guardar el producto: " + e.getMessage());
+                }
+            }
+
+        } catch (IOException e) {
+            logger.error("Error abriendo formulario de producto", e);
+            mostrarAlerta("Error", "No se pudo abrir el formulario: " + e.getMessage());
+        }
     }
 
     @FXML
     private void editarProducto() {
         Producto productoSeleccionado = tablaProductos.getSelectionModel().getSelectedItem();
         if (productoSeleccionado != null) {
-            // TODO: Implementar formulario de edición
-            mostrarAlerta("Información", "Editando producto: " + productoSeleccionado.getNombre());
-            logger.info("Editando producto: {}", productoSeleccionado.getNombre());
+            try {
+                FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("registroProducto-view.fxml"));
+                Parent root = loader.load();
+
+                ProductoController controller = loader.getController();
+                controller.setProductoParaEditar(productoSeleccionado);
+
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Editar Producto");
+                stage.setScene(new Scene(root));
+                stage.showAndWait();
+
+                Producto resultado = controller.getProductoResultado();
+                if (resultado != null) {
+                    try {
+                        productoDAO.actualizar(resultado);
+                        tablaProductos.refresh();
+                        actualizarContadorStockBajo();
+                        mostrarAlerta("Éxito", "Producto actualizado correctamente");
+                        logger.info("Producto actualizado: {}", resultado.getNombre());
+                    } catch (Exception e) {
+                        logger.error("Error actualizando producto", e);
+                        mostrarAlerta("Error", "No se pudo actualizar el producto: " + e.getMessage());
+                    }
+                }
+
+            } catch (IOException e) {
+                logger.error("Error abriendo formulario de edición", e);
+                mostrarAlerta("Error", "No se pudo abrir el formulario: " + e.getMessage());
+            }
         } else {
             mostrarAlerta("Advertencia", "Por favor seleccione un producto para editar");
         }

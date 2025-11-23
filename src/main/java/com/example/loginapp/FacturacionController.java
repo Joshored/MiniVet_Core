@@ -5,20 +5,24 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 public class FacturacionController {
     private static final Logger logger = LoggerFactory.getLogger(FacturacionController.class);
 
-    // Componentes de la interfaz
     @FXML private TableView<Factura> tablaFacturas;
     @FXML private TableColumn<Factura, String> columnaFolio;
     @FXML private TableColumn<Factura, String> columnaFecha;
@@ -55,24 +59,20 @@ public class FacturacionController {
     }
 
     private void configurarColumnas() {
-        // Configurar las columnas de la tabla
         columnaFolio.setCellValueFactory(new PropertyValueFactory<>("numeroFactura"));
 
-        // Columna de fecha (solo fecha)
         columnaFecha.setCellValueFactory(cellData -> {
             Factura factura = cellData.getValue();
             String fecha = factura.getFechaEmision().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             return new javafx.beans.property.SimpleStringProperty(fecha);
         });
 
-        // Columna de hora (solo hora)
         columnaHora.setCellValueFactory(cellData -> {
             Factura factura = cellData.getValue();
             String hora = factura.getFechaEmision().format(DateTimeFormatter.ofPattern("HH:mm"));
             return new javafx.beans.property.SimpleStringProperty(hora);
         });
 
-        // Columna cliente (nombre completo)
         columnaCliente.setCellValueFactory(cellData -> {
             Factura factura = cellData.getValue();
             String cliente = factura.getCliente() != null ?
@@ -80,7 +80,6 @@ public class FacturacionController {
             return new javafx.beans.property.SimpleStringProperty(cliente);
         });
 
-        // Columna productos (cantidad de productos)
         columnaProductos.setCellValueFactory(cellData -> {
             Factura factura = cellData.getValue();
             int cantidadProductos = factura.getDetalles() != null ? factura.getDetalles().size() : 0;
@@ -92,7 +91,6 @@ public class FacturacionController {
         columnaMetodoPago.setCellValueFactory(new PropertyValueFactory<>("metodoPago"));
         columnaEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
 
-        // Columna descuento (por ahora fija en 0)
         columnaDescuento.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleDoubleProperty(0.0).asObject());
 
@@ -101,11 +99,7 @@ public class FacturacionController {
             @Override
             protected void updateItem(Double item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(String.format("$%.2f", item));
-                }
+                setText(empty || item == null ? null : String.format("$%.2f", item));
             }
         });
 
@@ -113,11 +107,7 @@ public class FacturacionController {
             @Override
             protected void updateItem(Double item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(String.format("$%.2f", item));
-                }
+                setText(empty || item == null ? null : String.format("$%.2f", item));
             }
         });
 
@@ -125,11 +115,7 @@ public class FacturacionController {
             @Override
             protected void updateItem(Double item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(String.format("$%.2f", item));
-                }
+                setText(empty || item == null ? null : String.format("$%.2f", item));
             }
         });
 
@@ -143,13 +129,13 @@ public class FacturacionController {
                 } else {
                     switch (factura.getEstado()) {
                         case "Pagada":
-                            setStyle("-fx-background-color: #c8e6c9;"); // Verde claro
+                            setStyle("-fx-background-color: #c8e6c9;");
                             break;
                         case "Cancelada":
-                            setStyle("-fx-background-color: #ffcdd2;"); // Rojo claro
+                            setStyle("-fx-background-color: #ffcdd2;");
                             break;
                         case "Pendiente":
-                            setStyle("-fx-background-color: #fff9c4;"); // Amarillo claro
+                            setStyle("-fx-background-color: #fff9c4;");
                             break;
                         default:
                             setStyle("");
@@ -160,14 +146,12 @@ public class FacturacionController {
     }
 
     private void configurarFiltros() {
-        // Configurar filtro de período
         filtroPeriodo.getItems().addAll("Hoy", "Esta semana", "Este mes", "Este año", "Todos");
         filtroPeriodo.setValue("Este mes");
         filtroPeriodo.setOnAction(e -> aplicarFiltros());
 
-        // Configurar date pickers
-        filtroDesde.setValue(LocalDate.now().withDayOfMonth(1)); // Primer día del mes
-        filtroHasta.setValue(LocalDate.now()); // Hoy
+        filtroDesde.setValue(LocalDate.now().withDayOfMonth(1));
+        filtroHasta.setValue(LocalDate.now());
 
         filtroDesde.setOnAction(e -> aplicarFiltros());
         filtroHasta.setOnAction(e -> aplicarFiltros());
@@ -192,7 +176,6 @@ public class FacturacionController {
         LocalDate hasta = filtroHasta.getValue();
 
         FilteredList<Factura> filteredData = new FilteredList<>(listaFacturas, factura -> {
-            // Filtro por texto de búsqueda
             if (!textoBusqueda.isEmpty()) {
                 boolean coincide = factura.getNumeroFactura().toLowerCase().contains(textoBusqueda) ||
                         (factura.getCliente() != null &&
@@ -200,16 +183,10 @@ public class FacturacionController {
                 if (!coincide) return false;
             }
 
-            // Filtro por período
             LocalDate fechaFactura = factura.getFechaEmision().toLocalDate();
-            if (desde != null && fechaFactura.isBefore(desde)) {
-                return false;
-            }
-            if (hasta != null && fechaFactura.isAfter(hasta)) {
-                return false;
-            }
+            if (desde != null && fechaFactura.isBefore(desde)) return false;
+            if (hasta != null && fechaFactura.isAfter(hasta)) return false;
 
-            // Filtro por período predefinido
             if (periodoFiltro != null) {
                 LocalDate hoy = LocalDate.now();
                 switch (periodoFiltro) {
@@ -228,7 +205,6 @@ public class FacturacionController {
                         LocalDate inicioAnio = hoy.withDayOfYear(1);
                         if (fechaFactura.isBefore(inicioAnio)) return false;
                         break;
-                    // "Todos" no aplica filtro
                 }
             }
 
@@ -270,18 +246,29 @@ public class FacturacionController {
     @FXML
     private void nuevaVenta() {
         try {
-            // Crear nueva factura
-            String nuevoNumero = generarNumeroFactura();
-            Factura nuevaFactura = new Factura(nuevoNumero, 0, "Efectivo"); // Cliente 0 temporal
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("nuevaVenta-view.fxml"));
+            Parent root = loader.load();
 
-            // Aquí deberías abrir un formulario modal para crear la factura
-            // Por ahora, creamos una factura de ejemplo
-            mostrarAlerta("Información", "Funcionalidad de nueva venta en desarrollo\nSe crearían: " + nuevoNumero);
-            logger.info("Iniciando nueva venta con número: {}", nuevoNumero);
+            NuevaVentaController controller = loader.getController();
 
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Nueva Venta");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            // Recargar datos después de guardar
+            cargarDatos();
+            actualizarEstadisticas();
+
+            logger.info("Formulario de nueva venta cerrado");
+
+        } catch (IOException e) {
+            logger.error("Error abriendo formulario de nueva venta", e);
+            mostrarAlerta("Error", "No se pudo abrir el formulario: " + e.getMessage());
         } catch (Exception e) {
-            logger.error("Error creando nueva venta", e);
-            mostrarAlerta("Error", "No se pudo crear la nueva venta: " + e.getMessage());
+            logger.error("Error inesperado en nueva venta", e);
+            mostrarAlerta("Error", "Error inesperado: " + e.getMessage());
         }
     }
 
@@ -299,7 +286,6 @@ public class FacturacionController {
     private void imprimirTicket() {
         Factura facturaSeleccionada = tablaFacturas.getSelectionModel().getSelectedItem();
         if (facturaSeleccionada != null) {
-            // Simulación de impresión
             String ticket = generarTicket(facturaSeleccionada);
 
             TextArea textArea = new TextArea(ticket);
@@ -331,17 +317,17 @@ public class FacturacionController {
             reporte.append("============================\n\n");
 
             reporte.append("Estadísticas:\n");
-            reporte.append("-------------").append("\n");
+            reporte.append("-------------\n");
             reporte.append("Ventas de hoy: ").append(lblVentasHoy.getText()).append("\n");
             reporte.append("Ventas del mes: ").append(lblTotalMes.getText()).append("\n");
             reporte.append("Total de facturas: ").append(listaFacturas.size()).append("\n\n");
 
             reporte.append("Últimas ventas:\n");
-            reporte.append("---------------").append("\n");
+            reporte.append("---------------\n");
 
             int contador = 0;
             for (Factura factura : listaFacturas) {
-                if (contador >= 10) break; // Mostrar solo las últimas 10
+                if (contador >= 10) break;
                 reporte.append(factura.getNumeroFactura())
                         .append(" | ")
                         .append(factura.getCliente().getNombreCompleto())
@@ -484,16 +470,6 @@ public class FacturacionController {
         ticket.append("================================\n");
 
         return ticket.toString();
-    }
-
-    private String generarNumeroFactura() {
-        // Generar número de factura secuencial: FAC-001, FAC-002, etc.
-        try {
-            int ultimoNumero = facturaDAO.obtenerTodas().size() + 1;
-            return String.format("FAC-%03d", ultimoNumero);
-        } catch (Exception e) {
-            return "FAC-001"; // Fallback
-        }
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {

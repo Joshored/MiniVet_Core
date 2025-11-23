@@ -12,11 +12,15 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.control.Alert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.util.Optional;
 
 public class ListaCitasController {
+    private static final Logger logger = LoggerFactory.getLogger(ListaCitasController.class);
+
     @FXML private TableView<Cita> tablaCitas;
     @FXML private TableColumn<Cita, String> columnaFecha;
     @FXML private TableColumn<Cita, String> columnaHora;
@@ -40,9 +44,11 @@ public class ListaCitasController {
     private ObservableList<Cita> listaCitas = FXCollections.observableArrayList();
     private ObservableList<Cliente> listaClientes;
     private CitaDAO citaDAO = new CitaDAO();
+    private ClienteDAO clienteDAO = new ClienteDAO();
 
     @FXML
     public void initialize() {
+        logger.info("Inicializando ListaCitasController");
         configurarColumnas();
         configurarFiltros();
         configurarBusqueda();
@@ -54,12 +60,18 @@ public class ListaCitasController {
         columnaFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
         columnaHora.setCellValueFactory(new PropertyValueFactory<>("horaInicio"));
         columnaCliente.setCellValueFactory(cellData ->
-                new javafx.beans.property.SimpleStringProperty(cellData.getValue().getCliente().getNombreCompleto()));
+                new javafx.beans.property.SimpleStringProperty(
+                        cellData.getValue().getCliente() != null ?
+                                cellData.getValue().getCliente().getNombreCompleto() : "Sin cliente"));
         columnaMascota.setCellValueFactory(cellData ->
-                new javafx.beans.property.SimpleStringProperty(cellData.getValue().getMascota().getNombre()));
+                new javafx.beans.property.SimpleStringProperty(
+                        cellData.getValue().getMascota() != null ?
+                                cellData.getValue().getMascota().getNombre() : "Sin mascota"));
         columnaTipoServicio.setCellValueFactory(new PropertyValueFactory<>("tipoServicio"));
         columnaVeterinario.setCellValueFactory(new PropertyValueFactory<>("veterinario"));
         columnaEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
+
+        logger.info("Columnas configuradas");
     }
 
     private void configurarFiltros() {
@@ -78,6 +90,8 @@ public class ListaCitasController {
         }
 
         if (filtroFecha != null) filtroFecha.setOnAction(e -> aplicarFiltros());
+
+        logger.info("Filtros configurados");
     }
 
     private void configurarBusqueda() {
@@ -92,6 +106,8 @@ public class ListaCitasController {
         SortedList<Cita> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(tablaCitas.comparatorProperty());
         tablaCitas.setItems(sortedData);
+
+        logger.info("Búsqueda configurada");
     }
 
     private void aplicarFiltros() {
@@ -102,8 +118,10 @@ public class ListaCitasController {
         FilteredList<Cita> filteredData = new FilteredList<>(listaCitas, cita -> {
             // Filtro por texto de búsqueda
             if (!textoBusqueda.isEmpty()) {
-                boolean coincide = cita.getCliente().getNombreCompleto().toLowerCase().contains(textoBusqueda) ||
-                        cita.getMascota().getNombre().toLowerCase().contains(textoBusqueda) ||
+                boolean coincide = (cita.getCliente() != null &&
+                        cita.getCliente().getNombreCompleto().toLowerCase().contains(textoBusqueda)) ||
+                        (cita.getMascota() != null &&
+                                cita.getMascota().getNombre().toLowerCase().contains(textoBusqueda)) ||
                         cita.getTipoServicio().toLowerCase().contains(textoBusqueda) ||
                         cita.getVeterinario().toLowerCase().contains(textoBusqueda);
                 if (!coincide) return false;
@@ -132,25 +150,47 @@ public class ListaCitasController {
         if (eliminarCita != null) eliminarCita.setOnAction(e -> eliminarCitaOnAction());
         if (verDetalles != null) verDetalles.setOnAction(e -> verDetallesOnAction());
         if (volverMenu != null) volverMenu.setOnAction(e -> volverMenuOnAction());
+
+        logger.info("Botones configurados");
     }
 
     public void setListaClientes(ObservableList<Cliente> clientes) {
         this.listaClientes = clientes;
+        logger.info("Lista de clientes establecida: {} clientes", clientes != null ? clientes.size() : 0);
     }
 
     private void cargarDatosDesdeBD() {
-        listaCitas.clear();
-        listaCitas.addAll(citaDAO.obtenerTodas());
+        try {
+            listaCitas.clear();
+            listaCitas.addAll(citaDAO.obtenerTodas());
+
+            // Si no tenemos la lista de clientes, cargarla
+            if (listaClientes == null) {
+                listaClientes = FXCollections.observableArrayList(clienteDAO.obtenerTodos());
+            }
+
+            logger.info("Cargadas {} citas desde la base de datos", listaCitas.size());
+        } catch (Exception e) {
+            logger.error("Error cargando citas desde BD", e);
+            mostrarAlerta("Error", "No se pudieron cargar las citas: " + e.getMessage());
+        }
     }
 
     @FXML
-    public void nuevaCitaOnAction() { abrirFormularioCita(null); }
+    public void nuevaCitaOnAction() {
+        logger.info("Abriendo formulario de nueva cita");
+        abrirFormularioCita(null);
+    }
 
     @FXML
     public void editarCitaOnAction() {
         Cita citaSeleccionada = tablaCitas.getSelectionModel().getSelectedItem();
-        if (citaSeleccionada != null) abrirFormularioCita(citaSeleccionada);
-        else mostrarAlerta("Advertencia", "Por favor seleccione una cita para editar");
+        if (citaSeleccionada != null) {
+            logger.info("Editando cita ID: {}", citaSeleccionada.getId());
+            abrirFormularioCita(citaSeleccionada);
+        } else {
+            mostrarAlerta("Advertencia", "Por favor seleccione una cita para editar");
+        }
     }
 
     @FXML
@@ -164,11 +204,47 @@ public class ListaCitasController {
 
             Optional<ButtonType> resultado = alert.showAndWait();
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-                citaDAO.eliminar(citaSeleccionada.getId());
-                listaCitas.remove(citaSeleccionada);
-                mostrarAlerta("Éxito", "Cita eliminada correctamente");
+                try {
+                    citaDAO.eliminar(citaSeleccionada.getId());
+                    listaCitas.remove(citaSeleccionada);
+                    mostrarAlerta("Éxito", "Cita eliminada correctamente");
+                    logger.info("Cita eliminada ID: {}", citaSeleccionada.getId());
+                } catch (Exception e) {
+                    logger.error("Error eliminando cita", e);
+                    mostrarAlerta("Error", "No se pudo eliminar la cita: " + e.getMessage());
+                }
             }
-        } else mostrarAlerta("Advertencia", "Por favor seleccione una cita para eliminar");
+        } else {
+            mostrarAlerta("Advertencia", "Por favor seleccione una cita para eliminar");
+        }
+    }
+
+    @FXML
+    public void cambiarEstadoCita() {
+        Cita citaSeleccionada = tablaCitas.getSelectionModel().getSelectedItem();
+        if (citaSeleccionada != null) {
+            ChoiceDialog<String> dialog = new ChoiceDialog<>(citaSeleccionada.getEstado(),
+                    "Programada", "En Proceso", "Completada", "Cancelada");
+            dialog.setTitle("Cambiar Estado");
+            dialog.setHeaderText("Cambiar estado de la cita");
+            dialog.setContentText("Nuevo estado:");
+
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                try {
+                    citaSeleccionada.setEstado(result.get());
+                    citaDAO.actualizar(citaSeleccionada);
+                    tablaCitas.refresh();
+                    mostrarAlerta("Éxito", "Estado actualizado correctamente");
+                    logger.info("Estado de cita {} cambiado a: {}", citaSeleccionada.getId(), result.get());
+                } catch (Exception e) {
+                    logger.error("Error actualizando estado de cita", e);
+                    mostrarAlerta("Error", "No se pudo actualizar el estado: " + e.getMessage());
+                }
+            }
+        } else {
+            mostrarAlerta("Advertencia", "Por favor seleccione una cita para cambiar su estado");
+        }
     }
 
     @FXML
@@ -195,7 +271,9 @@ public class ListaCitasController {
             alert.setHeaderText("Información completa de la cita");
             alert.setContentText(detalles.toString());
             alert.showAndWait();
-        } else mostrarAlerta("Advertencia", "Por favor seleccione una cita para ver sus detalles");
+        } else {
+            mostrarAlerta("Advertencia", "Por favor seleccione una cita para ver sus detalles");
+        }
     }
 
     @FXML
@@ -210,9 +288,17 @@ public class ListaCitasController {
             Parent root = loader.load();
 
             CitaController controller = loader.getController();
+
+            // Asegurarse de que tenemos la lista de clientes
+            if (listaClientes == null) {
+                listaClientes = FXCollections.observableArrayList(clienteDAO.obtenerTodos());
+            }
+
             controller.setListaClientes(listaClientes);
 
-            if (cita != null) controller.setCitaParaEditar(cita);
+            if (cita != null) {
+                controller.setCitaParaEditar(cita);
+            }
 
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -220,19 +306,16 @@ public class ListaCitasController {
             stage.setScene(new Scene(root));
             stage.showAndWait();
 
-            Cita resultado = controller.getCitaResultado();
-            if (resultado != null) {
-                if (cita == null) {
-                    // Nueva cita
-                    listaCitas.add(resultado);
-                } else {
-                    // Editar cita existente
-                    tablaCitas.refresh();
-                }
-            }
+            // Recargar datos después de cerrar el formulario
+            cargarDatosDesdeBD();
 
         } catch (IOException e) {
+            logger.error("Error abriendo formulario de cita", e);
             mostrarAlerta("Error", "No se pudo abrir el formulario: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            logger.error("Error inesperado abriendo formulario de cita", e);
+            mostrarAlerta("Error", "Error inesperado: " + e.getMessage());
             e.printStackTrace();
         }
     }
