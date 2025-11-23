@@ -7,16 +7,22 @@
     -fx-background-color: #c45a7d;
 }
 
+.table-view .corner {
+    -fx-background-color: #c45a7d;
+}
 
 /* Cambiar el color de texto de los títulos */
 .table-view .column-header .label {
-    -fx-text-fill: #f6cbd6;           /* texto blanco */
-    -fx-font-weight: bold;          /* opcional, negritas */
+    -fx-text-fill: #f6cbd6;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+    -fx-alignment: center-left;
 }
 
 /* Opcional: color de fondo de las filas */
 .table-row-cell {
-    -fx-background-color: #f5f5f5;
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent;
 }
 
 /* Alternar color de filas */
@@ -27,10 +33,20 @@
 /* Evitar texto blanco al seleccionar */
 .table-row-cell:selected {
     -fx-background-color: #e27e8d;  /* el color que prefieras para la selección */
-    -fx-text-fill: #f6cbd6;           /* color de texto visible */
+    -fx-text-fill: #ffffff;           /* color de texto visible */
 }
 
 /* Asegurar que las celdas hereden el color de texto correcto */
 .table-row-cell:selected .text {
     -fx-fill: black;
+}
+
+.table-view {
+    -fx-border-color: transparent;
+    -fx-background-color: white;
+}
+
+.table-cell {
+    -fx-border-color: transparent;
+    -fx-font-size: 18px;
 }
