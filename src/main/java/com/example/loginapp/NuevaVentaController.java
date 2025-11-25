@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class NuevaVentaController {
     private static final Logger logger = LoggerFactory.getLogger(NuevaVentaController.class);
@@ -31,8 +32,6 @@ public class NuevaVentaController {
     @FXML private Button btnCancelar;
     @FXML private Label mensajeAviso;
 
-    private ObservableList<Cliente> listaClientes;
-    private ObservableList<Producto> listaProductos;
     private ObservableList<DetalleFactura> detalles = FXCollections.observableArrayList();
     private Factura factura;
 
@@ -50,6 +49,7 @@ public class NuevaVentaController {
             configurarTabla();
             cargarDatos();
             configurarEventos();
+            inicializarTotales();
             logger.info("NuevaVentaController inicializado correctamente");
         } catch (Exception e) {
             logger.error("Error inicializando NuevaVentaController", e);
@@ -57,14 +57,20 @@ public class NuevaVentaController {
         }
     }
 
+    private void inicializarTotales() {
+        if (lblSubtotal != null) lblSubtotal.setText("$0.00");
+        if (lblIVA != null) lblIVA.setText("$0.00");
+        if (lblTotal != null) lblTotal.setText("$0.00");
+    }
+
     private void configurarComboBoxes() {
-        // Configurar métodos de pago
+        // Métodos de pago
         if (comboMetodoPago != null) {
             comboMetodoPago.getItems().addAll("Efectivo", "Tarjeta", "Transferencia");
             comboMetodoPago.setValue("Efectivo");
         }
 
-        // Configurar combo de clientes
+        // Combo clientes
         if (comboCliente != null) {
             comboCliente.setCellFactory(lv -> new ListCell<Cliente>() {
                 @Override
@@ -82,7 +88,7 @@ public class NuevaVentaController {
             });
         }
 
-        // Configurar combo de productos
+        // Combo productos
         if (comboProducto != null) {
             comboProducto.setCellFactory(lv -> new ListCell<Producto>() {
                 @Override
@@ -91,8 +97,10 @@ public class NuevaVentaController {
                     if (empty || item == null) {
                         setText("");
                     } else {
-                        setText(String.format("%s - $%.2f (Stock: %d)",
-                                item.getNombre(), item.getPrecioVenta(), item.getStock()));
+                        // Formato correcto del precio con $
+                        String precio = String.format("$%.2f", item.getPrecioVenta());
+                        setText(String.format("%s - %s (Stock: %d)",
+                                item.getNombre(), precio, item.getStock()));
                     }
                 }
             });
@@ -103,7 +111,8 @@ public class NuevaVentaController {
                     if (empty || item == null) {
                         setText("");
                     } else {
-                        setText(String.format("%s - $%.2f", item.getNombre(), item.getPrecioVenta()));
+                        String precio = String.format("$%.2f", item.getPrecioVenta());
+                        setText(String.format("%s - %s", item.getNombre(), precio));
                     }
                 }
             });
@@ -111,94 +120,87 @@ public class NuevaVentaController {
     }
 
     private void configurarTabla() {
-        try {
-            if (columnaProducto != null) {
-                columnaProducto.setCellValueFactory(cellData ->
-                        new javafx.beans.property.SimpleStringProperty(
-                                cellData.getValue().getProducto() != null ?
-                                        cellData.getValue().getProducto().getNombre() : ""));
-            }
+        if (columnaProducto != null) {
+            columnaProducto.setCellValueFactory(cellData ->
+                    new javafx.beans.property.SimpleStringProperty(
+                            cellData.getValue().getProducto() != null ?
+                                    cellData.getValue().getProducto().getNombre() : ""));
+        }
 
-            if (columnaCantidad != null) {
-                columnaCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-            }
+        if (columnaCantidad != null) {
+            columnaCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        }
 
-            if (columnaPrecio != null) {
-                columnaPrecio.setCellValueFactory(new PropertyValueFactory<>("precioUnitario"));
-                columnaPrecio.setCellFactory(column -> new TableCell<DetalleFactura, Double>() {
-                    @Override
-                    protected void updateItem(Double item, boolean empty) {
-                        super.updateItem(item, empty);
-                        setText(empty || item == null ? "" : String.format("$%.2f", item));
+        if (columnaPrecio != null) {
+            columnaPrecio.setCellValueFactory(new PropertyValueFactory<>("precioUnitario"));
+            columnaPrecio.setCellFactory(column -> new TableCell<DetalleFactura, Double>() {
+                @Override
+                protected void updateItem(Double item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText("");
+                    } else {
+                        setText(String.format("$%.2f", item));
                     }
-                });
-            }
+                }
+            });
+        }
 
-            if (columnaSubtotal != null) {
-                columnaSubtotal.setCellValueFactory(new PropertyValueFactory<>("subtotal"));
-                columnaSubtotal.setCellFactory(column -> new TableCell<DetalleFactura, Double>() {
-                    @Override
-                    protected void updateItem(Double item, boolean empty) {
-                        super.updateItem(item, empty);
-                        setText(empty || item == null ? "" : String.format("$%.2f", item));
+        if (columnaSubtotal != null) {
+            columnaSubtotal.setCellValueFactory(new PropertyValueFactory<>("subtotal"));
+            columnaSubtotal.setCellFactory(column -> new TableCell<DetalleFactura, Double>() {
+                @Override
+                protected void updateItem(Double item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText("");
+                    } else {
+                        setText(String.format("$%.2f", item));
                     }
-                });
-            }
+                }
+            });
+        }
 
-            if (tablaDetalles != null) {
-                tablaDetalles.setItems(detalles);
+        if (tablaDetalles != null) {
+            tablaDetalles.setItems(detalles);
 
-                // Columna de acciones para eliminar
-                TableColumn<DetalleFactura, Void> columnaAcciones = new TableColumn<>("Acciones");
-                columnaAcciones.setMinWidth(100);
-                columnaAcciones.setPrefWidth(100);
-                columnaAcciones.setCellFactory(col -> new TableCell<DetalleFactura, Void>() {
-                    private final Button btnEliminar = new Button("Eliminar");
+            // Columna de eliminar
+            TableColumn<DetalleFactura, Void> columnaAcciones = new TableColumn<>("Acciones");
+            columnaAcciones.setMinWidth(100);
+            columnaAcciones.setPrefWidth(100);
+            columnaAcciones.setCellFactory(col -> new TableCell<DetalleFactura, Void>() {
+                private final Button btnEliminar = new Button("Eliminar");
 
-                    {
-                        btnEliminar.setStyle("-fx-background-color: #e27e8d; -fx-text-fill: white; -fx-font-size: 12px; -fx-padding: 5 10;");
-                        btnEliminar.setOnAction(e -> {
-                            try {
-                                DetalleFactura detalle = getTableView().getItems().get(getIndex());
-                                detalles.remove(detalle);
-                                calcularTotales();
-                                logger.info("Producto eliminado de la venta: {}", detalle.getProducto().getNombre());
-                            } catch (Exception ex) {
-                                logger.error("Error eliminando detalle", ex);
-                            }
-                        });
-                    }
+                {
+                    btnEliminar.setStyle("-fx-background-color: #e27e8d; -fx-text-fill: white; -fx-font-size: 12px;");
+                    btnEliminar.setOnAction(e -> {
+                        DetalleFactura detalle = getTableView().getItems().get(getIndex());
+                        detalles.remove(detalle);
+                        calcularTotales();
+                        logger.info("Producto eliminado: {}", detalle.getProducto().getNombre());
+                    });
+                }
 
-                    @Override
-                    protected void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        setGraphic(empty ? null : btnEliminar);
-                    }
-                });
+                @Override
+                protected void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setGraphic(empty ? null : btnEliminar);
+                }
+            });
 
-                tablaDetalles.getColumns().add(columnaAcciones);
-                logger.info("Tabla de detalles configurada correctamente");
-            }
-        } catch (Exception e) {
-            logger.error("Error configurando tabla", e);
+            tablaDetalles.getColumns().add(columnaAcciones);
         }
     }
 
     private void cargarDatos() {
         try {
-            listaClientes = FXCollections.observableArrayList(clienteDAO.obtenerTodos());
-            listaProductos = FXCollections.observableArrayList(productoDAO.obtenerTodos());
+            ObservableList<Cliente> listaClientes = FXCollections.observableArrayList(clienteDAO.obtenerTodos());
+            ObservableList<Producto> listaProductos = FXCollections.observableArrayList(productoDAO.obtenerTodos());
 
-            if (comboCliente != null) {
-                comboCliente.setItems(listaClientes);
-            }
+            if (comboCliente != null) comboCliente.setItems(listaClientes);
+            if (comboProducto != null) comboProducto.setItems(listaProductos);
 
-            if (comboProducto != null) {
-                comboProducto.setItems(listaProductos);
-            }
-
-            logger.info("Datos cargados: {} clientes, {} productos",
-                    listaClientes.size(), listaProductos.size());
+            logger.info("Datos cargados: {} clientes, {} productos", listaClientes.size(), listaProductos.size());
         } catch (Exception e) {
             logger.error("Error cargando datos", e);
             mostrarMensaje("Error cargando datos: " + e.getMessage(), false);
@@ -216,7 +218,7 @@ public class NuevaVentaController {
             btnCancelar.setOnAction(e -> cerrarVentana());
         }
 
-        // Validar solo números en cantidad
+        // Validar solo números
         if (txtCantidad != null) {
             txtCantidad.textProperty().addListener((obs, oldVal, newVal) -> {
                 if (!newVal.matches("\\d*")) {
@@ -250,7 +252,7 @@ public class NuevaVentaController {
             }
 
             if (cantidad > producto.getStock()) {
-                mostrarMensaje("Stock insuficiente. Disponible: " + producto.getStock(), false);
+                mostrarMensaje(String.format("Stock insuficiente. Disponible: %d", producto.getStock()), false);
                 return;
             }
 
@@ -265,7 +267,7 @@ public class NuevaVentaController {
             detalles.add(detalle);
             calcularTotales();
 
-            // Limpiar campos
+            // Limpiar
             comboProducto.setValue(null);
             txtCantidad.clear();
 
@@ -302,8 +304,6 @@ public class NuevaVentaController {
 
         try {
             Cliente cliente = comboCliente.getValue();
-
-            // Generar número de factura
             String numeroFactura = generarNumeroFactura();
 
             // Crear factura
@@ -324,7 +324,7 @@ public class NuevaVentaController {
             factura.setIva(subtotal * 0.16);
             factura.setTotal(subtotal + (subtotal * 0.16));
 
-            // Guardar factura
+            // Guardar en BD
             int facturaId = facturaDAO.guardar(factura);
             factura.setId(facturaId);
 
@@ -333,16 +333,16 @@ public class NuevaVentaController {
                 detalle.setFacturaId(facturaId);
                 detalleFacturaDAO.guardar(detalle);
 
-                // Actualizar stock del producto
+                // Actualizar stock
                 Producto producto = detalle.getProducto();
                 int nuevoStock = producto.getStock() - detalle.getCantidad();
                 productoDAO.actualizarStock(producto.getId(), nuevoStock);
             }
 
-            mostrarMensaje("Venta guardada correctamente - Factura: " + numeroFactura, true);
-            logger.info("Venta guardada: {}", numeroFactura);
+            mostrarMensaje("Venta guardada - Factura: " + numeroFactura, true);
+            logger.info("Venta guardada exitosamente: {}", numeroFactura);
 
-            // Cerrar ventana después de un momento
+            // Cerrar ventana
             javafx.application.Platform.runLater(() -> {
                 try { Thread.sleep(1500); } catch (InterruptedException ex) {}
                 cerrarVentana();
@@ -376,17 +376,19 @@ public class NuevaVentaController {
     private String generarNumeroFactura() {
         try {
             int ultimoNumero = facturaDAO.obtenerTodas().size() + 1;
-            return String.format("FAC-%04d", ultimoNumero);
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            return String.format("FAC-%s-%04d", timestamp, ultimoNumero);
         } catch (Exception e) {
             logger.error("Error generando número de factura", e);
-            return String.format("FAC-%04d", (int)(Math.random() * 10000));
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+            return String.format("FAC-%s", timestamp);
         }
     }
 
     private void mostrarMensaje(String mensaje, boolean esExito) {
         if (mensajeAviso != null) {
             mensajeAviso.setText(mensaje);
-            mensajeAviso.setStyle(esExito ? "-fx-text-fill: green;" : "-fx-text-fill: red;");
+            mensajeAviso.setStyle(esExito ? "-fx-text-fill: green; -fx-font-size: 14px;" : "-fx-text-fill: red; -fx-font-size: 14px;");
         }
     }
 
