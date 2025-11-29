@@ -179,6 +179,21 @@ public class DatabaseConfig {
                     """;
             stmt.execute(insertSampleDetalles);
 
+            // Tabla de notas
+            String createNotasTable = """
+                        CREATE TABLE IF NOT EXISTS notas (
+                            id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            tipo TEXT NOT NULL UNIQUE,
+                            contenido TEXT,
+                            fecha_actualizacion DATETIME DEFAULT CURRENT_TIMESTAMP
+                        )
+                    """;
+            stmt.execute(createNotasTable);
+            logger.info("Tabla 'notas' verificada/creada");
+
+            // NO insertar notas por defecto - dejar vacías
+            logger.info("Tabla de notas creada sin datos por defecto");
+
             // Tabla de usuarios (para login)
             String createUsuariosTable = """
                         CREATE TABLE IF NOT EXISTS usuarios (

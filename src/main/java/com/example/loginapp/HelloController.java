@@ -4,11 +4,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 
 public class HelloController {
@@ -16,112 +21,118 @@ public class HelloController {
 
     @FXML private TextField usuarioCampoTxt;
     @FXML private PasswordField contrasenaCampoTxt;
+    @FXML private TextField contrasenaVisibleTxt;
+    @FXML private CheckBox mostrarContrasenaCheckBox;
+    @FXML private Label errorTexto;
     @FXML private Button entrarBoton;
     @FXML private Button crearCuentaBoton;
-    @FXML private Label errorTexto;
-
-    private UsuarioDAO usuarioDAO = new UsuarioDAO();
+    @FXML private Button olvideContrasenaBoton;
 
     @FXML
     public void initialize() {
-        logger.info("Inicializando controlador de login");
+        // Inicializar la visibilidad de la contraseña
+        contrasenaVisibleTxt.setVisible(false);
+        contrasenaCampoTxt.setVisible(true);
+        mostrarContrasenaCheckBox.setSelected(false);
 
-        // Verificar conexión a la base de datos al inicio
-        if (!usuarioDAO.verificarConexionBD()) {
-            errorTexto.setText("Error de conexión a BD. Usando modo de emergencia.");
-            logger.warn("Modo de emergencia activado - BD no disponible");
-        } else {
-            logger.info("Conexión a BD verificada correctamente");
-        }
+        // Configurar eventos
+        if (entrarBoton != null) entrarBoton.setOnAction(e -> entrarBotonOnAction());
+        if (crearCuentaBoton != null) crearCuentaBoton.setOnAction(e -> crearCuentaBotonOnAction());
+        if (olvideContrasenaBoton != null) olvideContrasenaBoton.setOnAction(e -> olvideContrasenaBotonOnAction());
+        if (mostrarContrasenaCheckBox != null) mostrarContrasenaCheckBox.setOnAction(e -> toggleVisibilidadContrasena());
     }
 
     @FXML
-    public void entrarBotonOnAction(ActionEvent event) {
+    public void entrarBotonOnAction() {
         String usuario = usuarioCampoTxt.getText();
-        String contrasena = contrasenaCampoTxt.getText();
+        String contrasena = mostrarContrasenaCheckBox.isSelected() ?
+                contrasenaVisibleTxt.getText() : contrasenaCampoTxt.getText();
 
         if (usuario.isEmpty() || contrasena.isEmpty()) {
-            errorTexto.setText("Complete todos los campos");
+            errorTexto.setText("Por favor complete todos los campos");
             return;
         }
 
         try {
-            // Validar usuario en la base de datos
-            boolean loginValido = usuarioDAO.validarUsuario(usuario, contrasena);
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            if (usuarioDAO.validarUsuario(usuario, contrasena)) {
+                logger.info("Usuario autenticado: {}", usuario);
 
-            if (loginValido) {
-                logger.info("Login exitoso para usuario: {}", usuario);
-                abrirDashboard();
+                // Cargar dashboard
+                FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("Dashboard.fxml"));
+                Parent root = loader.load();
+
+                Stage stage = (Stage) entrarBoton.getScene().getWindow();
+                stage.setTitle("MiniVet - Dashboard");
+                stage.setScene(new Scene(root));
+                stage.setMaximized(true);
+                stage.centerOnScreen();
+
             } else {
+                errorTexto.setText("Usuario o contraseña incorrectos");
                 logger.warn("Intento de login fallido para usuario: {}", usuario);
-                errorTexto.setText("Contraseña incorrecta o Usuario incorrecto");
             }
         } catch (Exception e) {
             logger.error("Error durante el login", e);
-            // Modo de emergencia: permitir acceso con credenciales por defecto
-            if ("admin".equals(usuario) && "admin123".equals(contrasena)) {
-                logger.warn("Acceso de emergencia concedido con credenciales por defecto");
-                abrirDashboard();
-            } else {
-                errorTexto.setText("Error del sistema. Intente con admin/admin123");
-            }
+            errorTexto.setText("Error del sistema: " + e.getMessage());
         }
     }
 
     @FXML
-    public void crearCuentaBotonOnAction(ActionEvent event) {
-        abrirRegistro();
-    }
-
-    private void abrirDashboard() {
+    public void crearCuentaBotonOnAction() {
         try {
-            Stage stageActual = (Stage) entrarBoton.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("Dashboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("registro-view.fxml"));
             Parent root = loader.load();
 
-            // Verificar que el controlador se cargó correctamente
-            DashboardController controller = loader.getController();
-            if (controller == null) {
-                throw new IOException("No se pudo cargar el controlador DashboardController");
-            }
+            // Obtener el controlador del registro y pasar el stage actual (login)
+            RegistroController registroController = loader.getController();
+            registroController.setStageLogin((Stage) crearCuentaBoton.getScene().getWindow());
 
-            stageActual.setTitle("MiniVet - Dashboard");
-            stageActual.setScene(new Scene(root, 1200, 700));
-            stageActual.setMaximized(true);
-            stageActual.centerOnScreen();
-
-            logger.info("Dashboard abierto exitosamente");
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Registro - MiniVet");
+            stage.setScene(new Scene(root));
+            stage.show();
 
         } catch (IOException e) {
-            logger.error("Error al abrir Dashboard", e);
-            errorTexto.setText("Error al abrir Dashboard: " + e.getMessage());
-
-            // Mostrar alerta de error
-            javafx.application.Platform.runLater(() -> {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText("No se pudo abrir el dashboard");
-                alert.setContentText("Error: " + e.getMessage());
-                alert.showAndWait();
-            });
-        } catch (Exception e) {
-            logger.error("Error inesperado al abrir dashboard", e);
-            errorTexto.setText("Error inesperado: " + e.getMessage());
+            logger.error("Error abriendo ventana de registro", e);
+            errorTexto.setText("Error al abrir registro");
         }
     }
 
-    private void abrirRegistro() {
+    @FXML
+    public void olvideContrasenaBotonOnAction() {
         try {
-            Stage stageActual = (Stage) crearCuentaBoton.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("registro-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("recuperacion-view.fxml"));
             Parent root = loader.load();
-            stageActual.setTitle("Registro de Cliente - MiniVet");
-            stageActual.setScene(new Scene(root));
-            stageActual.centerOnScreen();
-            logger.info("Ventana de registro abierta exitosamente");
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Recuperar Contraseña - MiniVet");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.show();
+
         } catch (IOException e) {
-            logger.error("Error al abrir registro", e);
-            errorTexto.setText("Error al abrir registro: " + e.getMessage());
+            logger.error("Error abriendo ventana de recuperación", e);
+            errorTexto.setText("Error al abrir recuperación de contraseña");
+        }
+    }
+
+    @FXML
+    public void toggleVisibilidadContrasena() {
+        boolean mostrar = mostrarContrasenaCheckBox.isSelected();
+
+        if (mostrar) {
+            // Mostrar contraseña
+            contrasenaVisibleTxt.setText(contrasenaCampoTxt.getText());
+            contrasenaVisibleTxt.setVisible(true);
+            contrasenaCampoTxt.setVisible(false);
+        } else {
+            // Ocultar contraseña
+            contrasenaCampoTxt.setText(contrasenaVisibleTxt.getText());
+            contrasenaCampoTxt.setVisible(true);
+            contrasenaVisibleTxt.setVisible(false);
         }
     }
 }
