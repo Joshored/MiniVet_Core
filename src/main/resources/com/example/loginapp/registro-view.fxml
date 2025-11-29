@@ -80,13 +80,13 @@
                                     </font>
                                 </TextField>
 
-                                <PasswordField fx:id="contrasena" focusTraversable="true" promptText="ContraseÃ±a *">
+                                <PasswordField fx:id="contrasena" focusTraversable="true" promptText="Contraseña *">
                                     <font>
                                         <Font name="Noto Sans Condensed" size="16.0" />
                                     </font>
                                 </PasswordField>
 
-                                <PasswordField fx:id="contrasenaConfirmacion" focusTraversable="true" promptText="Confirmar ContraseÃ±a *">
+                                <PasswordField fx:id="contrasenaConfirmacion" focusTraversable="true" promptText="Confirmar Contraseña *">
                                     <font>
                                         <Font name="Noto Sans Condensed" size="16.0" />
                                     </font>
@@ -103,7 +103,7 @@
                                     </font>
                                 </Label>
 
-                                <Label text="Este formulario es para registrar clientes (dueÃ±os de mascotas) en el sistema" textFill="#666" wrapText="true" />
+                                <Label text="Este formulario es para registrar clientes (dueños de mascotas) en el sistema" textFill="#666" wrapText="true" />
 
                                 <!-- Apellidos y Nombre -->
                                 <VBox spacing="8">
@@ -138,13 +138,13 @@
                                         </Label>
                                         <HBox spacing="8">
                                             <children>
-                                                <TextField fx:id="Dia" focusTraversable="true" prefWidth="80" promptText="DÃ­a" HBox.hgrow="NEVER">
+                                                <TextField fx:id="Dia" focusTraversable="true" prefWidth="80" promptText="Dia" HBox.hgrow="NEVER">
                                                     <font>
                                                         <Font name="Noto Sans Condensed" size="16.0" />
                                                     </font>
                                                 </TextField>
                                                 <ComboBox fx:id="Mes" focusTraversable="true" maxWidth="Infinity" promptText="Mes" style="-fx-background-color: #f6cbd6;" HBox.hgrow="ALWAYS" />
-                                                <TextField fx:id="Ano" focusTraversable="true" prefWidth="80" promptText="AÃ±o" HBox.hgrow="NEVER">
+                                                <TextField fx:id="Ano" focusTraversable="true" prefWidth="80" promptText="Año" HBox.hgrow="NEVER">
                                                     <font>
                                                         <Font name="Noto Sans Condensed" size="16.0" />
                                                     </font>
@@ -157,7 +157,7 @@
                                 <!-- Contacto -->
                                 <VBox spacing="8">
                                     <children>
-                                        <TextField fx:id="NumeroTel" focusTraversable="true" promptText="NÃºmero de TelÃ©fono *">
+                                        <TextField fx:id="NumeroTel" focusTraversable="true" promptText="Numero de Telefono *">
                                             <font>
                                                 <Font name="Noto Sans Condensed" size="16.0" />
                                             </font>
@@ -174,7 +174,7 @@
                                 <!-- DirecciÃ³n -->
                                 <VBox spacing="8">
                                     <children>
-                                        <Label text="DirecciÃ³n" textFill="#9f2d5b">
+                                        <Label text="Direccion" textFill="#9f2d5b">
                                             <font>
                                                 <Font size="16.0" />
                                             </font>
@@ -187,7 +187,7 @@
 
                                         <HBox spacing="8">
                                             <children>
-                                                <TextField fx:id="numCalle" focusTraversable="true" prefWidth="100" promptText="NÃºmero *" HBox.hgrow="NEVER">
+                                                <TextField fx:id="numCalle" focusTraversable="true" prefWidth="100" promptText="Numero *" HBox.hgrow="NEVER">
                                                     <font>
                                                         <Font name="Noto Sans Condensed" size="16.0" />
                                                     </font>
