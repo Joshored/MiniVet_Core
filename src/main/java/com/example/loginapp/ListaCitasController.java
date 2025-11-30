@@ -294,8 +294,6 @@ public class ListaCitasController {
                 listaClientes = FXCollections.observableArrayList(clienteDAO.obtenerTodos());
             }
 
-            controller.setListaClientes(listaClientes);
-
             if (cita != null) {
                 controller.setCitaParaEditar(cita);
             }

@@ -56,8 +56,10 @@ public class HelloController {
 
         try {
             UsuarioDAO usuarioDAO = new UsuarioDAO();
-            if (usuarioDAO.validarUsuario(usuario, contrasena)) {
-                logger.info("Usuario autenticado: {}", usuario);
+            String rolObtenido = usuarioDAO.validarUsuarioYObtenerRol(usuario, contrasena);
+            if (rolObtenido != null) {
+                SesionUsuario.get().iniciarSesion(usuario, rolObtenido);
+                logger.info("Usuario: {}, Rol: {}", usuario, rolObtenido);
 
                 // Cargar dashboard
                 FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("Dashboard.fxml"));

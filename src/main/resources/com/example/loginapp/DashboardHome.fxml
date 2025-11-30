@@ -128,35 +128,41 @@
                 <!-- Sección: Notas rápidas -->
                 <HBox spacing="20">
                     <children>
-                        <!-- Notas para Veterinario -->
                         <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);"
                               spacing="10" HBox.hgrow="ALWAYS">
                             <padding>
                                 <Insets top="20" right="20" bottom="20" left="20" />
                             </padding>
                             <children>
-                                <Label text="📝 Notas - Veterinario" textFill="#9f2d5b">
+                                <Label text="Notas - Veterinario" textFill="#9f2d5b">
                                     <font>
                                         <Font name="Noto Sans Condensed Bold" size="18.0" />
                                     </font>
                                 </Label>
-                                <ListView fx:id="listaNotasVeterinario" prefHeight="150" style="-fx-background-color: #fffde7; -fx-border-color: #e0e0e0; -fx-border-radius: 5;" />
+                                <javafx.scene.control.TextArea fx:id="areaNotasVeterinario" prefHeight="150" wrapText="true"
+                                                               style="-fx-control-inner-background: #fffde7; -fx-font-size: 14px;" />
+
+                                <javafx.scene.control.Button fx:id="btnGuardarNotasVet" text="Guardar Notas"
+                                                             style="-fx-background-color: #fbc02d; -fx-text-fill: white; -fx-cursor: hand;" />
                             </children>
                         </VBox>
 
-                        <!-- Notas para Recepción -->
                         <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);"
                               spacing="10" HBox.hgrow="ALWAYS">
                             <padding>
                                 <Insets top="20" right="20" bottom="20" left="20" />
                             </padding>
                             <children>
-                                <Label text="📋 Notas - Recepción" textFill="#9f2d5b">
+                                <Label text="Notas - Recepción" textFill="#9f2d5b">
                                     <font>
                                         <Font name="Noto Sans Condensed Bold" size="18.0" />
                                     </font>
                                 </Label>
-                                <ListView fx:id="listaNotasRecepcion" prefHeight="150" style="-fx-background-color: #e3f2fd; -fx-border-color: #e0e0e0; -fx-border-radius: 5;" />
+                                <javafx.scene.control.TextArea fx:id="areaNotasRecepcion" prefHeight="150" wrapText="true"
+                                                               style="-fx-control-inner-background: #e3f2fd; -fx-font-size: 14px;" />
+
+                                <javafx.scene.control.Button fx:id="btnGuardarNotasRecep" text="Guardar Notas"
+                                                             style="-fx-background-color: #1976d2; -fx-text-fill: white; -fx-cursor: hand;" />
                             </children>
                         </VBox>
                     </children>

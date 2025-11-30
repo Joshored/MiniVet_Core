@@ -8,10 +8,9 @@ import java.sql.*;
 public class UsuarioDAO {
     private static final Logger logger = LoggerFactory.getLogger(UsuarioDAO.class);
 
-    public boolean validarUsuario(String username, String password) {
-        logger.debug("Validando usuario: {}", username);
-
-        String sql = "SELECT COUNT(*) as count FROM usuarios WHERE username = ? AND password = ?";
+    // Valida el usuario y retorna su rol si es exitoso, o null si falla
+    public String validarUsuarioYObtenerRol(String username, String password) {
+        String sql = "SELECT role FROM usuarios WHERE username = ? AND password = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -20,24 +19,25 @@ public class UsuarioDAO {
             pstmt.setString(2, password);
 
             ResultSet rs = pstmt.executeQuery();
-            boolean isValid = rs.next() && rs.getInt("count") > 0;
 
-            logger.debug("Validación de usuario {}: {}", username, isValid ? "ÉXITO" : "FALLÓ");
-            return isValid;
+            if (rs.next()) {
+                return rs.getString("role"); // Retorna "Administrador", "Veterinario", etc.
+            }
 
         } catch (SQLException e) {
-            logger.error("Error validando usuario: {}", username, e);
-            // En caso de error, permitir login con credenciales por defecto como fallback
+            logger.error("Error validando usuario", e);
+            // Fallback temporal para tu admin hardcodeado si la BD falla
             if ("admin".equals(username) && "admin123".equals(password)) {
-                logger.warn("Usando credenciales por defecto debido a error de BD");
-                return true;
+                return "Administrador";
             }
-            return false;
         }
+        return null; // Login fallido
     }
 
-    public void crearUsuario(String username, String password, String email) {
-        String sql = "INSERT INTO usuarios (username, password, email) VALUES (?, ?, ?)";
+    // Método actualizado para recibir 'role'
+    public void crearUsuario(String username, String password, String email, String role) {
+        // Asegúrate de que tu tabla 'usuarios' tenga la columna 'role' (ver paso anterior de DatabaseConfig)
+        String sql = "INSERT INTO usuarios (username, password, email, role) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -45,9 +45,10 @@ public class UsuarioDAO {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             pstmt.setString(3, email);
+            pstmt.setString(4, role); // Insertar el rol
 
             pstmt.executeUpdate();
-            logger.info("Usuario creado: {}", username);
+            logger.info("Usuario creado: {} [{}]", username, role);
 
         } catch (SQLException e) {
             logger.error("Error creando usuario: {}", username, e);

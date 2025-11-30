@@ -112,18 +112,6 @@ public class DatabaseConfig {
             stmt.execute(createProductosTable);
             logger.info("Tabla 'productos' verificada/creada");
 
-            // Insertar algunos productos de ejemplo
-            String insertSampleProducts = """
-                        INSERT OR IGNORE INTO productos (codigo, nombre, categoria, stock, stock_minimo, precio_compra, precio_venta, proveedor) 
-                        VALUES 
-                        ('MED-001', 'Antiparasitario para perros', 'Medicamentos', 15, 5, 45.00, 75.00, 'Lab. Veterinario S.A.'),
-                        ('ALI-001', 'Alimento premium para gatos', 'Alimentos', 8, 10, 120.00, 180.00, 'PetFood Corp'),
-                        ('ACC-001', 'Correa ajustable', 'Accesorios', 25, 5, 30.00, 50.00, 'Accesorios Pet'),
-                        ('MED-002', 'Vacuna antirrábica', 'Vacunas', 3, 5, 80.00, 120.00, 'Lab. BioVet'),
-                        ('HIG-001', 'Shampoo antipulgas', 'Higiene', 12, 8, 25.00, 40.00, 'Higiene Animal')
-                    """;
-            stmt.execute(insertSampleProducts);
-
             // Tabla de facturas
             String createFacturasTable = """
                         CREATE TABLE IF NOT EXISTS facturas (
@@ -160,25 +148,6 @@ public class DatabaseConfig {
             stmt.execute(createDetallesFacturaTable);
             logger.info("Tabla 'detalles_factura' verificada/creada");
 
-            // Insertar algunas facturas de ejemplo
-            String insertSampleFacturas = """
-                        INSERT OR IGNORE INTO facturas (numero_factura, cliente_id, metodo_pago, estado, subtotal, iva, total) 
-                        VALUES 
-                        ('FAC-001', 1, 'Efectivo', 'Pagada', 180.00, 28.80, 208.80),
-                        ('FAC-002', 2, 'Tarjeta', 'Pagada', 120.00, 19.20, 139.20)
-                    """;
-            stmt.execute(insertSampleFacturas);
-
-            // Insertar detalles de ejemplo
-            String insertSampleDetalles = """
-                        INSERT OR IGNORE INTO detalles_factura (factura_id, producto_id, cantidad, precio_unitario, subtotal) 
-                        VALUES 
-                        (1, 1, 2, 180.00, 360.00),
-                        (1, 3, 1, 50.00, 50.00),
-                        (2, 2, 1, 75.00, 75.00)
-                    """;
-            stmt.execute(insertSampleDetalles);
-
             // Tabla de notas
             String createNotasTable = """
                         CREATE TABLE IF NOT EXISTS notas (
@@ -201,6 +170,7 @@ public class DatabaseConfig {
                             username TEXT UNIQUE NOT NULL,
                             password TEXT NOT NULL,
                             email TEXT,
+                            role TEXT DEFAULT 'Recepcionista', -- NUEVO CAMPO
                             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
                         )
                     """;
@@ -209,8 +179,8 @@ public class DatabaseConfig {
 
             // Insertar usuario por defecto si no existe
             String insertDefaultUser = """
-                         INSERT OR IGNORE INTO usuarios (username, password, email)\s
-                         VALUES ('admin', 'admin123', 'admin@minivet.com')
+                         INSERT OR IGNORE INTO usuarios (username, password, email, role)
+                         VALUES ('admin', 'admin123', 'admin@minivet.com', 'Administrador')
                     \s""";
             int inserted = stmt.executeUpdate(insertDefaultUser);
             if (inserted > 0) {

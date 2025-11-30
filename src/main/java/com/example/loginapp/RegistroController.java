@@ -17,6 +17,7 @@ public class RegistroController {
 
     // Campos de USUARIO
     @FXML private TextField username;
+    @FXML private ComboBox<String> rolComboBox;
     @FXML private PasswordField contrasena;
     @FXML private PasswordField contrasenaConfirmacion;
 
@@ -82,7 +83,12 @@ public class RegistroController {
     public Cliente getClienteResultado() {
         return clienteResultado;
     }
-
+    // MÉTOO PARA INICIALIZAR FORMULARIO CON TIPO ESPECÍFICO
+    public void inicializarFormulario(String tipo) {
+        tipoRegistroComboBox.setValue(tipo);
+        tipoRegistroComboBox.setDisable(true);
+        cambiarFormulario(); // Actualizar visibilidad del formulario
+    }
     @FXML
     public void initialize() {
         // Configurar ComboBox de tipo de registro
@@ -98,6 +104,11 @@ public class RegistroController {
         // Inicialmente ocultar ambos formularios
         formularioUsuario.setVisible(false);
         formularioCliente.setVisible(false);
+
+        if (rolComboBox != null) {
+            rolComboBox.getItems().addAll("Administrador", "Veterinario", "Recepcionista");
+            rolComboBox.setValue("Recepcionista"); // Valor por defecto
+        }
     }
 
     private void cambiarFormulario() {
@@ -154,6 +165,7 @@ public class RegistroController {
             try {
                 String usuario = username.getText().trim();
                 String password = contrasena.getText();
+                String rol = rolComboBox.getValue();
 
                 // Verificar si el usuario ya existe
                 if (usuarioDAO.existeUsuario(usuario)) {
@@ -162,8 +174,8 @@ public class RegistroController {
                 }
 
                 // Crear el usuario
-                usuarioDAO.crearUsuario(usuario, password, "");
-                logger.info("Usuario creado exitosamente: {}", usuario);
+                usuarioDAO.crearUsuario(usuario, password, "", rol);
+                logger.info("Usuario creado exitosamente: {} con rol {}", usuario, rol);
 
                 // Limpiar cliente resultado cuando se crea usuario
                 clienteResultado = null;

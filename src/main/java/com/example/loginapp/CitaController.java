@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import java.time.LocalDate;
+import javafx.collections.FXCollections;
 
 public class CitaController {
     @FXML private ComboBox<Cliente> comboCliente;
@@ -23,12 +24,41 @@ public class CitaController {
     private ObservableList<Cliente> listaClientes;
     private Cita citaEdicion;
     private CitaDAO citaDAO = new CitaDAO();
+    private ClienteDAO clienteDAO = new ClienteDAO();
 
     @FXML
     public void initialize() {
         configurarComboBoxes();
         configurarValidaciones();
         configurarEventos();
+        cargarDatosFrescos();
+    }
+
+    private void cargarDatosFrescos() {
+        try {
+            // Obtenemos la lista directamente de la BD
+            listaClientes = FXCollections.observableArrayList(clienteDAO.obtenerTodos());
+
+            if (comboCliente != null) {
+                comboCliente.setItems(listaClientes);
+
+                // Configuración visual del ComboBox (CellFactory)
+                comboCliente.setCellFactory(lv -> new ListCell<Cliente>() {
+                    @Override protected void updateItem(Cliente item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setText(empty || item == null ? "" : item.getNombreCompleto());
+                    }
+                });
+                comboCliente.setButtonCell(new ListCell<Cliente>() {
+                    @Override protected void updateItem(Cliente item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setText(empty || item == null ? "" : item.getNombreCompleto());
+                    }
+                });
+            }
+        } catch (Exception e) {
+            mensajeAviso.setText("Error al cargar clientes");
+        }
     }
 
     private void configurarComboBoxes() {
@@ -61,25 +91,6 @@ public class CitaController {
     private void configurarEventos() {
         if (comboCliente != null) comboCliente.setOnAction(e -> cargarMascotasDelCliente());
         if (btnGuardar != null) btnGuardar.setOnAction(e -> guardarCita());
-    }
-
-    public void setListaClientes(ObservableList<Cliente> clientes) {
-        this.listaClientes = clientes;
-        if (comboCliente != null && listaClientes != null) {
-            comboCliente.setItems(listaClientes);
-            comboCliente.setCellFactory(lv -> new ListCell<Cliente>() {
-                @Override protected void updateItem(Cliente item, boolean empty) {
-                    super.updateItem(item, empty);
-                    setText(empty || item == null ? "" : item.getNombreCompleto());
-                }
-            });
-            comboCliente.setButtonCell(new ListCell<Cliente>() {
-                @Override protected void updateItem(Cliente item, boolean empty) {
-                    super.updateItem(item, empty);
-                    setText(empty || item == null ? "" : item.getNombreCompleto());
-                }
-            });
-        }
     }
 
     public void setCitaParaEditar(Cita cita) {
@@ -175,6 +186,13 @@ public class CitaController {
         if (fechaCita.getValue().isBefore(LocalDate.now())) {
             mostrarMensaje("La fecha no puede ser en el pasado", false); return false;
         }
+
+        if (sintomas.getText() == null || sintomas.getText().trim().isEmpty()) {
+            mostrarMensaje("Es obligatorio describir los síntomas o el motivo de la consulta", false);
+            sintomas.requestFocus();
+            return false;
+        }
+
         if (horaInicio.getText().trim().isEmpty()) {
             mostrarMensaje("Debe ingresar la hora de inicio", false); return false;
         }

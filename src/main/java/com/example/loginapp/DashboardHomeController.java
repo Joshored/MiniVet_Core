@@ -36,6 +36,43 @@ public class DashboardHomeController {
         cargarEstadisticas();
         cargarCitasDelDia();
         configurarListaCitas();
+        configurarPermisos(); // Configurar permisos DESPUÉS de cargar notas
+    }
+
+    private void configurarPermisos() {
+        String rol = SesionUsuario.get().getRole();
+
+        // Si por alguna razón el rol es nulo, asumimos permisos mínimos o salimos
+        if (rol == null) return;
+
+        // Lógica de permisos para NOTAS
+        switch (rol) {
+            case "Veterinario":
+                // Veterinario: Puede editar SUS notas, pero solo LEER las de recepción
+                areaNotasVeterinario.setDisable(false);
+                btnGuardarNotasVet.setDisable(false);
+
+                areaNotasRecepcion.setEditable(false); // Solo lectura
+                btnGuardarNotasRecep.setDisable(true); // No puede guardar
+                break;
+
+            case "Recepcionista":
+                // Recepcionista: Puede editar SUS notas, pero solo LEER las del vet
+                areaNotasVeterinario.setEditable(false);
+                btnGuardarNotasVet.setDisable(true);
+
+                areaNotasRecepcion.setDisable(false);
+                btnGuardarNotasRecep.setDisable(false);
+                break;
+
+            case "Administrador":
+                // Admin: Puede hacer all
+                areaNotasVeterinario.setDisable(false);
+                btnGuardarNotasVet.setDisable(false);
+                areaNotasRecepcion.setDisable(false);
+                btnGuardarNotasRecep.setDisable(false);
+                break;
+        }
     }
 
     private void configurarBotonesNotas() {

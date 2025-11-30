@@ -163,8 +163,13 @@ public class ListaClientesController {
             Parent root = loader.load();
 
             RegistroController controller = loader.getController();
-            if (cliente != null) controller.setClienteParaEditar(cliente);
 
+            if (cliente != null) {// Editar cliente existente
+                controller.setClienteParaEditar(cliente); // Pasar el cliente existente al controlador
+            } else {
+                // Inicializar para nuevo cliente
+                controller.inicializarFormulario("Cliente");
+            }
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle(cliente == null ? "Nuevo Cliente" : "Editar Cliente");
@@ -174,13 +179,8 @@ public class ListaClientesController {
             Cliente resultado = controller.getClienteResultado();
             if (resultado != null) {
                 if (cliente == null) {
-                    // Nuevo cliente
-                    int nuevoId = clienteDAO.guardar(resultado);
-                    resultado.setId(nuevoId);
                     listaClientes.add(resultado);
                 } else {
-                    // Editar cliente existente
-                    clienteDAO.actualizar(resultado);
                     tablaClientes.refresh();
                 }
             }

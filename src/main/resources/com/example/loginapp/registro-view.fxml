@@ -80,6 +80,17 @@
                                     </font>
                                 </TextField>
 
+                                <VBox spacing="5">
+                                    <children>
+                                        <Label text="Rol de Usuario *" textFill="#9f2d5b">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </Label>
+                                        <ComboBox fx:id="rolComboBox" focusTraversable="true" maxWidth="Infinity" promptText="Seleccione Rol" style="-fx-background-color: #f6cbd6;" />
+                                    </children>
+                                </VBox>
+
                                 <PasswordField fx:id="contrasena" focusTraversable="true" promptText="Contraseña *">
                                     <font>
                                         <Font name="Noto Sans Condensed" size="16.0" />
