@@ -15,7 +15,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="372.0" minWidth="520.0" prefHeight="372.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.loginapp.HelloController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="372.0" minWidth="700.0" prefHeight="372.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.loginapp.HelloController">
     <left>
         <VBox alignment="CENTER" prefWidth="230.0" spacing="20" style="-fx-background-color: #c45a7d;" BorderPane.alignment="CENTER">
             <padding>
@@ -62,37 +62,32 @@
                     </font>
                 </Label>
 
-                <VBox alignment="CENTER" spacing="10" VBox.vgrow="ALWAYS">
+                <TextField fx:id="usuarioCampoTxt" maxWidth="250" prefWidth="250" promptText="Nombre de Usuario">
+                    <font>
+                        <Font size="19.0" />
+                    </font>
+                </TextField>
+
+                <javafx.scene.layout.StackPane maxWidth="250" prefWidth="250">
                     <children>
-                        <TextField fx:id="usuarioCampoTxt" maxWidth="250" prefWidth="250" promptText="Nombre de Usuario">
+                        <TextField fx:id="contrasenaVisibleTxt" maxWidth="250" prefWidth="250" promptText="Contraseña" visible="false">
                             <font>
                                 <Font size="19.0" />
-                            </font></TextField>
-                          <PasswordField fx:id="contrasenaCampoTxt" alignment="CENTER" maxWidth="250" prefWidth="250" promptText="Contraseña">
-                              <font>
-                                  <Font size="19.0" />
-                              </font>
-                          </PasswordField>
-                          <CheckBox fx:id="mostrarContrasenaCheckBox" contentDisplay="CENTER" mnemonicParsing="false" onAction="#toggleVisibilidadContrasena" text="Mostrar contraseña" textFill="#666666">
-                              <font>
-                                  <Font size="14.0" />
-                              </font>
-                          </CheckBox>
+                            </font>
+                        </TextField>
 
-                        <!-- Campo de contraseÃ±a con checkbox de visibilidad debajo -->
-                        <VBox alignment="CENTER_LEFT" spacing="5">
-                            <children>
-                                <TextField fx:id="contrasenaVisibleTxt" maxWidth="250" prefWidth="250" promptText="ContraseÃ±a" visible="false">
-                                    <font>
-                                        <Font size="19.0" />
-                                    </font>
-                                </TextField>
-                            </children>
-                        </VBox>
-
-                        <Label fx:id="errorTexto" alignment="CENTER" maxWidth="250" prefWidth="250" textFill="#f22424" wrapText="true" />
+                        <PasswordField fx:id="contrasenaCampoTxt" maxWidth="250" prefWidth="250" promptText="Contraseña">
+                            <font>
+                                <Font size="19.0" />
+                            </font>
+                        </PasswordField>
                     </children>
-                </VBox>
+                </javafx.scene.layout.StackPane>
+                <CheckBox fx:id="mostrarContrasenaCheckBox" contentDisplay="CENTER" mnemonicParsing="false" onAction="#toggleVisibilidadContrasena" text="Mostrar contraseña" textFill="#666666">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </CheckBox>
 
                 <VBox alignment="CENTER" prefHeight="53.0" prefWidth="249.0" spacing="8">
                     <children>

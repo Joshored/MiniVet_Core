@@ -18,7 +18,7 @@ public class HelloApplication extends Application {
         stage.setTitle("MiniVet - Sistema de Gestión");
 
         // Establecer tamaños mínimos para evitar que se vea mal
-        stage.setMinWidth(520);
+        stage.setMinWidth(700);
         stage.setMinHeight(400);
 
         stage.setScene(scene);

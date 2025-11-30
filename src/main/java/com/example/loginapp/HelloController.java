@@ -34,8 +34,10 @@ public class HelloController {
         contrasenaVisibleTxt.setVisible(false);
         contrasenaCampoTxt.setVisible(true);
         mostrarContrasenaCheckBox.setSelected(false);
+        contrasenaCampoTxt.textProperty().bindBidirectional(contrasenaVisibleTxt.textProperty());
 
         // Configurar eventos
+        contrasenaCampoTxt.textProperty().bindBidirectional(contrasenaVisibleTxt.textProperty());
         if (entrarBoton != null) entrarBoton.setOnAction(e -> entrarBotonOnAction());
         if (crearCuentaBoton != null) crearCuentaBoton.setOnAction(e -> crearCuentaBotonOnAction());
         if (olvideContrasenaBoton != null) olvideContrasenaBoton.setOnAction(e -> olvideContrasenaBotonOnAction());
@@ -45,8 +47,7 @@ public class HelloController {
     @FXML
     public void entrarBotonOnAction() {
         String usuario = usuarioCampoTxt.getText();
-        String contrasena = mostrarContrasenaCheckBox.isSelected() ?
-                contrasenaVisibleTxt.getText() : contrasenaCampoTxt.getText();
+        String contrasena = contrasenaCampoTxt.getText();
 
         if (usuario.isEmpty() || contrasena.isEmpty()) {
             errorTexto.setText("Por favor complete todos los campos");
@@ -124,15 +125,13 @@ public class HelloController {
         boolean mostrar = mostrarContrasenaCheckBox.isSelected();
 
         if (mostrar) {
-            // Mostrar contraseña
-            contrasenaVisibleTxt.setText(contrasenaCampoTxt.getText());
-            contrasenaVisibleTxt.setVisible(true);
+            // Mostramos el texto plano y ocultamos el password field
             contrasenaCampoTxt.setVisible(false);
+            contrasenaVisibleTxt.setVisible(true);
         } else {
-            // Ocultar contraseña
-            contrasenaCampoTxt.setText(contrasenaVisibleTxt.getText());
-            contrasenaCampoTxt.setVisible(true);
+            // Ocultamos el texto plano y mostramos el password field
             contrasenaVisibleTxt.setVisible(false);
+            contrasenaCampoTxt.setVisible(true);
         }
     }
 }
