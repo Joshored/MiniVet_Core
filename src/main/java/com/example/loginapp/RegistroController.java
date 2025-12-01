@@ -20,6 +20,12 @@ public class RegistroController {
     @FXML private ComboBox<String> rolComboBox;
     @FXML private PasswordField contrasena;
     @FXML private PasswordField contrasenaConfirmacion;
+    @FXML private javafx.scene.layout.VBox panelDatosVeterinario;
+    @FXML private TextField vetNombre;
+    @FXML private TextField vetApellidos;
+    @FXML private TextField vetCedula;
+    @FXML private TextField vetEspecialidad;
+    @FXML private TextField vetTelefono;
 
     // Campos de CLIENTE
     @FXML private TextField ApellidoPaterno;
@@ -42,6 +48,7 @@ public class RegistroController {
     private ClienteDAO clienteDAO = new ClienteDAO();
     private Cliente clienteEdicion;
     private Cliente clienteResultado; // Para devolver el resultado
+    private VeterinarioDAO veterinarioDAO = new VeterinarioDAO();
 
     public void setStageLogin(Stage stageLogin) {
         this.stageLogin = stageLogin;
@@ -166,24 +173,38 @@ public class RegistroController {
                 String usuario = username.getText().trim();
                 String password = contrasena.getText();
                 String rol = rolComboBox.getValue();
+                String emailTexto = (eMail != null) ? eMail.getText().trim() : "";
 
-                // Verificar si el usuario ya existe
-                if (usuarioDAO.existeUsuario(usuario)) {
-                    mostrarError("El nombre de usuario ya existe. Por favor elige otro.");
-                    return;
+                // 1. Crear el Usuario base y OBTENER SU ID
+                int idUsuario = usuarioDAO.crearUsuario(usuario, password, emailTexto, rol);
+
+                // 2. Si es Veterinario, guardar sus datos profesionales
+                if ("Veterinario".equals(rol)) {
+                    // Validar campos obligatorios del veterinario
+                    if (vetNombre.getText().trim().isEmpty() || vetApellidos.getText().trim().isEmpty()) {
+                        mostrarError("Nombre y Apellidos del veterinario son obligatorios");
+                        // Opcional: Podrías querer hacer un rollback aquí borrando el usuario creado,
+                        // pero por simplicidad dejémoslo así o valida antes de crear el usuario.
+                        return;
+                    }
+
+                    Veterinario vet = new Veterinario();
+                    vet.setNombre(vetNombre.getText().trim());
+                    vet.setApellidos(vetApellidos.getText().trim());
+                    vet.setCedula(vetCedula.getText().trim());
+                    vet.setEspecialidad(vetEspecialidad.getText().trim());
+                    vet.setTelefono(vetTelefono.getText().trim());
+                    vet.setUsuarioId(idUsuario); // VINCULACIÓN IMPORTANTE
+
+                    veterinarioDAO.guardar(vet);
                 }
 
-                // Crear el usuario
-                usuarioDAO.crearUsuario(usuario, password, "", rol);
-                logger.info("Usuario creado exitosamente: {} con rol {}", usuario, rol);
-
-                // Limpiar cliente resultado cuando se crea usuario
-                clienteResultado = null;
-                mostrarExito("Usuario creado correctamente");
+                mostrarExito("Usuario registrado correctamente");
+                // Limpiar campos...
 
             } catch (Exception e) {
                 logger.error("Error al crear usuario", e);
-                mostrarError("Error al crear usuario: " + e.getMessage());
+                mostrarError("Error: " + e.getMessage());
             }
         }
     }

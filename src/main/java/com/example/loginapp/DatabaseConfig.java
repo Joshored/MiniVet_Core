@@ -50,6 +50,20 @@ public class DatabaseConfig {
             stmt.execute(createClientesTable);
             logger.info("Tabla 'clientes' verificada/creada");
 
+            // Tabla de perfiles de veterinarios
+            stmt.execute("""
+                    CREATE TABLE IF NOT EXISTS veterinarios (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        nombre TEXT NOT NULL,
+                        apellidos TEXT NOT NULL,
+                        cedula_profesional TEXT,
+                        especialidad TEXT,
+                        telefono TEXT,
+                        usuario_id INTEGER UNIQUE, -- Para vincular con el login
+                        FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE CASCADE
+                    )
+                """);
+
             // Tabla de mascotas
             String createMascotasTable = """
                         CREATE TABLE IF NOT EXISTS mascotas (

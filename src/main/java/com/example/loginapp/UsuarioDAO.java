@@ -35,20 +35,33 @@ public class UsuarioDAO {
     }
 
     // Método actualizado para recibir 'role'
-    public void crearUsuario(String username, String password, String email, String role) {
+    public int crearUsuario(String username, String password, String email, String role) {
         // Asegúrate de que tu tabla 'usuarios' tenga la columna 'role' (ver paso anterior de DatabaseConfig)
         String sql = "INSERT INTO usuarios (username, password, email, role) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             pstmt.setString(3, email);
             pstmt.setString(4, role); // Insertar el rol
 
-            pstmt.executeUpdate();
-            logger.info("Usuario creado: {} [{}]", username, role);
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Error creando usuario, ninguna fila afectada.");
+            }
+
+            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    int nuevoId = generatedKeys.getInt(1);
+                    logger.info("Usuario creado: {} [{}] ID: {}", username, role, nuevoId);
+                    return nuevoId; // <--- Retornamos el ID
+                } else {
+                    throw new SQLException("Error creando usuario, no se obtuvo ID.");
+                }
+            }
 
         } catch (SQLException e) {
             logger.error("Error creando usuario: {}", username, e);

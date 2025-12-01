@@ -91,6 +91,46 @@
                                     </children>
                                 </VBox>
 
+                                <VBox fx:id="panelDatosVeterinario" spacing="8" visible="false" managed="false" style="-fx-background-color: #f4f4f4; -fx-padding: 15; -fx-background-radius: 5; -fx-border-color: #d0d0d0; -fx-border-radius: 5;">
+                                    <children>
+                                        <Label text="Datos Profesionales" textFill="#9f2d5b">
+                                            <font>
+                                                <Font name="Noto Sans Condensed Bold" size="16.0" />
+                                            </font>
+                                        </Label>
+
+                                        <TextField fx:id="vetNombre" promptText="Nombre(s) *">
+                                            <font>
+                                                <Font name="Noto Sans Condensed" size="14.0" />
+                                            </font>
+                                        </TextField>
+
+                                        <TextField fx:id="vetApellidos" promptText="Apellidos *">
+                                            <font>
+                                                <Font name="Noto Sans Condensed" size="14.0" />
+                                            </font>
+                                        </TextField>
+
+                                        <TextField fx:id="vetCedula" promptText="Cédula Profesional">
+                                            <font>
+                                                <Font name="Noto Sans Condensed" size="14.0" />
+                                            </font>
+                                        </TextField>
+
+                                        <TextField fx:id="vetEspecialidad" promptText="Especialidad (ej: Cirujano)">
+                                            <font>
+                                                <Font name="Noto Sans Condensed" size="14.0" />
+                                            </font>
+                                        </TextField>
+
+                                        <TextField fx:id="vetTelefono" promptText="Teléfono de contacto">
+                                            <font>
+                                                <Font name="Noto Sans Condensed" size="14.0" />
+                                            </font>
+                                        </TextField>
+                                    </children>
+                                </VBox>
+
                                 <PasswordField fx:id="contrasena" focusTraversable="true" promptText="Contraseña *">
                                     <font>
                                         <Font name="Noto Sans Condensed" size="16.0" />
