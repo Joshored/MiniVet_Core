@@ -25,6 +25,7 @@ public class CitaController {
     private Cita citaEdicion;
     private CitaDAO citaDAO = new CitaDAO();
     private ClienteDAO clienteDAO = new ClienteDAO();
+    private VeterinarioDAO veterinarioDAO = new VeterinarioDAO();
 
     @FXML
     public void initialize() {
@@ -73,9 +74,21 @@ public class CitaController {
             comboEstado.setValue("Programada");
         }
 
-        if (comboVeterinario != null) comboVeterinario.getItems().addAll(
-                "Dr. Juan Pérez", "Dra. María González", "Dr. Carlos Rodríguez", "Dra. Ana Martínez"
-        );
+        if (comboVeterinario != null) {
+            comboVeterinario.getItems().clear();
+
+            // Obtener la lista real de la base de datos
+            var listaVets = veterinarioDAO.obtenerTodos();
+
+            if (listaVets.isEmpty()) {
+                comboVeterinario.setPromptText("No hay veterinarios registrados");
+            } else {
+                // Agregar los nombres completos al combo
+                for (Veterinario vet : listaVets) {
+                    comboVeterinario.getItems().add(vet.getNombreCompleto());
+                }
+            }
+        }
     }
 
     private void configurarValidaciones() {

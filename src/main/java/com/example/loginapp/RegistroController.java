@@ -115,6 +115,16 @@ public class RegistroController {
         if (rolComboBox != null) {
             rolComboBox.getItems().addAll("Administrador", "Veterinario", "Recepcionista");
             rolComboBox.setValue("Recepcionista"); // Valor por defecto
+
+            rolComboBox.setOnAction(e -> {
+                String rol = rolComboBox.getValue();
+                boolean esVet = "Veterinario".equals(rol);
+
+                if (panelDatosVeterinario != null) {
+                    panelDatosVeterinario.setVisible(esVet);
+                    panelDatosVeterinario.setManaged(esVet); // Para que ocupe espacio solo si es visible
+                }
+            });
         }
     }
 
