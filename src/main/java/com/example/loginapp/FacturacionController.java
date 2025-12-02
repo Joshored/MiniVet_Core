@@ -452,42 +452,6 @@ public class FacturacionController {
         alert.showAndWait();
     }
 
-    private String generarTicket(Factura factura) {
-        StringBuilder ticket = new StringBuilder();
-        ticket.append("================================\n");
-        ticket.append("        MINIVET - VETERINARIA\n");
-        ticket.append("================================\n");
-        ticket.append("Ticket: ").append(factura.getNumeroFactura()).append("\n");
-        ticket.append("Fecha: ").append(factura.getFechaEmision().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))).append("\n");
-        ticket.append("Cliente: ").append(factura.getCliente().getNombreCompleto()).append("\n");
-        ticket.append("--------------------------------\n");
-        ticket.append("CANT  DESCRIPCIÓN       IMPORTE\n");
-        ticket.append("--------------------------------\n");
-
-        for (DetalleFactura detalle : factura.getDetalles()) {
-            String cantidad = String.format("%-4d", detalle.getCantidad());
-            String descripcion = String.format("%-16s",
-                    detalle.getProducto().getNombre().length() > 16 ?
-                            detalle.getProducto().getNombre().substring(0, 16) :
-                            detalle.getProducto().getNombre());
-            String importe = String.format("%7.2f", detalle.getSubtotal());
-            ticket.append(cantidad).append(descripcion).append(importe).append("\n");
-        }
-
-        ticket.append("--------------------------------\n");
-        ticket.append(String.format("SUBTOTAL: %17.2f\n", factura.getSubtotal()));
-        ticket.append(String.format("IVA: %22.2f\n", factura.getIva()));
-        ticket.append(String.format("TOTAL: %20.2f\n", factura.getTotal()));
-        ticket.append("--------------------------------\n");
-        ticket.append("Método pago: ").append(factura.getMetodoPago()).append("\n");
-        ticket.append("Estado: ").append(factura.getEstado()).append("\n");
-        ticket.append("================================\n");
-        ticket.append("¡Gracias por su compra!\n");
-        ticket.append("================================\n");
-
-        return ticket.toString();
-    }
-
     private void mostrarAlerta(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
@@ -496,9 +460,4 @@ public class FacturacionController {
         alert.showAndWait();
     }
 
-    public void refrescar() {
-        logger.info("Refrescando módulo de facturación");
-        cargarDatos();
-        actualizarEstadisticas();
-    }
 }

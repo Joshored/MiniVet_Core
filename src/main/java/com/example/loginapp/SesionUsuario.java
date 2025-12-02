@@ -20,16 +20,7 @@ public class SesionUsuario {
         this.role = role;
     }
 
-    public void cerrarSesion() {
-        this.username = null;
-        this.role = null;
-    }
-
     public String getRole() {
         return role;
-    }
-
-    public String getUsername() {
-        return username;
     }
 }

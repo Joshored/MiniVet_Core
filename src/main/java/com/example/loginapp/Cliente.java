@@ -59,12 +59,6 @@ public class Cliente {
 
     public void setMascotas(List<Mascota> mascotas) { this.mascotas = mascotas; }
 
-    public void agregarMascota(Mascota mascota) {
-        if (mascotas == null) mascotas = new ArrayList<>();
-        mascotas.add(mascota);
-        mascota.setDueno(this);
-    }
-
     public void eliminarMascota(Mascota mascota) {
         if (mascotas != null) mascotas.remove(mascota);
     }

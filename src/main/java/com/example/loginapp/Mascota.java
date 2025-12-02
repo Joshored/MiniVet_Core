@@ -75,8 +75,6 @@ public class Mascota {
         return "Sin dueño";
     }
 
-    public String getEsterilizadoTexto() { return esterilizado ? "Sí" : "No"; }
-
     @Override
     public String toString() { return nombre + " (" + especie + ")"; }
 }

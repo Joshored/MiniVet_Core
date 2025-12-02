@@ -37,58 +37,6 @@ public class FacturaDAO {
         return facturas;
     }
 
-    public Factura obtenerPorId(int id) {
-        String sql = """
-            SELECT f.*, c.nombre as cliente_nombre, c.apellido_paterno as cliente_apellido 
-            FROM facturas f
-            LEFT JOIN clientes c ON f.cliente_id = c.id
-            WHERE f.id = ?
-        """;
-
-        try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                Factura factura = resultSetToFactura(rs);
-                factura.setDetalles(obtenerDetallesPorFactura(factura.getId()));
-                return factura;
-            }
-        } catch (SQLException e) {
-            logger.error("Error obteniendo factura por ID: {}", id, e);
-            throw new RuntimeException("Error obteniendo factura por ID", e);
-        }
-        return null;
-    }
-
-    public Factura obtenerPorNumero(String numeroFactura) {
-        String sql = """
-            SELECT f.*, c.nombre as cliente_nombre, c.apellido_paterno as cliente_apellido 
-            FROM facturas f
-            LEFT JOIN clientes c ON f.cliente_id = c.id
-            WHERE f.numero_factura = ?
-        """;
-
-        try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, numeroFactura);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                Factura factura = resultSetToFactura(rs);
-                factura.setDetalles(obtenerDetallesPorFactura(factura.getId()));
-                return factura;
-            }
-        } catch (SQLException e) {
-            logger.error("Error obteniendo factura por número: {}", numeroFactura, e);
-            throw new RuntimeException("Error obteniendo factura por número", e);
-        }
-        return null;
-    }
-
     public int guardar(Factura factura) {
         String sql = """
             INSERT INTO facturas (numero_factura, cliente_id, metodo_pago, estado, subtotal, iva, total)

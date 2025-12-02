@@ -47,22 +47,6 @@ public class ProductoController {
         if (btnGuardar != null) btnGuardar.setOnAction(e -> guardarProducto());
     }
 
-    public void setProductoParaEditar(Producto producto) {
-        this.productoEdicion = producto;
-        if (producto != null) {
-            codigo.setText(producto.getCodigo());
-            nombre.setText(producto.getNombre());
-            descripcion.setText(producto.getDescripcion());
-            categoria.setValue(producto.getCategoria());
-            stock.setText(String.valueOf(producto.getStock()));
-            stockMinimo.setText(String.valueOf(producto.getStockMinimo()));
-            precioCompra.setText(String.valueOf(producto.getPrecioCompra()));
-            precioVenta.setText(String.valueOf(producto.getPrecioVenta()));
-            proveedor.setText(producto.getProveedor());
-            btnGuardar.setText("Actualizar");
-        }
-    }
-
     @FXML
     public void guardarProducto() {
         if (!validarFormulario()) return;

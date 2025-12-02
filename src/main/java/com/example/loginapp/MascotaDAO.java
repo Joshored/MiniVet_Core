@@ -61,31 +61,6 @@ public class MascotaDAO {
         return mascotas;
     }
 
-    public Mascota obtenerPorId(int id) {
-        String sql = "SELECT * FROM mascotas WHERE id = ?";
-
-        try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                Mascota mascota = resultSetToMascota(rs);
-                // NO cargar el dueño completo para evitar recursión
-                Cliente clienteBasico = new Cliente();
-                clienteBasico.setId(rs.getInt("cliente_id"));
-                mascota.setDueno(clienteBasico);
-
-                return mascota;
-            }
-        } catch (SQLException e) {
-            logger.error("Error obteniendo mascota por ID: {}", id, e);
-            throw new RuntimeException("Error obteniendo mascota por ID", e);
-        }
-        return null;
-    }
-
     public int guardar(Mascota mascota) {
         String sql = """
             INSERT INTO mascotas (nombre, especie, edad, raza, sexo, color, numero_chip, esterilizado, sintomas, cliente_id)

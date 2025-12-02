@@ -401,7 +401,4 @@ public class NuevaVentaController {
         }
     }
 
-    public Factura getFacturaResultado() {
-        return factura;
-    }
 }

@@ -70,26 +70,6 @@ public class Factura {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    // Metodo para agregar detalle
-    public void agregarDetalle(DetalleFactura detalle) {
-        if (this.detalles == null) {
-            this.detalles = new ArrayList<>();
-        }
-        this.detalles.add(detalle);
-        detalle.setFacturaId(this.id);
-    }
-
-    // Metodo para calcular totales
-    public void calcularTotales() {
-        this.subtotal = 0;
-        if (this.detalles != null) {
-            for (DetalleFactura detalle : this.detalles) {
-                this.subtotal += detalle.getSubtotal();
-            }
-        }
-        this.iva = this.subtotal * 0.16; // 16% de IVA
-        this.total = this.subtotal + this.iva;
-    }
 
     @Override
     public String toString() {

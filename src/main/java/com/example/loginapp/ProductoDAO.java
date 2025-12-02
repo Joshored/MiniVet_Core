@@ -29,44 +29,6 @@ public class ProductoDAO {
         return productos;
     }
 
-    public Producto obtenerPorId(int id) {
-        String sql = "SELECT * FROM productos WHERE id = ?";
-
-        try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                return resultSetToProducto(rs);
-            }
-        } catch (SQLException e) {
-            logger.error("Error obteniendo producto por ID: {}", id, e);
-            throw new RuntimeException("Error obteniendo producto por ID", e);
-        }
-        return null;
-    }
-
-    public Producto obtenerPorCodigo(String codigo) {
-        String sql = "SELECT * FROM productos WHERE codigo = ?";
-
-        try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, codigo);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                return resultSetToProducto(rs);
-            }
-        } catch (SQLException e) {
-            logger.error("Error obteniendo producto por código: {}", codigo, e);
-            throw new RuntimeException("Error obteniendo producto por código", e);
-        }
-        return null;
-    }
-
     public int guardar(Producto producto) {
         String sql = """
             INSERT INTO productos (codigo, nombre, descripcion, categoria, stock, 
@@ -198,26 +160,6 @@ public class ProductoDAO {
         } catch (SQLException e) {
             logger.error("Error buscando productos: {}", criterio, e);
             throw new RuntimeException("Error buscando productos", e);
-        }
-        return productos;
-    }
-
-    public List<Producto> obtenerConStockBajo() {
-        List<Producto> productos = new ArrayList<>();
-        String sql = "SELECT * FROM productos WHERE stock <= stock_minimo ORDER BY stock ASC";
-
-        try (Connection conn = DatabaseConfig.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
-
-            while (rs.next()) {
-                productos.add(resultSetToProducto(rs));
-            }
-            logger.info("Encontrados {} productos con stock bajo", productos.size());
-
-        } catch (SQLException e) {
-            logger.error("Error obteniendo productos con stock bajo", e);
-            throw new RuntimeException("Error obteniendo productos con stock bajo", e);
         }
         return productos;
     }

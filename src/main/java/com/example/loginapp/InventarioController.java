@@ -242,46 +242,6 @@ public class InventarioController {
     }
 
     @FXML
-    private void editarProducto() {
-        Producto productoSeleccionado = tablaProductos.getSelectionModel().getSelectedItem();
-        if (productoSeleccionado != null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("registroProducto-view.fxml"));
-                Parent root = loader.load();
-
-                ProductoController controller = loader.getController();
-                controller.setProductoParaEditar(productoSeleccionado);
-
-                Stage stage = new Stage();
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setTitle("Editar Producto");
-                stage.setScene(new Scene(root));
-                stage.showAndWait();
-
-                Producto resultado = controller.getProductoResultado();
-                if (resultado != null) {
-                    try {
-                        productoDAO.actualizar(resultado);
-                        tablaProductos.refresh();
-                        actualizarContadorStockBajo();
-                        mostrarAlerta("Éxito", "Producto actualizado correctamente");
-                        logger.info("Producto actualizado: {}", resultado.getNombre());
-                    } catch (Exception e) {
-                        logger.error("Error actualizando producto", e);
-                        mostrarAlerta("Error", "No se pudo actualizar el producto: " + e.getMessage());
-                    }
-                }
-
-            } catch (IOException e) {
-                logger.error("Error abriendo formulario de edición", e);
-                mostrarAlerta("Error", "No se pudo abrir el formulario: " + e.getMessage());
-            }
-        } else {
-            mostrarAlerta("Advertencia", "Por favor seleccione un producto para editar");
-        }
-    }
-
-    @FXML
     private void verDetalles() {
         Producto productoSeleccionado = tablaProductos.getSelectionModel().getSelectedItem();
         if (productoSeleccionado != null) {
@@ -369,9 +329,4 @@ public class InventarioController {
         alert.showAndWait();
     }
 
-    public void refrescar() {
-        logger.info("Refrescando inventario");
-        cargarDatos();
-        actualizarContadorStockBajo();
-    }
 }

@@ -86,16 +86,4 @@ public class UsuarioDAO {
         }
     }
 
-    public boolean verificarConexionBD() {
-        try (Connection conn = DatabaseConfig.getConnection()) {
-            String sql = "SELECT 1";
-            try (PreparedStatement pstmt = conn.prepareStatement(sql);
-                 ResultSet rs = pstmt.executeQuery()) {
-                return rs.next();
-            }
-        } catch (SQLException e) {
-            logger.error("Error verificando conexión a BD", e);
-            return false;
-        }
-    }
 }
