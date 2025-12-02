@@ -47,6 +47,7 @@ public class FacturacionController {
     private ClienteDAO clienteDAO = new ClienteDAO();
     private ProductoDAO productoDAO = new ProductoDAO();
     private DetalleFacturaDAO detalleFacturaDAO = new DetalleFacturaDAO();
+    private TicketService ticketService = new TicketService();
 
     @FXML
     public void initialize() {
@@ -286,24 +287,39 @@ public class FacturacionController {
     private void imprimirTicket() {
         Factura facturaSeleccionada = tablaFacturas.getSelectionModel().getSelectedItem();
         if (facturaSeleccionada != null) {
-            String ticket = generarTicket(facturaSeleccionada);
+            if (facturaSeleccionada.getDetalles() == null || facturaSeleccionada.getDetalles().isEmpty()) {
+            }
+            javafx.stage.FileChooser fileChooser = new javafx.stage.FileChooser();
+            fileChooser.setTitle("Guardar Ticket PDF");
+            fileChooser.getExtensionFilters().add(new javafx.stage.FileChooser.ExtensionFilter("Archivos PDF", "*.pdf"));
 
-            TextArea textArea = new TextArea(ticket);
-            textArea.setEditable(false);
-            textArea.setWrapText(true);
-            textArea.setStyle("-fx-font-family: 'Courier New'; -fx-font-size: 12px;");
+            String nombreArchivo = "Ticket_" + facturaSeleccionada.getNumeroFactura() + ".pdf";
+            fileChooser.setInitialFileName(nombreArchivo);
 
-            ScrollPane scrollPane = new ScrollPane(textArea);
-            scrollPane.setFitToWidth(true);
-            scrollPane.setPrefSize(400, 500);
+            java.io.File file = fileChooser.showSaveDialog(tablaFacturas.getScene().getWindow());
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Ticket de Venta");
-            alert.setHeaderText("Ticket: " + facturaSeleccionada.getNumeroFactura());
-            alert.getDialogPane().setContent(scrollPane);
-            alert.showAndWait();
+            if (file != null) {
+                // ------------------ HILO PARA GENERAR PDF ------------------
+                new Thread(() -> {
+                    try {
+                        // Generar el ticket en PDF
+                        ticketService.generarTicketPDF(facturaSeleccionada, file.getAbsolutePath());
+                        // Notificar en la interfaz
+                        javafx.application.Platform.runLater(() -> {
+                            // Mostrar alerta de éxito
+                            logger.info("Ticket generado correctamente");
+                        });
+                        // Intentar abrir el archivo automáticamente
+                    } catch (Exception e) {
+                        // Manejar errores en la interfaz
+                        javafx.application.Platform.runLater(() -> {
+                            logger.error("Error generando ticket PDF", e);
+                            mostrarAlerta("Error", "No se pudo generar el PDF: " + e.getMessage());
+                        });
+                    }
+                }).start(); // Fin del hilo
 
-            logger.info("Ticket impreso para factura: {}", facturaSeleccionada.getNumeroFactura());
+            }
         } else {
             mostrarAlerta("Advertencia", "Por favor seleccione una factura para imprimir");
         }
